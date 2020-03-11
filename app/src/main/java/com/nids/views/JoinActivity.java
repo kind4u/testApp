@@ -23,6 +23,7 @@ public class JoinActivity extends AppCompatActivity {
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // TODO : 회원가입 구현
                 Toast.makeText(getApplicationContext(),"회원가입 한 척", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
                 startActivity(intent);
