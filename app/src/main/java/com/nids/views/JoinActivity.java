@@ -17,6 +17,7 @@ public class JoinActivity extends AppCompatActivity {
     EditText idText;
     Button btn_signup;
     Button btn_duplicate;
+    //test
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
