@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity  {
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                                findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                                 btn_signin.setEnabled(true);
                                 btn_signup.setEnabled(true);
@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity  {
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                                findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "연결 실패", Toast.LENGTH_SHORT).show();
                                 btn_signin.setEnabled(true);
                                 btn_signup.setEnabled(true);
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity  {
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+                            findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
                             btn_signin.setEnabled(true);
                             btn_signup.setEnabled(true);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
@@ -171,8 +171,16 @@ public class LoginActivity extends AppCompatActivity  {
 
                 btn_signin.setEnabled(false);
                 btn_signup.setEnabled(false);
-                findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+                findViewById(R.id.loginLoadingPannel).setVisibility(View.VISIBLE);
                 c_util.signIn(id, pw);
+            }
+        });
+
+        btn_signup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent joinIntent = new Intent(LoginActivity.this, JoinActivity.class);
+                startActivity(joinIntent);
             }
         });
     }
