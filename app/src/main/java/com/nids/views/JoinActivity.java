@@ -15,6 +15,7 @@ import com.nids.kind4u.testapp.R;
 public class JoinActivity extends AppCompatActivity {
 
     EditText idText;
+    EditText passwordText;
     Button btn_signup;
     Button btn_duplicate;
     @Override
