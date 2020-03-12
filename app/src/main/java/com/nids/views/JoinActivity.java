@@ -86,7 +86,7 @@ public class JoinActivity extends AppCompatActivity {
             pwConfirm_.requestFocus();
             return;
         }
-        //비밀번호 일치 확인
+        //비밀번호 일치 확인z
         if(!pwText_.getText().toString().equals(pwConfirm_.getText().toString())){
             Toast.makeText(JoinActivity.this,"비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
             pwText_.setText("");
