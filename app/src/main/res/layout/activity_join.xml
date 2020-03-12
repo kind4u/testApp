@@ -55,95 +55,104 @@
                 android:inputType="textPassword" />
 
             <EditText
-                android:id="@+id/nameText"
+                android:id="@+id/pwConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:ems="10"
-                android:hint="Name"
+                android:hint="PasswordConfirm"
                 android:inputType="textPersonName" />
 
-            <EditText
-                android:id="@+id/birthText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:hint="Birth"
-                android:inputType="date" />
+<!--            <EditText-->
+<!--                android:id="@+id/nameText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Name"-->
+<!--                android:inputType="textPersonName" />-->
 
-            <EditText
-                android:id="@+id/phoneText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:hint="Phone"
-                android:inputType="phone" />
+<!--            <EditText-->
+<!--                android:id="@+id/birthText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Birth"-->
+<!--                android:inputType="date" />-->
 
-            <EditText
-                android:id="@+id/zipCodeText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:hint="Zip Code"
-                android:inputType="textPersonName" />
+<!--            <EditText-->
+<!--                android:id="@+id/phoneText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Phone"-->
+<!--                android:inputType="phone" />-->
 
-            <EditText
-                android:id="@+id/adText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:hint="Address"
-                android:inputType="textPersonName" />
+<!--            <EditText-->
+<!--                android:id="@+id/zipCodeText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Zip Code"-->
+<!--                android:inputType="textPersonName" />-->
 
-            <EditText
-                android:id="@+id/addtText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ems="10"
-                android:hint="Address Detail"
-                android:inputType="textPersonName" />
+<!--            <EditText-->
+<!--                android:id="@+id/adText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Address"-->
+<!--                android:inputType="textPersonName" />-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+<!--            <EditText-->
+<!--                android:id="@+id/addtText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:ems="10"-->
+<!--                android:hint="Address Detail"-->
+<!--                android:inputType="textPersonName" />-->
 
-                <RadioGroup
-                    android:id="@+id/sexGroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="100dp"
-                    android:orientation="horizontal">
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/maleButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center|center_horizontal"
-                        android:text="남성" />
+<!--                <RadioGroup-->
+<!--                    android:id="@+id/sexGroup"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="100dp"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <RadioButton
-                        android:id="@+id/femaleButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="여성" />
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/maleButton"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:gravity="center|center_horizontal"-->
+<!--                        android:text="남성" />-->
 
-                </RadioGroup>
-            </LinearLayout>
+<!--                    <RadioButton-->
+<!--                        android:id="@+id/femaleButton"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:text="여성" />-->
+
+<!--                </RadioGroup>-->
+<!--            </LinearLayout>-->
 
             <Button
                 android:id="@+id/signUpButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Sign Up" />
+                android:text="Sign Up"
+                android:onClick="onCheck"/>
         </LinearLayout>
     </ScrollView>
 
