@@ -11,6 +11,7 @@ import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
+import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 
 import org.apache.http.HttpEntity;
@@ -28,6 +29,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +47,13 @@ public class CommunicationUtil{
 	String auth = "";
 
 	NetworkCallBackInterface callback_Instance;
+	JoinCallBackInterface join_Instance;
 	public CommunicationUtil(NetworkCallBackInterface callback_Instance) {
 		this.callback_Instance = callback_Instance;
+	}
+
+	public CommunicationUtil(JoinCallBackInterface join_Instance)	{
+		this.join_Instance = join_Instance;
 	}
 	
 	public void signIn(String id, String pw){
@@ -75,6 +82,10 @@ public class CommunicationUtil{
 		}
 	}
 
+	public void signUp(String id, String pw, String name, String birth, String phone)	{
+		Thread t = new Thread(new UserJoin(id, pw, name, birth, phone));
+		t.start();
+	}
 
 	public class Station implements Runnable {
 		String id;
@@ -326,6 +337,72 @@ public class CommunicationUtil{
 			}
 			Log.d("CommunicationUtil", "Thread End");
 			//System.out.println("thread end");
+		}
+	}
+
+	public class UserJoin implements Runnable	{
+		String id;
+		String pw;
+		String name;
+		String birth;
+		String phone;
+		UserJoin(String id, String pw, String name, String birth, String phone)	{
+			id = this.id; pw = this.pw; name=this.name; birth=this.birth; phone=this.phone;
+		}
+		@Override
+		public void run() {
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
+				try {
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "Register"));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+					nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
+					nameValuePairs.add(new BasicNameValuePair("name", this.name));
+					nameValuePairs.add(new BasicNameValuePair("phone", this.phone));
+					nameValuePairs.add(new BasicNameValuePair("birth", this.birth));
+					/*
+					nameValuePairs.add(new BasicNameValuePair("addr1",this.addr1));
+					nameValuePairs.add(new BasicNameValuePair("addr2",this.addr2));
+					nameValuePairs.add(new BasicNameValuePair("addr3",this.addr3));
+					nameValuePairs.add(new BasicNameValuePair("gender",this.gender));
+					nameValuePairs.add(new BasicNameValuePair("tmX",this.tmX));
+					nameValuePairs.add(new BasicNameValuePair("tmY",this.tmY));
+					 */
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean post_insert = jsonObj.get("insert").getAsBoolean();
+					String result = jsonObj.get("result").getAsString();
+
+					System.out.println("post insert : " + String.valueOf(post_insert));
+
+					join_Instance.signUpResult(post_insert, result);
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					join_Instance.signUpResult(false, "500", "ClientProtocolException");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					join_Instance.signUpResult(false, "500", "IOException");
+				}
+			} catch (Exception e)	{
+				join_Instance.signUpResult(false,"500", "httpClientException");
+			}
+
 		}
 	}
 }

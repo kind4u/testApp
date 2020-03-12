@@ -2,19 +2,23 @@ package com.nids.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.nids.kind4u.testapp.R;
+import com.nids.util.interfaces.JoinCallBackInterface;
+import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
 public class JoinActivity extends AppCompatActivity {
 
-    CommunicationUtil c_util;
+    CommunicationUtil c_util_join;
 
     String id;
     String pw;
@@ -30,6 +34,8 @@ public class JoinActivity extends AppCompatActivity {
 
     Button btn_signup;
     Button btn_duplicate;
+
+    JoinCallBackInterface joinCallBackInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +48,61 @@ public class JoinActivity extends AppCompatActivity {
         edit_phone = findViewById(R.id.edit_phone);
 
         btn_signup = findViewById(R.id.signUpButton);
+        bindview2();
+    }
+    private void bindview2()    {
+
+        joinCallBackInstance = new JoinCallBackInterface() {
+            boolean signup_result;
+
+            @Override
+            public void signUpResult(boolean insert, String result) {
+                if (insert) {
+                    JoinActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
+                            btn_signup.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
+                    btn_signup.setEnabled(true);
+                    Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void signUpResult(boolean insert, String result, String message) {
+                if (insert) {
+                    JoinActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
+                            btn_signup.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    });
+                } else {
+                    // TODO : 예외처리 고려
+                    JoinActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
+                            btn_signup.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        };
+        c_util_join = new CommunicationUtil(joinCallBackInstance);
+
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +127,8 @@ public class JoinActivity extends AppCompatActivity {
                 btn_duplicate.setEnabled(false);
                 btn_signup.setEnabled(false);
                 findViewById(R.id.joinLoadingPannel).setVisibility(View.VISIBLE);
-                c_util.signIn(id, pw);  // TODO : signUp 함수 구현
+                Log.d("id",id); Log.d("pw",pw);Log.d("name",name);Log.d("birth",birth);Log.d("phone",phone);
+                c_util_join.signUp(id, pw, name, birth, phone);  // TODO : signUp 함수 구현
 
 //                Toast.makeText(getApplicationContext(),"회원가입 한 척", Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(JoinActivity.this, LoginActivity.class);
