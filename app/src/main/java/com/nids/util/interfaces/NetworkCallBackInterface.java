@@ -12,7 +12,5 @@ public interface NetworkCallBackInterface  {
     public void findStation(boolean result, VOStation station_info);
     public void dataReqResult(boolean result, List<VOSensorData> data);
     public void dataReqResultOutdoor(boolean result, VOOutdoor data);
-
 }
-
 
