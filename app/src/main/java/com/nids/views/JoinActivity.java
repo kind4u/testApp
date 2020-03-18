@@ -152,10 +152,13 @@ public class JoinActivity extends AppCompatActivity {
                             String tmY = jusoObj.get("entY").toString().replace("\"","");
                             edit_tmX.setText(tmX);
                             edit_tmY.setText(tmY);
+
+                            findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
                         }
                     });
                 }   else    {
                     Toast.makeText(getApplicationContext(), "좌표를 불러오지 못했습니다.", Toast.LENGTH_LONG).show();
+                    findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
                 }
             }
         };
@@ -257,15 +260,17 @@ public class JoinActivity extends AppCompatActivity {
 
     public class AndroidBridge  {           // jsp 웹뷰와 통신하기 위한 인터페이스 구성
         @JavascriptInterface                // 구름 서버 jusoMobilePopup.jsp의 56번쨰 줄
-        public void setAddress(final String zipNo, final String addr, final String addrDetail, final String amdCd, final String rnMgtSn, final String udrtYn, final String buldMnnm, final String buldSlno) {
+        public void setAddress(final String zipNo, final String addr1, final String addr2, final String addrDetail, final String amdCd, final String rnMgtSn, final String udrtYn, final String buldMnnm, final String buldSlno) {
             webView.post(new Runnable() {
                 @Override
                 public void run() {
+
+                    findViewById(R.id.joinLoadingPannel).setVisibility(View.VISIBLE);
                     // setText 설정
                     edit_zip_code.setText(zipNo);
                     edit_zip_code.setEnabled(false);
                     edit_zip_code.setBackgroundColor(getResources().getColor(R.color.disable));
-                    edit_addr.setText(addr);
+                    edit_addr.setText(addr1 + " " + addr2);
                     edit_addr.setEnabled(false);
                     edit_addr.setBackgroundColor(getResources().getColor(R.color.disable));
                     edit_addr_detail.setText(addrDetail);

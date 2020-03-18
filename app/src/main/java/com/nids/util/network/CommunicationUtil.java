@@ -26,6 +26,7 @@ import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -381,7 +382,7 @@ public class CommunicationUtil{
 					nameValuePairs.add(new BasicNameValuePair("gender",Integer.toString(this.gender)));
 					nameValuePairs.add(new BasicNameValuePair("tmX",this.tmX));
 					nameValuePairs.add(new BasicNameValuePair("tmY",this.tmY));
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,HTTP.UTF_8));
 					// Execute HTTP Post Request
 					HttpResponse response = httpclient.execute(httppost);
 					HttpEntity entity = response.getEntity();
@@ -439,7 +440,7 @@ public class CommunicationUtil{
 					nameValuePairs.add(new BasicNameValuePair("udrtYn", this.udrtYn));
 					nameValuePairs.add(new BasicNameValuePair("buldMnnm",this.buldMnnm));
 					nameValuePairs.add(new BasicNameValuePair("buldSlno",this.buldSlno));
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 					// Execute HTTP Post Request
 					HttpResponse response = httpclient.execute(httppost);
 					HttpEntity entity = response.getEntity();
