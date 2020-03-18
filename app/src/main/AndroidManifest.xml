@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.nids.views.MainActivity" />
+        <activity android:name="com.nids.views.CarActivity" />
 
         <uses-library android:name="org.apache.http.legacy"
             android:required="false"/>

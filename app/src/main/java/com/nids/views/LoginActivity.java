@@ -21,39 +21,9 @@ import com.nids.util.network.CommunicationUtil;
 
 import java.util.List;
 
-/*
-public class LoginActivity extends AppCompatActivity {
-
-    Button btn_signin;
-    Button btn_signup;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        btn_signin = findViewById(R.id.btn_signin);
-        btn_signup = findViewById(R.id.btn_signup);
-
-        btn_signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"로그인 한 척",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        btn_signup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent2 = new Intent(LoginActivity.this, JoinActivity.class);
-                startActivity(intent2);
-            }
-        });
-    }
-}
-*/
-
 public class LoginActivity extends AppCompatActivity  {
 
+    Button button;
     Button btn_signin;
     Button btn_signup;
 
@@ -169,6 +139,7 @@ public class LoginActivity extends AppCompatActivity  {
                 if(!pw_text.equals("")){ pw = pw_text; }
                 else{ Toast.makeText(LoginActivity.this, "패스워드를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
 
+
                 btn_signin.setEnabled(false);
                 btn_signup.setEnabled(false);
                 findViewById(R.id.loginLoadingPannel).setVisibility(View.VISIBLE);
@@ -176,13 +147,26 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
 
+
         btn_signup.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
                 Intent joinIntent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(joinIntent);
             }
         });
+
+      //차량 등록 테스트
+        button =(Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent carIntent = new Intent(LoginActivity.this, CarActivity.class);
+                startActivity(carIntent);
+                }
+        });
+
     }
 
 }
