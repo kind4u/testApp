@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
 
 public class LoginActivity extends AppCompatActivity  {
 
+    Button button;
     Button btn_signin;
     Button btn_signup;
 
@@ -169,12 +170,32 @@ public class LoginActivity extends AppCompatActivity  {
                 if(!pw_text.equals("")){ pw = pw_text; }
                 else{ Toast.makeText(LoginActivity.this, "패스워드를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
 
+
                 btn_signin.setEnabled(false);
                 btn_signup.setEnabled(false);
                 findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
                 c_util.signIn(id, pw);
             }
         });
+
+        btn_signup.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent joinIntent = new Intent(LoginActivity.this, JoinActivity.class);
+                startActivity(joinIntent);
+            }
+        }));
+
+        button =(Button)findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent carIntent = new Intent(LoginActivity.this, CarActivity.class);
+                startActivity(carIntent);
+                }
+        });
+
+
     }
 
 }

@@ -9,7 +9,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.nids.data.VOOutdoor;
 import com.nids.kind4u.testapp.R;
 
 
@@ -28,6 +30,12 @@ public class OutsideFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    String station;
+    TextView dataText;
+    TextView stationText;
+
+
 
     public OutsideFragment() {
         // Required empty public constructor
@@ -75,7 +83,26 @@ public class OutsideFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = this.getArguments();
+        if(bundle != null){
+            station = bundle.getString("station");
+            //runDataThread();
+        }
+        View v = inflater.inflate(R.layout.fragment_outside, container,false);
+        bindComponent(v);
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_outside, container, false);
+        return v;
     }
+
+    private  void bindComponent(View v){
+        stationText = v.findViewById(R.id.stationText);
+        dataText = v.findViewById(R.id.dateText);
+    }
+
+    private  void setData(VOOutdoor data){
+        stationText.setText("실외 미세먼지 현황 ("+ station +"측정소)");
+        dataText.setText("측정시간 : " + data.getMeasureDate());
+    }
+    )
 }

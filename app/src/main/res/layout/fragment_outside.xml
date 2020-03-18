@@ -18,7 +18,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="30dp"
-            android:text="2020년 3월 9일 16:00 PM"
+            android:text="측정시간: 0000-00-00 00:00"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stationText" />
 
@@ -29,10 +29,12 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="40dp"
-            android:text="측정소 측정한 척"
+            android:text="실외 미세먼지 현황 (00 측정소)"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <TextView
             android:id="@+id/infoText"

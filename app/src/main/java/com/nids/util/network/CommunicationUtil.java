@@ -1,5 +1,6 @@
 package com.nids.util.network;
 
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -11,6 +12,7 @@ import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
+import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 
 import org.apache.http.HttpEntity;
@@ -45,15 +47,31 @@ public class CommunicationUtil{
 	String auth = "";
 
 	NetworkCallBackInterface callback_Instance;
+	JoinCallBackInterface joincallback_Instance;
+
 	public CommunicationUtil(NetworkCallBackInterface callback_Instance) {
 		this.callback_Instance = callback_Instance;
 	}
 
-	public void join(String id, String pw){
-		Thread t = new Thread(new RegistUser(id, pw));
+	public CommunicationUtil(JoinCallBackInterface joincallback_Instance)	{
+		this.joincallback_Instance = joincallback_Instance;
+	}
+
+	public void join(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String tmX, String tmY){
+		Thread t = new Thread(new RegistUser(id, pw, name, zip_code, addr, addr_detail, gender, tmX, tmY));
 		t.start();
 	}
-	
+
+	public void findPosition(String amdCd, String rnMgtSn, String udrtYn, String buldMnnm, String buldSlno)	{
+		Thread t = new Thread(new Position(amdCd, rnMgtSn, udrtYn, buldMnnm, buldSlno));
+		t.start();
+	}
+
+	public void checkExist(String id){
+		Thread t = new Thread(new CheckUser(id));
+		t.start();
+	}
+
 	public void signIn(String id, String pw){
 		Thread t = new Thread(new UserAuth(id, pw));
 		t.start();
@@ -77,6 +95,57 @@ public class CommunicationUtil{
 	public void stopReceiverThread(){
 		if(receiver_t != null && !stop_flag){
 			stop_flag = true;
+		}
+	}
+
+	public class CheckUser implements Runnable {
+		String id;
+
+		public CheckUser(String id) {
+			this.id = id;
+		}
+
+		@Override
+		public void run() {
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
+				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "check_exist"));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean exist = jsonObj.get("exist").getAsBoolean();
+					String result = jsonObj.get("result").getAsString();
+
+					joincallback_Instance.existResult(result, exist);
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.existResult("error", true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.existResult("error", true);
+				}
+			} catch (Exception e) {
+				joincallback_Instance.existResult("error", true);
+			}
 		}
 	}
 
@@ -195,11 +264,20 @@ public class CommunicationUtil{
 	public class RegistUser implements Runnable {
 		String id;
 		String pw;
-		//String pwCon;
+		String pwCon;
+		String name;
+		String zip_code;
+		String addr;
+		String addr_detail;
+		int gender;
+		String tmX;
+		String tmY;
 
-		public RegistUser(String id, String pw) {
+		RegistUser(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String tmX, String tmY) {
 			this.id = id;
 			this.pw = pw;
+			this.name=name; this.zip_code=zip_code; this.addr=addr; this.addr_detail=addr_detail;
+			this.gender=gender; this.tmX=tmX; this.tmY=tmY;
 			Log.d("ID", this.id);
 			Log.d("PW", this.pw);
 		}
@@ -216,15 +294,23 @@ public class CommunicationUtil{
 				try {
 					// Add your data(id,pw)
 					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-					nameValuePairs.add(new BasicNameValuePair("type", "join"));
+					nameValuePairs.add(new BasicNameValuePair("type", "Register"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 					nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
+					nameValuePairs.add(new BasicNameValuePair("name", this.name));
+					nameValuePairs.add(new BasicNameValuePair("addr1",this.zip_code));
+					nameValuePairs.add(new BasicNameValuePair("addr2",this.addr));
+					nameValuePairs.add(new BasicNameValuePair("addr3",this.addr_detail));
+					nameValuePairs.add(new BasicNameValuePair("gender",Integer.toString(this.gender)));
+					nameValuePairs.add(new BasicNameValuePair("tmX",this.tmX));
+					nameValuePairs.add(new BasicNameValuePair("tmY",this.tmY));
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
 					// Execute HTTP Post Request
 					HttpResponse response = httpclient.execute(httppost);
 					HttpEntity entity = response.getEntity();
 					str_response = EntityUtils.toString(entity);
+
 					System.out.println(str_response);
 
 					JsonParser parser = new JsonParser();
@@ -235,27 +321,78 @@ public class CommunicationUtil{
 					String  post_result = jsonObj.get("result").getAsString();
 					boolean insert = jsonObj.get("insert").getAsBoolean();
 
-					Gson gson = new Gson();
-					VOUser user_info = gson.fromJson(jsonObj.get("user_info").toString(), VOUser.class);
-
-
-					Log.d("user info", user_info.getName());
-					//System.out.println("user name" + user_info.getName());
-
 					System.out.println("post result : " + String.valueOf(post_result));
 
-					callback_Instance.joinResult(post_result, insert, user_info); //user_info?
+					joincallback_Instance.joinResult(post_result, insert);
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
-					callback_Instance.joinResult("?", false, null);
+					joincallback_Instance.joinResult("", false, "error");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					callback_Instance.joinResult("?", false, null);
+					joincallback_Instance.joinResult("?", false, "error");
 				}
 
 			} catch (Exception e) {
-				callback_Instance.joinResult("?", false, null);
+				joincallback_Instance.joinResult("?", false, "error");
 			}
+		}
+	}
+
+	public class Position implements Runnable { //좌표 찾기 위한 함수
+		String amdCd;
+		String rnMgtSn;
+		String udrtYn;
+		String buldMnnm;
+		String buldSlno;
+		Position (String amdCd, String rnMgtSn, String udrtYn, String buldMnnm, String buldSlno)	{
+			this.amdCd = amdCd; this.rnMgtSn = rnMgtSn; this.udrtYn = udrtYn; this.buldMnnm = buldMnnm; this.buldSlno = buldSlno;
+		}
+		@Override
+		public void run() {
+
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
+				try {
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "position"));
+					nameValuePairs.add(new BasicNameValuePair("admCd", this.amdCd));
+					nameValuePairs.add(new BasicNameValuePair("rnMgtSn", this.rnMgtSn));
+					nameValuePairs.add(new BasicNameValuePair("udrtYn", this.udrtYn));
+					nameValuePairs.add(new BasicNameValuePair("buldMnnm",this.buldMnnm));
+					nameValuePairs.add(new BasicNameValuePair("buldSlno",this.buldSlno));
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean position_result = jsonObj.get("result").getAsBoolean();
+					String position_data = jsonObj.get("data").getAsString();
+
+					System.out.println("post insert : " + String.valueOf(position_result));
+
+					joincallback_Instance.positionResult(position_result, position_data);
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.positionResult(false, "ClientProtocolException");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.positionResult(false,"IOException");
+				}
+			} catch (Exception e)	{
+				joincallback_Instance.positionResult(false,"httpClientException");
+			}
+
 		}
 	}
 
