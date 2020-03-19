@@ -76,7 +76,7 @@ public class JoinActivity extends AppCompatActivity {
 
 		edit_id = findViewById(R.id.edit_id);
 		edit_pw = findViewById(R.id.edit_pw);
-		edit_pw_confirm = findViewById(R.id.edit_pw_con);
+		edit_pw_con = findViewById(R.id.edit_pw_con);
 		edit_name = findViewById(R.id.edit_name);
 		edit_zip_code = findViewById(R.id.edit_zip_code);
 		edit_addr = findViewById(R.id.edit_addr);
@@ -100,7 +100,7 @@ public class JoinActivity extends AppCompatActivity {
 		joinCallBackInstance = new JoinCallBackInterface() {
 
 			@Override
-			public void joinResult(boolean insert, String result) {
+			public void signUpResult(boolean insert, String result) {
 				if (insert) {
 					JoinActivity.this.runOnUiThread(new Runnable() {
 						@Override
@@ -120,7 +120,7 @@ public class JoinActivity extends AppCompatActivity {
 			}
 
 			@Override
-			public void joinResult(boolean insert, String result, String message) {
+			public void signUpResult(boolean insert, String result, String message) {
 				if (insert) {
 					JoinActivity.this.runOnUiThread(new Runnable() {
 						@Override

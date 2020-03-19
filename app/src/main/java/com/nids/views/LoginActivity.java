@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity  {
 
     Button button;
     Button btn_signin;
-    Button btn_signup;
+    Button btn_join;
 
     EditText edit_id;
     EditText edit_pw;
@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity  {
                                 findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "아이디 또는 비밀번호를 확인해주세요.", Toast.LENGTH_SHORT).show();
                                 btn_signin.setEnabled(true);
-                                btn_signup.setEnabled(true);
+                                btn_join.setEnabled(true);
                             }
                         });
                     }
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity  {
                                 findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "연결 실패", Toast.LENGTH_SHORT).show();
                                 btn_signin.setEnabled(true);
-                                btn_signup.setEnabled(true);
+                                btn_join.setEnabled(true);
                             }
                         });
                     }
@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity  {
                         public void run() {
                             findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
                             btn_signin.setEnabled(true);
-                            btn_signup.setEnabled(true);
+                            btn_join.setEnabled(true);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(LoginActivity.this,MainActivity.class);
                             Bundle bundle = new Bundle();
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity  {
         c_util = new CommunicationUtil(callbackInstance);
 
         btn_signin = (Button)findViewById(R.id.btn_signin);
-        btn_signup = (Button)findViewById(R.id.btn_signup);
+        btn_join = (Button)findViewById(R.id.btn_join);
         edit_id = (EditText)findViewById(R.id.edit_id);
         edit_pw = (EditText)findViewById(R.id.edit_pw);
 
@@ -141,15 +141,13 @@ public class LoginActivity extends AppCompatActivity  {
 
 
                 btn_signin.setEnabled(false);
-                btn_signup.setEnabled(false);
+                btn_join.setEnabled(false);
                 findViewById(R.id.loginLoadingPannel).setVisibility(View.VISIBLE);
                 c_util.signIn(id, pw);
             }
         });
 
-
-        btn_signup.setOnClickListener(new View.OnClickListener() {
-
+        btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent joinIntent = new Intent(LoginActivity.this, JoinActivity.class);
