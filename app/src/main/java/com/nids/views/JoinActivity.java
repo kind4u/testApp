@@ -51,7 +51,7 @@ public class JoinActivity extends AppCompatActivity {
 
     String id;
     String pw;
-    String pwCon
+    String pwCon;
     String name;
     String zip_code;
     String addr;
