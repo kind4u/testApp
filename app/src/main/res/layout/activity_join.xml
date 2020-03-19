@@ -13,7 +13,11 @@
         android:background="#99000000"
         android:foregroundTint="#dd00ff00"
         android:gravity="center"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -25,7 +29,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
+        android:paddingTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +37,7 @@
 
         <LinearLayout
             android:layout_width="310dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:gravity="center"
@@ -45,7 +49,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/idText"
+                    android:id="@+id/edit_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -62,7 +66,7 @@
             </LinearLayout>
 
             <EditText
-                android:id="@+id/pwText"
+                android:id="@+id/edit_pw"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -70,22 +74,24 @@
                 android:hint="Password"
                 android:inputType="textPassword" />
 
+
             <EditText
-                android:id="@+id/pwConfirm"
+                android:id="@+id/edit_pw_con"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="PasswordConfirm"
                 android:inputType="textPassword" />
 
             <EditText
-               android:id="@+id/nameText"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="10dp"
-               android:ems="10"
-               android:hint="Name"
-               android:inputType="textPersonName" />
+                android:id="@+id/edit_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Name"
+                android:inputType="textPersonName" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -93,17 +99,19 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/zipCodeText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                    android:id="@+id/edit_zip_code"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="Zip Code"
                     android:inputType="textPersonName" />
 
                 <Button
                     android:id="@+id/btn_get_addr"
-                    android:layout_width="108dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:text="우편번호 찾기"
@@ -118,16 +126,17 @@
                 android:visibility="gone" />
 
             <EditText
-                android:id="@+id/adText"
+                android:id="@+id/edit_addr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:hint="Address"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/addtText"
+                android:id="@+id/edit_addr_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -138,13 +147,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <RadioGroup
                     android:id="@+id/genderGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="100dp"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginRight="50dp"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -152,7 +163,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="center|center_horizontal"
                         android:text="남성" />
 
                     <RadioButton
@@ -163,14 +173,8 @@
                         android:text="여성" />
 
                 </RadioGroup>
-            </LinearLayout>
 
-            <Button
-                android:id="@+id/signUpButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:text="Sign Up"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/edit_tmX"
@@ -183,6 +187,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible" />
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Sign Up"/>
 
         </LinearLayout>
     </ScrollView>

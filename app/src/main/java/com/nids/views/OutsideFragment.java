@@ -104,5 +104,4 @@ public class OutsideFragment extends Fragment {
         stationText.setText("실외 미세먼지 현황 ("+ station +"측정소)");
         dataText.setText("측정시간 : " + data.getMeasureDate());
     }
-    )
 }
