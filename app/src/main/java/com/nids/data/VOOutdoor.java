@@ -41,4 +41,5 @@ public class VOOutdoor {
     }
     public float getPM100() { return this.pm100; }
     public float getPM025() { return this.pm025; }
+
 }
