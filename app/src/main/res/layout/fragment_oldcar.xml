@@ -14,7 +14,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/carNumText"
+            android:id="@+id/oldcarNumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="차량 번호"
@@ -27,23 +27,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/carNum2"
-                android:layout_width="43dp"
-                android:layout_height="49dp"
-                android:ems="10"
-                android:hint="가"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/carNum1"
-                android:layout_width="53dp"
-                android:layout_height="50dp"
-                android:ems="10"
-                android:hint="123"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edit_oldcarNum0"
                 android:layout_width="66dp"
                 android:layout_height="50dp"
                 android:ems="10"
@@ -51,7 +35,23 @@
                 android:inputType="textPersonName" />
 
             <EditText
-                android:id="@+id/carNum3"
+                android:id="@+id/edit_oldcarNum1"
+                android:layout_width="53dp"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:hint="123"
+                android:inputType="number" />
+
+            <EditText
+                android:id="@+id/edit_oldcarNum2"
+                android:layout_width="43dp"
+                android:layout_height="49dp"
+                android:ems="10"
+                android:hint="가"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/edit_oldcarNum3"
                 android:layout_width="79dp"
                 android:layout_height="49dp"
                 android:ems="10"

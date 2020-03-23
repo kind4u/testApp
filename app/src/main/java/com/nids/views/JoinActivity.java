@@ -109,6 +109,7 @@ public class JoinActivity extends AppCompatActivity {
 							btn_signup.setEnabled(true);
 							Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
 							Intent intent = new Intent(JoinActivity.this, CarActivity.class);
+							intent.putExtra("id",id);
 							startActivity(intent);
 						}
 					});
@@ -129,6 +130,7 @@ public class JoinActivity extends AppCompatActivity {
 							btn_signup.setEnabled(true);
 							Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
 							Intent intent = new Intent(JoinActivity.this, CarActivity.class);
+							intent.putExtra("id",id);
 							startActivity(intent);
 						}
 					});

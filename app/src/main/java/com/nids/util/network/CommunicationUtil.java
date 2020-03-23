@@ -12,6 +12,7 @@ import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
+import com.nids.util.interfaces.CarCallBackInterface;
 import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 
@@ -51,6 +52,7 @@ public class CommunicationUtil{
 
 	NetworkCallBackInterface callback_Instance;
 	JoinCallBackInterface joincallback_Instance;
+	CarCallBackInterface carcallback_Instance;
 
 	public CommunicationUtil(NetworkCallBackInterface callback_Instance) {
 		this.callback_Instance = callback_Instance;
@@ -58,6 +60,16 @@ public class CommunicationUtil{
 
 	public CommunicationUtil(JoinCallBackInterface joincallback_Instance)	{
 		this.joincallback_Instance = joincallback_Instance;
+	}
+
+	public CommunicationUtil(CarCallBackInterface carcallback_Instance)	{
+		this.carcallback_Instance = carcallback_Instance;
+	}
+
+
+	public void registCar(String num, String id, int model){
+		Thread t = new Thread(new CarInfo(num, id, model));
+		t.start();
 	}
 
 	public void signUp(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String tmX, String tmY)	{
@@ -99,6 +111,63 @@ public class CommunicationUtil{
 		if(receiver_t != null && !stop_flag){
 			stop_flag = true;
 		}
+	}
+
+	public class CarInfo implements Runnable{
+		String num;
+		String id;
+		int model;
+
+		public CarInfo(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
+
+		@Override
+		public void run(){
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
+				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "registCar"));
+					nameValuePairs.add(new BasicNameValuePair("num", this.num));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+					nameValuePairs.add(new BasicNameValuePair("model", Integer.toString(this.model)));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean post_insert = jsonObj.get("insert").getAsBoolean();
+					String result = jsonObj.get("result").getAsString();
+
+					System.out.println("post insert : " + String.valueOf(post_insert));
+
+					carcallback_Instance.carResult(post_insert, result);
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					carcallback_Instance.carResult(false, "500", "ClientProtocolException");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					carcallback_Instance.carResult(false, "500", "IOException");
+				}
+			} catch (Exception e)	{
+				carcallback_Instance.carResult(false,"500", "httpClientException");
+			}
+
+		}
+
 	}
 
 	public class CheckUser implements Runnable {
