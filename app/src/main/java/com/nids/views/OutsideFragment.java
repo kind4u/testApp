@@ -14,54 +14,32 @@ import android.widget.TextView;
 import com.nids.data.VOOutdoor;
 import com.nids.kind4u.testapp.R;
 
+import java.util.Map;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link OutsideFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class OutsideFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
     MainActivity activity;
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    Map<String, Object> map;
 
     String station;
-    TextView dataText;
+    TextView dateText;
     TextView stationText;
+    TextView dustText;
+    TextView infoText;
 
 
 
     public OutsideFragment() {
         // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment OutsideFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static OutsideFragment newInstance(String param1, String param2) {
-        OutsideFragment fragment = new OutsideFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+        super();
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        if(getActivity() != null && getActivity() instanceof MainActivity)  {
+            map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
+        }
         activity = (MainActivity) getActivity();
     }
 
@@ -74,34 +52,44 @@ public class OutsideFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Bundle bundle = this.getArguments();
-        if(bundle != null){
-            station = bundle.getString("station");
-            //runDataThread();
-        }
         View v = inflater.inflate(R.layout.fragment_outside, container,false);
         bindComponent(v);
-
         // Inflate the layout for this fragment
         return v;
     }
 
-    private  void bindComponent(View v){
+    private  void bindComponent(View v){                // 데이터 수신 메소드
         stationText = v.findViewById(R.id.stationText);
-        dataText = v.findViewById(R.id.dateText);
+        dateText = v.findViewById(R.id.dateText);
+        dustText = v.findViewById(R.id.dustText);
+        infoText = v.findViewById(R.id.infoText);
+        VOOutdoor outDoorData = (VOOutdoor) map.get("data");            // onAttach에서 getData 메소드로 얻어낸 데이터 Input
+        float pm10 = outDoorData.getPM100();                            // 미세먼지 농도 추출
+
+        stationText.setText("실외 미세먼지 현황 ("+ map.get("station_name") +"측정소)");
+        dateText.setText("측정시간 : "+outDoorData.getMeasureDate());
+        dustText.setText(outDoorData.getPM100()+"㎍/㎥");
+        if(pm10 > 75.0){
+            infoText.setText("매우나쁨");
+        }
+        else if(pm10 > 35.0){
+            infoText.setText("나쁨");
+        }
+        else if(pm10 > 15.0){
+            infoText.setText("보통");
+        }
+        else{
+            infoText.setText("좋음");
+        }
     }
 
-    private  void setData(VOOutdoor data){
-        stationText.setText("실외 미세먼지 현황 ("+ station +"측정소)");
-        dataText.setText("측정시간 : " + data.getMeasureDate());
-    }
+//    private  void setData(VOOutdoor data){
+//        stationText.setText("실외 미세먼지 현황 ("+ map.get("lan") +"측정소)");
+//        dateText.setText("측정시간 : " + data.getMeasureDate());
+//    }
 }
