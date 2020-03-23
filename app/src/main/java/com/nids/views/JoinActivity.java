@@ -43,16 +43,16 @@ public class JoinActivity extends AppCompatActivity {
 	private WebView webView;
 	private Handler handler;
 
-	String id;
-	String pw;
-	String pwCon;
-	String name;
-	String zip_code;
-	String addr;
-	String addr_detail;
-	int gender;
-	String tmX;
-	String tmY;
+    String id;
+    String pw;
+    String pwCon;
+    String name;
+    String zip_code;
+    String addr;
+    String addr_detail;
+    int gender;
+    String tmX;
+    String tmY;
 
 	EditText edit_id;
 	EditText edit_pw;
@@ -109,6 +109,7 @@ public class JoinActivity extends AppCompatActivity {
 							btn_signup.setEnabled(true);
 							Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
 							Intent intent = new Intent(JoinActivity.this, CarActivity.class);
+							intent.putExtra("id",id);
 							startActivity(intent);
 						}
 					});
@@ -129,6 +130,7 @@ public class JoinActivity extends AppCompatActivity {
 							btn_signup.setEnabled(true);
 							Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
 							Intent intent = new Intent(JoinActivity.this, CarActivity.class);
+							intent.putExtra("id",id);
 							startActivity(intent);
 						}
 					});
