@@ -29,6 +29,7 @@
         android:ems="10"
         android:hint="ID"
         android:inputType="textPersonName"
+        android:text="kind4u"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +42,7 @@
         android:ems="10"
         android:hint="PASSWORD"
         android:inputType="textPassword"
+        android:text="admin123"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_id" />
