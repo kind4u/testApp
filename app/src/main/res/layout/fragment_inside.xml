@@ -12,7 +12,7 @@
         android:background="@color/lightGreen">
 
         <TextView
-            android:id="@+id/dateText"
+            android:id="@+id/dateTextInDoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/infoText"
+            android:id="@+id/infoTextInDoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="107dp"
@@ -45,11 +45,11 @@
             android:layout_marginBottom="28dp"
             android:text="매우좋음"
             android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/dustText"
+            app:layout_constraintBottom_toTopOf="@+id/dustTextInDoor"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
-            android:id="@+id/dustText"
+            android:id="@+id/dustTextInDoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="80dp"

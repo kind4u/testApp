@@ -98,10 +98,7 @@ public class LoginActivity extends AppCompatActivity  {
                             btn_join.setEnabled(true);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable("userInfo",userinfo);
-                            bundle.putSerializable("stationInfo", station_info);
-                            intent.putExtras(bundle);
+                            intent.putExtra("id",id);
                             startActivity(intent);
                         }
                     });
@@ -113,7 +110,7 @@ public class LoginActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void dataReqResult(boolean result, List<VOSensorData> data) {
+            public void dataReqResult(String result, List<VOSensorData> data) {
 
             }
 
