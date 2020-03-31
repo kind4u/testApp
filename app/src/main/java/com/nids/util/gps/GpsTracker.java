@@ -15,8 +15,11 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
+import com.nids.views.MainActivity;
+
 public class GpsTracker extends Service implements LocationListener {
 
+    MainActivity mainActivity;
     private final Context mContext;
     Location location;
     double latitude;
@@ -29,12 +32,13 @@ public class GpsTracker extends Service implements LocationListener {
 
     public  GpsTracker (Context context)    {           // 생성자 생성 시 위치정보 탐색
         this.mContext = context;
+        mainActivity = new MainActivity();
+        locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
         getLocation();
     }
 
     public Location getLocation()   {
         try {
-            locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
             boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
@@ -49,7 +53,7 @@ public class GpsTracker extends Service implements LocationListener {
                 } else return null;
 
                 if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
                             // 위치정보 수신 후 확인
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);      // 가장 최근 검색된 위치정보 수신
@@ -62,7 +66,7 @@ public class GpsTracker extends Service implements LocationListener {
 
                 if (isGPSEnabled) {         //51~61 줄이랑 코드 같음
                     if (location == null) {
-                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 1, this);
                         if (locationManager != null) {
                             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             if (location != null) {
@@ -104,7 +108,10 @@ public class GpsTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
+        // 위치값이 갱신되면 이벤트 발생
+        Log.d("test","onLocationChanged, location : " + location);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
     }
 
     @Override

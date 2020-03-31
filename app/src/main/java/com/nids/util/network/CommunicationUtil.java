@@ -3,10 +3,14 @@ package com.nids.util.network;
 import android.graphics.Paint;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
@@ -19,6 +23,7 @@ import com.nids.util.interfaces.NetworkCallBackInterface;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -36,7 +41,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CommunicationUtil {
 
@@ -102,6 +110,11 @@ public class CommunicationUtil {
 	// GPS 위치측정 값 기반으로 가까운 측정소 검색 스레드 생성
 	public void findStationWithGPS(String lat, String lon) {
 		Thread t = new Thread(new StationGPS(lat, lon));
+		t.start();
+	}
+
+	public void getInDoorData(String id)	{
+		Thread t = new Thread(new InDoor(id));
 		t.start();
 	}
 
@@ -282,6 +295,64 @@ public class CommunicationUtil {
 				}
 			} catch (Exception e) {
 				callback_Instance.signInResult(false, "Connection Error", null);
+			}
+		}
+	}
+
+	public class InDoor implements Runnable	{
+		String id;
+
+		public InDoor(String id) {this.id = id;}
+
+		@Override
+		public void run() {
+			try	{
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/DataLoad");
+				try	{
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "withid"));		// 모바일 전용으로 매핑
+					nameValuePairs.add(new BasicNameValuePair("id", URLEncoder.encode(this.id, "utf-8")));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);			// station 파라미터로 넘긴 측정소의 미세먼지 데이터 값 전송
+
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					String post_result = jsonObj.get("result").getAsString();
+					String timeStamp = jsonObj.get("date").getAsString();
+					String resp_data = jsonObj.get("data").getAsString();		// VOOutdoor 객체
+
+					VOSensorData sensorData = new VOSensorData(resp_data, timeStamp);
+
+					List<VOSensorData> dataList = new ArrayList<VOSensorData>();
+					dataList.add(sensorData);
+
+					callback_Instance.dataReqResult(post_result, dataList);		// MainActivity의 callback 메소드 호출
+				} catch (IOException e) {
+					callback_Instance.dataReqResult("500", null);
+				} catch (ParseException e) {
+					callback_Instance.dataReqResult("500", null);
+				} catch (JsonSyntaxException e) {
+					callback_Instance.dataReqResult("500", null);
+				}
+
+			}	catch(Exception e)	{
+				callback_Instance.dataReqResult("500", null);
 			}
 		}
 	}
@@ -516,13 +587,13 @@ public class CommunicationUtil {
 
 				Gson gson = new Gson();
 
-				boolean post_result = jsonObj.get("result").getAsBoolean();
+				String post_result = jsonObj.get("result").getAsString();
 				List<VOSensorData> data_arr = (List<VOSensorData>) gson.fromJson(jsonObj.get("data").toString(), new TypeToken<List<VOSensorData>>() {
 				}.getType());
 				Log.d("data size", String.valueOf(data_arr.size()));
 				System.out.println("post result : " + String.valueOf(post_result));
 
-				if (post_result) {
+				if (post_result == "0") {
 					callback_Instance.dataReqResult(post_result, data_arr);
 				}
 			}

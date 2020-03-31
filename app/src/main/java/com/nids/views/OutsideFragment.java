@@ -27,7 +27,8 @@ public class OutsideFragment extends Fragment {
     TextView dustText;
     TextView infoText;
 
-
+    TextView lat;
+    TextView lon;
 
     public OutsideFragment() {
         // Required empty public constructor
@@ -58,18 +59,25 @@ public class OutsideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_outside, container,false);
+        stationText = v.findViewById(R.id.stationText);
+        dateText = v.findViewById(R.id.dateTextInDoor);
+        dustText = v.findViewById(R.id.dustTextInDoor);
+        infoText = v.findViewById(R.id.infoTextInDoor);
+        lat = v.findViewById(R.id.latitude);
+        lon = v.findViewById(R.id.longitude);
+
         bindComponent(v);
         // Inflate the layout for this fragment
         return v;
     }
 
-    private  void bindComponent(View v){                // 데이터 수신 메소드
-        stationText = v.findViewById(R.id.stationText);
-        dateText = v.findViewById(R.id.dateText);
-        dustText = v.findViewById(R.id.dustText);
-        infoText = v.findViewById(R.id.infoText);
+    private void bindComponent(View v){                // 데이터 수신 메소드
+
+        map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
+
         VOOutdoor outDoorData = (VOOutdoor) map.get("data");            // onAttach에서 getData 메소드로 얻어낸 데이터 Input
         float pm10 = outDoorData.getPM100();                            // 미세먼지 농도 추출
+        System.out.println("called bindComponent");
 
         stationText.setText("실외 미세먼지 현황 ("+ map.get("station_name") +"측정소)");
         dateText.setText("측정시간 : "+outDoorData.getMeasureDate());
@@ -86,7 +94,11 @@ public class OutsideFragment extends Fragment {
         else{
             infoText.setText("좋음");
         }
+        lat.setText(String.valueOf(map.get("lat")));
+        lon.setText(String.valueOf(map.get("lon")));
     }
+
+
 
 //    private  void setData(VOOutdoor data){
 //        stationText.setText("실외 미세먼지 현황 ("+ map.get("lan") +"측정소)");
