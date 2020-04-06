@@ -6,48 +6,80 @@
     android:layout_height="match_parent"
     tools:context="com.nids.views.MainActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+<!--    <LinearLayout-->
+<!--        android:id="@+id/linearLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical">-->
+
+<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/container1"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1">&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <fragment&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/fragment"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:name="com.nids.views.InsideFragment"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="match_parent" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </FrameLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/container2"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_weight="1">&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <fragment&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/fragment2"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:name="com.nids.views.OutsideFragment"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="match_parent" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </FrameLayout>&ndash;&gt;-->
+
+<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
+<!--&lt;!&ndash;            android:id="@+id/container"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;            android:layout_height="match_parent">&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <fragment&ndash;&gt;-->
+<!--&lt;!&ndash;                android:id="@+id/fragment3"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:name="com.nids.views.DustFragment"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="match_parent" />&ndash;&gt;-->
+<!--&lt;!&ndash;        </FrameLayout>&ndash;&gt;-->
+<!--    </LinearLayout>-->
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <FrameLayout
-            android:id="@+id/container1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <fragment
-                android:id="@+id/fragment"
-                android:name="com.nids.views.InsideFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/container2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <fragment
-                android:id="@+id/fragment2"
-                android:name="com.nids.views.OutsideFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </FrameLayout>
-
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/AnalysisButton"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="미세먼지 예측하기"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        app:tabTextColor="#000000"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+
+<!--    <Button-->
+<!--        android:id="@+id/AnalysisButton"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="미세먼지 예측하기"-->
+<!--        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

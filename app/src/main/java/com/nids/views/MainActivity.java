@@ -1,16 +1,14 @@
 package com.nids.views;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,23 +20,20 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.location.LocationManager;
 
+import com.google.android.material.tabs.TabLayout;
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.TabPagerAdapter;
 import com.nids.util.gps.GpsTracker;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
-import org.apache.http.impl.execchain.MainClientExec;
-
-import java.io.Console;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -47,12 +42,13 @@ public class MainActivity extends AppCompatActivity {
     InsideFragment insideFragment;
     OutsideFragment outsideFragment;
     Button btn_analysis;
-    String station_name;
+    String station_name = "";
     List<VOSensorData> inDoorDataList;
-    Bundle user;
     VOSensorData inDoorData;
-    VOOutdoor data;
+    VOOutdoor data = new VOOutdoor();
     String id;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     NetworkCallBackInterface callBackInterface = new NetworkCallBackInterface() {        // callback 값을 받기 위한 callback Interface 호출
         @Override
@@ -102,42 +98,65 @@ public class MainActivity extends AppCompatActivity {
         }   else    {
             checkRunTimePermission();                           // 160줄 - 런타임 퍼미션 실행
         }
-        insideFragment = new InsideFragment();
-        outsideFragment = new OutsideFragment();
-        getSupportFragmentManager().beginTransaction().replace(R.id.container1,insideFragment);
-        getSupportFragmentManager().beginTransaction().replace(R.id.container2,outsideFragment);
-        btn_analysis = findViewById(R.id.AnalysisButton);
-        btn_analysis.setOnClickListener(new View.OnClickListener() {
+//        insideFragment = new InsideFragment();
+//        outsideFragment = new OutsideFragment();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container1,insideFragment);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container2,outsideFragment);
+//        btn_analysis = findViewById(R.id.AnalysisButton);
+//        btn_analysis.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"아직 안 만듬",Toast.LENGTH_SHORT).show();
+//            }
+//
+//        });
+//        DustFragment dustFragment = new DustFragment();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.container,dustFragment);
+        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("먼지"));
+        tabLayout.addTab(tabLayout.newTab().setText("지도"));
+        tabLayout.addTab(tabLayout.newTab().setText("설정"));
+
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+
+        TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"아직 안 만듬",Toast.LENGTH_SHORT).show();
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
         });
+//        TimerTask tt = new TimerTask() {
+//            @Override
+//            public void run() {
+//                Log.d("timerTask","inside fragment refresh started");
+//                FragmentTransaction inft = getSupportFragmentManager().beginTransaction();
+//                inft.detach(insideFragment);
+//                inft.attach(insideFragment);
+//                inft.commit();
+//            }
+//        };
+//        TimerTask tt2 = new TimerTask() {
+//            @Override
+//            public void run() {
+//                Log.d("timerTask2","outside fragment refresh started");
+//                FragmentTransaction outft = getSupportFragmentManager().beginTransaction();
+//                outft.detach(outsideFragment);
+//                outft.attach(outsideFragment);
+//                outft.commit();
+//            }
+//        };
 
-        TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                Log.d("timerTask","inside fragment refresh started");
-                FragmentTransaction inft = getSupportFragmentManager().beginTransaction();
-                inft.detach(insideFragment);
-                inft.attach(insideFragment);
-                inft.commit();
-            }
-        };
-        TimerTask tt2 = new TimerTask() {
-            @Override
-            public void run() {
-                Log.d("timerTask2","outside fragment refresh started");
-                FragmentTransaction outft = getSupportFragmentManager().beginTransaction();
-                outft.detach(outsideFragment);
-                outft.attach(outsideFragment);
-                outft.commit();
-            }
-        };
-
-        Timer timer = new Timer();
-        timer.schedule(tt,0,3000);
-        timer.schedule(tt2,0,3000);
+//        Timer timer = new Timer();
+//        timer.schedule(tt,0,3000);
+//        timer.schedule(tt2,0,3000);
     }
 
     @Override
@@ -176,22 +195,21 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("getData called");
         gpsTracker = new GpsTracker(MainActivity.this);     // com.nids.util.gps.GpsTracker.java
         Map<String, Object> map = new HashMap<String, Object>();
-         String latitude = String.valueOf(gpsTracker.getLatitude());         // 위도 측정
+        String latitude = String.valueOf(gpsTracker.getLatitude());         // 위도 측정
         String longitude = String.valueOf(gpsTracker.getLongitude());       // 경도 측정
         System.out.println("latitude = " + latitude);
         System.out.println("longitude = " + longitude);
         //Toast.makeText(MainActivity.this, "lat = "+ latitude + "lon = " + longitude, Toast.LENGTH_SHORT).show();
-        c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
-        //c_util.findStationWithGPS("37.441722","127.171786");              // ※ Virtual Device는 위경도를 측정할 수 없음
-        while(true) {
-            if(data != null) {                  // 측정소 및 미세먼지 데이터가 들어올 때까지 강제로 Holding (좋은 방법은 아닌 듯)
-                map.put("station_name", station_name);      // 측정소 이름
+        //c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
+        c_util.findStationWithGPS("37.441722","127.171786");              // ※ Virtual Device는 위경도를 측정할 수 없음
+//        while(true) {
+//            if(data != null) {                  // 측정소 및 미세먼지 데이터가 들어올 때까지 강제로 Holding (좋은 방법은 아닌 듯)
                 map.put("data", data);                      // 측정 미세먼지 데이터 객체
                 map.put("lat",latitude);
                 map.put("lon",longitude);
                 return map;                                 // outsideFragment로 전송
-            }   else    {}
-        }
+//            }   else    {}
+//        }
     }
 
     private void showDialogForLocationServiceSetting()  {           // 위치 설정 허용 확인 메세지 출력
@@ -239,14 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    public void setData(VOOutdoor data) {
-        this.data = data;
-    }
+    public void setData(VOOutdoor data) {this.data = data;}
     public void setInDoorData(VOSensorData inDoorData) { this.inDoorData = inDoorData;}
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
 }

@@ -33,9 +33,9 @@ public class InsideFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(getActivity() != null && getActivity() instanceof MainActivity)  {
-            map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
-        }
+//        if(getActivity() != null && getActivity() instanceof MainActivity)  {
+//            map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
+//        }
         activity = (MainActivity) getActivity();
     }
 
@@ -49,6 +49,7 @@ public class InsideFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
@@ -56,6 +57,7 @@ public class InsideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
         View v =  inflater.inflate(R.layout.fragment_inside, container, false);
         dateTextInDoor = v.findViewById(R.id.dateTextInDoor);
         dustTextInDoor = v.findViewById(R.id.dustTextInDoor);
@@ -65,6 +67,7 @@ public class InsideFragment extends Fragment {
     }
 
     private void bindInDoorView(View v) {
+        map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");
         float pm10 = sensorData.getPm100();                            // 미세먼지 농도 추출
 

@@ -30,12 +30,10 @@ public class LoginActivity extends AppCompatActivity  {
     EditText edit_id;
     EditText edit_pw;
 
-    int count = 0;
-
     String id;
     String pw;
-    CommunicationUtil c_util;
 
+    CommunicationUtil c_util;
     NetworkCallBackInterface callbackInstance;
 
     @Override
@@ -49,16 +47,24 @@ public class LoginActivity extends AppCompatActivity  {
 
     private void bindView(){
         callbackInstance = new NetworkCallBackInterface() {
-            boolean signin_result;
-            VOUser userinfo;
+            VOUser user;
             @Override
-            public void signInResult(boolean result, String message, VOUser userinfo) {
+            public void signInResult(boolean result, String message, VOUser userInfo) {
                 if(result)
                 {
-                    signin_result = result;
-                    this.userinfo = userinfo;
-
-                    c_util.findStation(userinfo.getId());
+                    user = userInfo;
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
+                            btn_signin.setEnabled(true);
+                            btn_join.setEnabled(true);
+                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                            intent.putExtra("id",user.getId());
+                            startActivity(intent);
+                        }
+                    });
                 }
                 else
                 {
@@ -88,37 +94,13 @@ public class LoginActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void findStation(boolean result, final VOStation station_info) {
-                if(result){
-                    LoginActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            findViewById(R.id.loginLoadingPannel).setVisibility(View.GONE);
-                            btn_signin.setEnabled(true);
-                            btn_join.setEnabled(true);
-                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                            intent.putExtra("id",id);
-                            startActivity(intent);
-                        }
-                    });
-                }
-                else{
-                    //re-req
-                    c_util.findStation(userinfo.getId());
-                }
-            }
-
+            public void findStation(boolean result, final VOStation station_info) { }
             @Override
-            public void dataReqResult(String result, List<VOSensorData> data) {
-
-            }
-
+            public void dataReqResult(String result, List<VOSensorData> data) { }
             @Override
-            public void dataReqResultOutdoor(boolean result, VOOutdoor data) {
-
-            }
+            public void dataReqResultOutdoor(boolean result, VOOutdoor data) { }
         };
+
         c_util = new CommunicationUtil(callbackInstance);
 
         btn_signin = (Button)findViewById(R.id.btn_signin);
