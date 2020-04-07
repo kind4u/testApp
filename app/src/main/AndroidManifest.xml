@@ -15,6 +15,11 @@
         android:theme="@style/AppTheme.NoActionBar"
         android:networkSecurityConfig="@xml/network_sercurity_config"
         android:usesCleartextTraffic="true">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as"/>
+
         <activity android:name="com.nids.views.JoinActivity" />
         <activity android:name="com.nids.views.LoginActivity"> <!-- 얘가 시작 -->
             <intent-filter>

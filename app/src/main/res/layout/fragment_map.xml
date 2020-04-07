@@ -5,11 +5,11 @@
     tools:context="com.nids.views.MapFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Map Fragment"
-        android:textSize="30sp" />
+        android:layout_margin="10dp" />
 
 </FrameLayout>

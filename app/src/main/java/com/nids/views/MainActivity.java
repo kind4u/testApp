@@ -26,6 +26,7 @@ import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.BackPressCloseHandler;
 import com.nids.util.TabPagerAdapter;
 import com.nids.util.gps.GpsTracker;
 import com.nids.util.interfaces.NetworkCallBackInterface;
@@ -38,7 +39,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-
     InsideFragment insideFragment;
     OutsideFragment outsideFragment;
     Button btn_analysis;
@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
     VOSensorData inDoorData;
     VOOutdoor data = new VOOutdoor();
     String id;
+
+    public BackPressCloseHandler backPressCloseHandler;
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
@@ -98,20 +100,6 @@ public class MainActivity extends AppCompatActivity {
         }   else    {
             checkRunTimePermission();                           // 160줄 - 런타임 퍼미션 실행
         }
-//        insideFragment = new InsideFragment();
-//        outsideFragment = new OutsideFragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container1,insideFragment);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container2,outsideFragment);
-//        btn_analysis = findViewById(R.id.AnalysisButton);
-//        btn_analysis.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(),"아직 안 만듬",Toast.LENGTH_SHORT).show();
-//            }
-//
-//        });
-//        DustFragment dustFragment = new DustFragment();
-//        getSupportFragmentManager().beginTransaction().replace(R.id.container,dustFragment);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("먼지"));
         tabLayout.addTab(tabLayout.newTab().setText("지도"));
@@ -133,30 +121,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabReselected(TabLayout.Tab tab) { }
         });
-//        TimerTask tt = new TimerTask() {
-//            @Override
-//            public void run() {
-//                Log.d("timerTask","inside fragment refresh started");
-//                FragmentTransaction inft = getSupportFragmentManager().beginTransaction();
-//                inft.detach(insideFragment);
-//                inft.attach(insideFragment);
-//                inft.commit();
-//            }
-//        };
-//        TimerTask tt2 = new TimerTask() {
-//            @Override
-//            public void run() {
-//                Log.d("timerTask2","outside fragment refresh started");
-//                FragmentTransaction outft = getSupportFragmentManager().beginTransaction();
-//                outft.detach(outsideFragment);
-//                outft.attach(outsideFragment);
-//                outft.commit();
-//            }
-//        };
 
-//        Timer timer = new Timer();
-//        timer.schedule(tt,0,3000);
-//        timer.schedule(tt2,0,3000);
+        backPressCloseHandler = new BackPressCloseHandler(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        backPressCloseHandler.onBackPressed();
     }
 
     @Override
