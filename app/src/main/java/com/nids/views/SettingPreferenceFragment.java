@@ -1,25 +1,19 @@
 package com.nids.views;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-//import android.support.annotation.Nullable;
-import android.util.Log;
-import android.widget.BaseAdapter;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragment;
+import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
-import androidx.preference.Preference.OnPreferenceClickListener;
 
 import com.nids.kind4u.testapp.R;
 
-public class SettingPreferenceFragment extends PreferenceFragment { //implements OnPreferenceClickListener
+public class SettingPreferenceFragment extends PreferenceFragmentCompat {
 
     SharedPreferences prefs;
 
@@ -38,12 +32,8 @@ public class SettingPreferenceFragment extends PreferenceFragment { //implements
         registCarPreference = (Preference) findPreference("regist_car");
         editCarPreference = (PreferenceScreen) findPreference("edit_car");
 
-        //registCarPreference.setOnPreferenceClickListener(this);
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-//        Intent intent = new Intent(getContext(), CarActivity.class);
-//        activityPreference.setIntent(intent);
 
         if(!prefs.getString("sound_list", "").equals("")){
             soundPreference.setSummary(prefs.getString("sound_list", "5분"));
@@ -81,13 +71,5 @@ public class SettingPreferenceFragment extends PreferenceFragment { //implements
 
     }
 
-//    @Override
-//    public boolean onPreferenceClick(Preference preference) {
-//        if(preference.getKey().equals("regist_car")) {
-//            Intent intent = new Intent(this, CarActivity.class);
-//            registCarPreference.setIntent(intent);
-//        }
-//        return false;
-//    }
 
 }

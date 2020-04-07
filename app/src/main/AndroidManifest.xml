@@ -30,7 +30,6 @@
         </activity>
         <activity android:name="com.nids.views.MainActivity" />
         <activity android:name="com.nids.views.CarActivity" />
-        <activity android:name="com.nids.views.SettingActivity" />
 
         <uses-library
             android:name="org.apache.http.legacy"

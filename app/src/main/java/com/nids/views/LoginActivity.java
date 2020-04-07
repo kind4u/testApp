@@ -144,16 +144,6 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(carIntent);
                 }
         });
-        //환경설정 테스트
-        btn_set =(Button)findViewById(R.id.btn_set);
-        btn_set.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent setIntent = new Intent(LoginActivity.this, SettingActivity.class);
-                startActivity(setIntent);
-            }
-        });
-
     }
 
 }
