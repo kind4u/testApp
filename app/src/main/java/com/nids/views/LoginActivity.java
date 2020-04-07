@@ -23,6 +23,7 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity  {
 
+    Button btn_set;
     Button button;
     Button btn_signin;
     Button btn_join;
@@ -160,6 +161,15 @@ public class LoginActivity extends AppCompatActivity  {
                 Intent carIntent = new Intent(LoginActivity.this, CarActivity.class);
                 startActivity(carIntent);
                 }
+        });
+        //환경설정 테스트
+        btn_set =(Button)findViewById(R.id.btn_set);
+        btn_set.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent setIntent = new Intent(LoginActivity.this, SettingActivity.class);
+                startActivity(setIntent);
+            }
         });
 
     }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="계정">
+        <PreferenceScreen
+            android:key="edit_user"
+            android:title="회원정보 수정"
+            android:summary="회원정보를 수정합니다."/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="차량 정보">
+        <Preference
+            android:key="regist_car"
+            android:title="차량정보 등록"
+            android:summary="차량 정보를 등록합니다.">
+            <intent
+                android:action="com.nids.views.PREFS_ONE"
+                android:targetPackage="com.nids.views"
+                android:targetClass="com.nids.views.CarActivity"/>
+        </Preference>
+        <PreferenceScreen
+            android:key="edit_car"
+            android:title="기존 차량정보 수정"
+            android:summary="기존 차량 정보를 수정/삭제 합니다."/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="알림">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notice"
+            android:title="미세먼지 농도 위험 알림"
+            android:summary="미세먼지 위험 농도 알림 설정."/>
+        <ListPreference
+            android:entries="@array/array_sound"
+            android:key="sound_list"
+            android:title="알림 간격 설정"
+            android:summary="5분"/>
+    </PreferenceCategory>
+</PreferenceScreen>

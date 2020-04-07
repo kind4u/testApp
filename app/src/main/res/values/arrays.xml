@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="array_sound">
+        <item>1분</item>
+        <item>5분</item>
+        <item>10분</item>
+        <item>30분</item>
+        <item>1시간</item>
+    </string-array>
+</resources>
