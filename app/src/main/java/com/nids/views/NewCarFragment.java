@@ -75,7 +75,7 @@ public class NewCarFragment extends Fragment {
         passCarInfo(result);
     }
 
-    public void passCarInfo(String newcarNumResult){
+    public void passCarInfo(String newcarNumResult){        // 차량 등록 lisener
         onNewCarSetLisener.onNewCarSet(newcarNumResult);
     }
 
