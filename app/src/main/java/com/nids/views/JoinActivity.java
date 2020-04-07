@@ -2,6 +2,7 @@ package com.nids.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -95,30 +96,13 @@ public class JoinActivity extends AppCompatActivity {
 		bindView();
 	}
 
+	@SuppressLint("ClickableViewAccessibility")
 	private void bindView() {
 
 		joinCallBackInstance = new JoinCallBackInterface() {
 
 			@Override
-			public void signUpResult(boolean insert, String result) {
-				if (insert) {
-					JoinActivity.this.runOnUiThread(new Runnable() {
-						@Override
-						public void run() {
-							findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
-							btn_signup.setEnabled(true);
-							Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
-							Intent intent = new Intent(JoinActivity.this, CarActivity.class);
-							intent.putExtra("id",id);
-							startActivity(intent);
-						}
-					});
-				} else {
-					findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
-					btn_signup.setEnabled(true);
-					Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_SHORT).show();
-				}
-			}
+			public void carResult(boolean insert, String result, String message) { }
 
 			@Override
 			public void signUpResult(boolean insert, String result, String message) {

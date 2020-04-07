@@ -1,29 +1,23 @@
 package com.nids.views;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.nids.kind4u.testapp.R;
-import com.nids.util.interfaces.CarCallBackInterface;
+import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
 public class CarActivity extends AppCompatActivity implements NewCarFragment.OnNewCarSetListener, OldCarFragment.OnOldCarSetListener{
 
-    CarCallBackInterface carCallBackInstance;
+    JoinCallBackInterface joinCallBackInterface;
     CommunicationUtil c_util_car;
 
   TextView ex_text;
@@ -82,27 +76,7 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
 
         private void bindView(){
 
-            carCallBackInstance = new CarCallBackInterface(){
-                @Override
-                public void carResult(boolean insert, String result) {
-                    if (insert) {
-                        CarActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
-                                registCar.setEnabled(true);
-                                Toast.makeText(getApplicationContext(), "차량등록 성공", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(CarActivity.this, LoginActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                    } else {
-                        //findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
-                        registCar.setEnabled(true);
-                        Toast.makeText(getApplicationContext(), "차량등록 실패", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
+            joinCallBackInterface = new JoinCallBackInterface() {
                 @Override
                 public void carResult(boolean insert, String result, String message) {
                     if (insert) {
@@ -112,6 +86,7 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                                 //findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
                                 registCar.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "차량등록 성공", Toast.LENGTH_SHORT).show();
+                                findViewById(R.id.carLoadingPannel).setVisibility(View.GONE);
                                 Intent intent = new Intent(CarActivity.this, LoginActivity.class);
                                 startActivity(intent);
                             }
@@ -128,9 +103,18 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                         });
                     }
                 }
+
+                @Override
+                public void signUpResult(boolean insert, String result, String message) { }
+
+                @Override
+                public void positionResult(boolean position_result, String data) { }
+
+                @Override
+                public void existResult(String result, boolean exist) { }
             };
 
-            c_util_car = new CommunicationUtil(carCallBackInstance);
+            c_util_car = new CommunicationUtil(joinCallBackInterface);
 
             checkCar.setOnClickListener(new CheckBox.OnClickListener(){ //차량 번호판 신형or구형 선택했을때
                 @Override
@@ -165,10 +149,8 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                     model = m;
                     id = strParamId;
 
+                    findViewById(R.id.carLoadingPannel).setVisibility(View.VISIBLE);
                     c_util_car.registCar(num, id, model);
-
-                    Intent intent1 = new Intent(CarActivity.this, LoginActivity.class);
-                    startActivity(intent1);
                 }
             });
             registLater.setOnClickListener(new Button.OnClickListener(){ //차량 등록 나중에하기 버튼 클릭시

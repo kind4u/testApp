@@ -1,10 +1,6 @@
 package com.nids.util.network;
 
-import android.graphics.Paint;
 import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -16,7 +12,6 @@ import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
-import com.nids.util.interfaces.CarCallBackInterface;
 import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 
@@ -29,7 +24,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
@@ -38,13 +32,9 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class CommunicationUtil {
 
@@ -60,7 +50,6 @@ public class CommunicationUtil {
 
 	NetworkCallBackInterface callback_Instance;
 	JoinCallBackInterface joincallback_Instance;
-	CarCallBackInterface carcallback_Instance;
 
 	public CommunicationUtil(NetworkCallBackInterface callback_Instance) {
 		this.callback_Instance = callback_Instance;
@@ -70,19 +59,12 @@ public class CommunicationUtil {
 		this.joincallback_Instance = joincallback_Instance;
 	}
 
-
-	public CommunicationUtil(CarCallBackInterface carcallback_Instance)	{
-		this.carcallback_Instance = carcallback_Instance;
-	}
-
-
 	public void registCar(String num, String id, int model){
 		Thread t = new Thread(new CarInfo(num, id, model));
 		t.start();
 	}
 
 	public void signUp(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String tmX, String tmY)	{
-
 		Thread t = new Thread(new UserJoin(id, pw, name, zip_code, addr, addr_detail, gender, tmX, tmY));
 		t.start();
 	}
@@ -176,16 +158,16 @@ public class CommunicationUtil {
 
 					System.out.println("post insert : " + String.valueOf(post_insert));
 
-					carcallback_Instance.carResult(post_insert, result);
+					joincallback_Instance.carResult(post_insert, result,"Success");
 				} catch (ClientProtocolException e) {
 					// TODO Auto-generated catch block
-					carcallback_Instance.carResult(false, "500", "ClientProtocolException");
+					joincallback_Instance.carResult(false, "500", "ClientProtocolException");
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					carcallback_Instance.carResult(false, "500", "IOException");
+					joincallback_Instance.carResult(false, "500", "IOException");
 				}
 			} catch (Exception e)	{
-				carcallback_Instance.carResult(false,"500", "httpClientException");
+				joincallback_Instance.carResult(false,"500", "httpClientException");
 			}
 
 		}
@@ -399,6 +381,7 @@ public class CommunicationUtil {
 					String resp_data = jsonObj.get("data").getAsString();		// VOOutdoor 객체
 
 					VOOutdoor out_data = new VOOutdoor(resp_data);
+					out_data.setStationName(this.station);
 
 					callback_Instance.dataReqResultOutdoor(post_result, out_data);		// MainActivity의 callback 메소드 호출
 				} catch (ClientProtocolException e) {
@@ -415,7 +398,6 @@ public class CommunicationUtil {
 	}
 
 	public class UserAuth implements Runnable {
-		String code;
 		String id;
 		String pw;
 
@@ -424,10 +406,6 @@ public class CommunicationUtil {
 			this.pw = pw;
 			Log.d("Auth", this.id);
 			Log.d("Auth", this.pw);
-		}
-
-		public UserAuth(String code) {
-			this.code = code;
 		}
 
 		@Override
@@ -655,7 +633,7 @@ public class CommunicationUtil {
 
 					HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 					try {
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(10);
 						nameValuePairs.add(new BasicNameValuePair("type", "Register"));
 						nameValuePairs.add(new BasicNameValuePair("id", this.id));
 						nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
@@ -683,7 +661,7 @@ public class CommunicationUtil {
 
 						System.out.println("post insert : " + String.valueOf(post_insert));
 
-						joincallback_Instance.signUpResult(post_insert, result);
+						joincallback_Instance.signUpResult(post_insert, result,null);
 					} catch (ClientProtocolException e) {
 						// TODO Auto-generated catch block
 						joincallback_Instance.signUpResult(false, "500", "ClientProtocolException");

@@ -41,5 +41,8 @@ public class VOOutdoor {
     }
     public float getPM100() { return this.pm100; }
     public float getPM025() { return this.pm025; }
-
+    public boolean isNull() {
+        if(station_name == null || measure_date == null || pm100 == 0.0 || pm025 == 0.0)  return true;
+        else return false;
+    }
 }

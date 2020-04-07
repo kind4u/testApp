@@ -38,9 +38,9 @@ public class OutsideFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        if(getActivity() != null && getActivity() instanceof MainActivity)  {
-            map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
-        }
+//        if(getActivity() != null && getActivity() instanceof MainActivity)  {
+//            map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
+//        }
         activity = (MainActivity) getActivity();
     }
 
@@ -59,10 +59,10 @@ public class OutsideFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_outside, container,false);
-        stationText = v.findViewById(R.id.stationText);
-        dateText = v.findViewById(R.id.dateTextInDoor);
-        dustText = v.findViewById(R.id.dustTextInDoor);
-        infoText = v.findViewById(R.id.infoTextInDoor);
+        stationText = v.findViewById(R.id.stationTextOutDoor);
+        dateText = v.findViewById(R.id.dateTextOutDoor);
+        dustText = v.findViewById(R.id.dustTextOutDoor);
+        infoText = v.findViewById(R.id.infoTextOutDoor);
         lat = v.findViewById(R.id.latitude);
         lon = v.findViewById(R.id.longitude);
 
@@ -76,26 +76,26 @@ public class OutsideFragment extends Fragment {
         map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
 
         VOOutdoor outDoorData = (VOOutdoor) map.get("data");            // onAttach에서 getData 메소드로 얻어낸 데이터 Input
-        float pm10 = outDoorData.getPM100();                            // 미세먼지 농도 추출
-        System.out.println("called bindComponent");
 
-        stationText.setText("실외 미세먼지 현황 ("+ map.get("station_name") +"측정소)");
-        dateText.setText("측정시간 : "+outDoorData.getMeasureDate());
-        dustText.setText(outDoorData.getPM100()+"㎍/㎥");
-        if(pm10 > 75.0){
-            infoText.setText("매우나쁨");
+        if(outDoorData.isNull() != true) {
+            float pm10 = outDoorData.getPM100();                            // 미세먼지 농도 추출
+            System.out.println("called bindComponent");
+
+            stationText.setText("실외 미세먼지 현황 (" + outDoorData.getStationName() + "측정소)");
+            dateText.setText("측정시간 : " + outDoorData.getMeasureDate());
+            dustText.setText(outDoorData.getPM100() + "㎍/㎥");
+            if (pm10 > 75.0) {
+                infoText.setText("매우나쁨");
+            } else if (pm10 > 35.0) {
+                infoText.setText("나쁨");
+            } else if (pm10 > 15.0) {
+                infoText.setText("보통");
+            } else {
+                infoText.setText("좋음");
+            }
+            lat.setText(String.valueOf(map.get("lat")));
+            lon.setText(String.valueOf(map.get("lon")));
         }
-        else if(pm10 > 35.0){
-            infoText.setText("나쁨");
-        }
-        else if(pm10 > 15.0){
-            infoText.setText("보통");
-        }
-        else{
-            infoText.setText("좋음");
-        }
-        lat.setText(String.valueOf(map.get("lat")));
-        lon.setText(String.valueOf(map.get("lon")));
     }
 
 
