@@ -12,7 +12,7 @@
             android:title="차량정보 등록"
             android:summary="차량 정보를 등록합니다.">
             <intent
-                android:action="com.nids.views.PREFS_ONE"
+                android:action="android.intent.action.VIEW"
                 android:targetPackage="com.nids.views"
                 android:targetClass="com.nids.views.CarActivity"/>
         </Preference>

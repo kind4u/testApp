@@ -84,7 +84,7 @@ public class SettingPreferenceFragment extends PreferenceFragment { //implements
 //    @Override
 //    public boolean onPreferenceClick(Preference preference) {
 //        if(preference.getKey().equals("regist_car")) {
-//            Intent intent = new Intent(CarActivity.class);
+//            Intent intent = new Intent(this, CarActivity.class);
 //            registCarPreference.setIntent(intent);
 //        }
 //        return false;
