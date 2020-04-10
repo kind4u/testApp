@@ -46,7 +46,16 @@ public class MainActivity extends AppCompatActivity {
     List<VOSensorData> inDoorDataList;
     VOSensorData inDoorData;
     VOOutdoor data = new VOOutdoor();
-    String id;
+
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public BackPressCloseHandler backPressCloseHandler;
     private TabLayout tabLayout;
@@ -80,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     CommunicationUtil c_util = new CommunicationUtil(callBackInterface);      // 해당 Interface를 가지고 있는 Communication 객체 생성
 
-    private GpsTracker gpsTracker;
+    static GpsTracker gpsTracker;
 
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_CODE=100;
@@ -171,8 +180,8 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("latitude = " + latitude);
         System.out.println("longitude = " + longitude);
         //Toast.makeText(MainActivity.this, "lat = "+ latitude + "lon = " + longitude, Toast.LENGTH_SHORT).show();
-        //c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
-        c_util.findStationWithGPS("37.441722","127.171786");              // ※ Virtual Device는 위경도를 측정할 수 없음
+        c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
+        //c_util.findStationWithGPS("37.441722","127.171786");              // ※ Virtual Device는 위경도를 측정할 수 없음
 //        while(true) {
 //            if(data != null) {                  // 측정소 및 미세먼지 데이터가 들어올 때까지 강제로 Holding (좋은 방법은 아닌 듯)
                 map.put("data", data);                      // 측정 미세먼지 데이터 객체

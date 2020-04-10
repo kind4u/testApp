@@ -16,6 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.gps.GpsTracker;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
@@ -48,12 +49,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng position = new LatLng(37.441722,127.171786);
+        LatLng position = new LatLng(MainActivity.gpsTracker.getLatitude(),MainActivity.gpsTracker.getLongitude());
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(position);
         markerOptions.title("현재 위치");
-        markerOptions.snippet("위치정보");
+        markerOptions.snippet("위치정보 : "+position.latitude+", "+position.longitude);
         mMap.addMarker(markerOptions);
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(position));

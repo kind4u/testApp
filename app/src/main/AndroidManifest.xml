@@ -10,15 +10,17 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_sercurity_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:networkSecurityConfig="@xml/network_sercurity_config"
         android:usesCleartextTraffic="true">
+        <activity android:name="com.nids.views.ModifyActivity"></activity>
+        <activity android:name="com.nids.views.ValidationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as"/>
+            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as" />
 
         <activity android:name="com.nids.views.JoinActivity" />
         <activity android:name="com.nids.views.LoginActivity"> <!-- 얘가 시작 -->

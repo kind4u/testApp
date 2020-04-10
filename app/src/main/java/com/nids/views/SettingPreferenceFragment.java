@@ -1,5 +1,6 @@
 package com.nids.views;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -32,6 +33,15 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         registCarPreference = (Preference) findPreference("regist_car");
         editCarPreference = (PreferenceScreen) findPreference("edit_car");
 
+        editUserPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getContext(),ValidationActivity.class);
+                intent.putExtra("id",((MainActivity)getActivity()).getId());
+                startActivity(intent);
+                return false;
+            }
+        });
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
