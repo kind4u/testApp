@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
@@ -21,6 +23,7 @@ public class ModifyActivity extends AppCompatActivity {
 
     String genderDesc;
     int gender;
+    Button submit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,5 +50,16 @@ public class ModifyActivity extends AppCompatActivity {
 
         ModifyAdapter mAdapter = new ModifyAdapter(infoArrayList);
         recyclerView.setAdapter(mAdapter);
+
+        submit_button = findViewById(R.id.submit_button);
+        submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ModifyActivity.this,MainActivity.class);
+                intent.putExtra("id",voUser.getId());
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 }

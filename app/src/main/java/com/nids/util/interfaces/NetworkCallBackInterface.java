@@ -10,6 +10,7 @@ import java.util.List;
 public interface NetworkCallBackInterface  {
 
     public void signInResult(boolean result, String message, VOUser userinfo);
+    public void modifyResult(boolean result);
     public void findStation(boolean result, VOStation station_info);
     public void dataReqResult(String result, List<VOSensorData> dataList);
     public void dataReqResultOutdoor(boolean result, VOOutdoor data);

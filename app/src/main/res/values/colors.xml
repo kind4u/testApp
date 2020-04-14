@@ -6,4 +6,5 @@
     <color name="lightGreen">#A0F0A0</color>
     <color name="lightRed">#F0A0A0</color>
     <color name="disable">#DDDDDD</color>
+    <color name="black">#000000</color>
 </resources>

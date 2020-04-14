@@ -63,8 +63,9 @@ public class MainActivity extends AppCompatActivity {
 
     NetworkCallBackInterface callBackInterface = new NetworkCallBackInterface() {        // callback 값을 받기 위한 callback Interface 호출
         @Override
-        public void signInResult(boolean result, String message, VOUser userinfo) {
-        }
+        public void signInResult(boolean result, String message, VOUser userinfo) { }
+        @Override
+        public void modifyResult(boolean result) { }
 
         @Override
         public void findStation(boolean result, VOStation station_info) {       // 현재 위치에서 가까운 측정소의 정보
