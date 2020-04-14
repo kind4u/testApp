@@ -103,6 +103,9 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             @Override
             public void existResult(String result, boolean exist) { }
         };
+      
+        c_util_car = new CommunicationUtil(joinCallBackInterface);
+      
         registCarPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -111,13 +114,20 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 return false;
             }
         });
-        c_util_car = new CommunicationUtil(joinCallBackInterface);
 
         editCarPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 button =1;
                 c_util_car.checkCar(((MainActivity) getActivity()).getId());
+                }
+        });
+        editUserPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Intent intent = new Intent(getContext(),ValidationActivity.class);
+                intent.putExtra("id",((MainActivity)getActivity()).getId());
+                startActivity(intent);
                 return false;
             }
         });

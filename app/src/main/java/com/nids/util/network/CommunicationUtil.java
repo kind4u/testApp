@@ -121,6 +121,11 @@ public class CommunicationUtil {
 		t.start();
 	}
 
+	public void modifyPassword(String id, String pw)	{
+		Thread t = new Thread(new ModPw(id, pw));
+		t.start();
+	}
+
 	public void runReceiverThread(String auth) {
 		receiver_t = new Thread(new Receiver(auth));
 		receiver_t.start();
@@ -911,6 +916,62 @@ public class CommunicationUtil {
 					joincallback_Instance.positionResult(false, "httpClientException");
 				}
 
+			}
+		}
+
+		public class ModPw implements Runnable	{
+		String id;
+		String pw;
+
+		ModPw(String id, String pw)	{
+			this.id = id;
+			this.pw = pw;
+		}
+
+			@Override
+			public void run() {
+				try {
+
+					HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+					httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+					httpclient.getParams().setParameter("http.connection.timeout", 5000);
+					httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+					HttpPost httppost = new HttpPost(server_url + "/UserUtil");
+					try {
+						// Add your data
+						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+						nameValuePairs.add(new BasicNameValuePair("type", "modPw"));
+						nameValuePairs.add(new BasicNameValuePair("id", this.id));
+						nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
+
+						httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+						// Execute HTTP Post Request
+						HttpResponse response = httpclient.execute(httppost);
+						HttpEntity entity = response.getEntity();
+						str_response = EntityUtils.toString(entity);
+
+						System.out.println(str_response);
+
+						JsonParser parser = new JsonParser();
+						JsonElement element = parser.parse(str_response);
+						JsonObject jsonObj = element.getAsJsonObject();
+
+						boolean post_result = jsonObj.get("result").getAsBoolean();
+
+						System.out.println("post result : " + String.valueOf(post_result));
+
+						callback_Instance.modifyResult(post_result);
+					} catch (ClientProtocolException e) {
+						// TODO Auto-generated catch block
+						callback_Instance.modifyResult(false);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						callback_Instance.modifyResult(false);
+					}
+				} catch (Exception e) {
+					callback_Instance.modifyResult(false);
+				}
 			}
 		}
 	}
