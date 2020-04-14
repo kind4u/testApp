@@ -120,6 +120,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 button =1;
                 c_util_car.checkCar(((MainActivity) getActivity()).getId());
+                return false;
                 }
         });
         editUserPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
