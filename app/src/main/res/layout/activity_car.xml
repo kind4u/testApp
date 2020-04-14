@@ -70,6 +70,7 @@
             android:id="@+id/registCar"
             android:layout_width="289dp"
             android:layout_height="49dp"
+            android:enabled="false"
             android:text="차량 등록"
             app:layout_constraintTop_toBottomOf="@+id/checkCar" />
 
@@ -77,8 +78,10 @@
             android:id="@+id/registLater"
             android:layout_width="289dp"
             android:layout_height="wrap_content"
+            android:enabled="false"
             android:text="차량 등록 나중에 하기"
             app:layout_constraintTop_toBottomOf="@+id/registCar" />
+
     </LinearLayout>
 
 

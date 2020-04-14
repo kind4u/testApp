@@ -95,6 +95,8 @@ public class LoginActivity extends AppCompatActivity  {
             }
 
             @Override
+            public void modifyResult(boolean result) { }
+            @Override
             public void findStation(boolean result, final VOStation station_info) { }
             @Override
             public void dataReqResult(String result, List<VOSensorData> data) { }
