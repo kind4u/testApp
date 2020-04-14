@@ -64,6 +64,21 @@ public class CommunicationUtil {
 		t.start();
 	}
 
+	public void deleteCar(String num, String id, int model){
+		Thread t = new Thread(new DeleteCar(num, id, model));
+		t.start();
+	}
+
+	public void editCar(String num, String id, int model){
+		Thread t = new Thread(new EditCar(num, id, model));
+		t.start();
+	}
+
+	public void checkCar(String id){
+		Thread t = new Thread(new CheckCar(id));
+		t.start();
+	}
+
 	public void signUp(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String tmX, String tmY)	{
 		Thread t = new Thread(new UserJoin(id, pw, name, zip_code, addr, addr_detail, gender, tmX, tmY));
 		t.start();
@@ -174,9 +189,168 @@ public class CommunicationUtil {
 			} catch (Exception e)	{
 				joincallback_Instance.carResult(false,"500", "httpClientException");
 			}
+		}
+	}
 
+	public class DeleteCar implements Runnable{
+		String num;
+		String id;
+		int model;
+
+		public DeleteCar(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
+
+		@Override
+		public void run(){
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
+				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "deleteCar"));
+					nameValuePairs.add(new BasicNameValuePair("num", this.num));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+					nameValuePairs.add(new BasicNameValuePair("model", Integer.toString(this.model)));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean post_delete = jsonObj.get("delete").getAsBoolean();
+					String result = jsonObj.get("result").getAsString();
+
+					System.out.println("post delete : " + String.valueOf(post_delete));
+
+					joincallback_Instance.deleteCarResult(post_delete, result,"Success");
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.deleteCarResult(false, "500", "ClientProtocolException");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.deleteCarResult(false, "500", "IOException");
+				}
+			} catch (Exception e)	{
+				joincallback_Instance.deleteCarResult(false,"500", "httpClientException");
+			}
+		}
+	}
+
+	public class EditCar implements Runnable{
+		String num;
+		String id;
+		int model;
+
+		public EditCar(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
+
+		@Override
+		public void run(){
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
+				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "editCar"));
+					nameValuePairs.add(new BasicNameValuePair("num", this.num));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+					nameValuePairs.add(new BasicNameValuePair("model", Integer.toString(this.model)));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean post_edit = jsonObj.get("edit").getAsBoolean();
+					String result = jsonObj.get("result").getAsString();
+
+					System.out.println("post edit : " + String.valueOf(post_edit));
+
+					joincallback_Instance.editCarResult(post_edit, result,"Success");
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.editCarResult(false, "500", "ClientProtocolException");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.editCarResult(false, "500", "IOException");
+				}
+			} catch (Exception e)	{
+				joincallback_Instance.editCarResult(false,"500", "httpClientException");
+			}
+		}
+	}
+
+	public class CheckCar implements Runnable {
+		String id;
+
+		public CheckCar(String id) {
+			this.id = id;
 		}
 
+		@Override
+		public void run() {
+			try {
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
+				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "checkCar"));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean exist = jsonObj.get("exist").getAsBoolean();
+					String result = jsonObj.get("result").getAsString();
+
+					joincallback_Instance.checkCarResult(result, exist);
+				} catch (ClientProtocolException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.checkCarResult("error", true);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					joincallback_Instance.checkCarResult("error", true);
+				}
+			} catch (Exception e) {
+				joincallback_Instance.checkCarResult("error", true);
+			}
+		}
 	}
 
 	public class CheckUser implements Runnable {
