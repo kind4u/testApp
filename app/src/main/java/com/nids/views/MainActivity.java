@@ -46,7 +46,16 @@ public class MainActivity extends AppCompatActivity {
     List<VOSensorData> inDoorDataList;
     VOSensorData inDoorData;
     VOOutdoor data = new VOOutdoor();
-    String id;
+
+    private String id;
+
+    public String getId(){
+        return id;
+    }
+
+    public void setId(String id){
+        this.id =id;
+    }
 
     public BackPressCloseHandler backPressCloseHandler;
     private TabLayout tabLayout;

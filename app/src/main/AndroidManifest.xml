@@ -18,7 +18,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as"/>
+            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as"/> <!-- 구글 맵 인증키-->
 
         <activity android:name="com.nids.views.JoinActivity" />
         <activity android:name="com.nids.views.LoginActivity"> <!-- 얘가 시작 -->
@@ -30,7 +30,7 @@
         </activity>
         <activity android:name="com.nids.views.MainActivity" />
         <activity android:name="com.nids.views.CarActivity" />
-
+        <activity android:name="com.nids.views.EditCarActivity" />
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />

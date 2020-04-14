@@ -20,7 +20,6 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
     JoinCallBackInterface joinCallBackInterface;
     CommunicationUtil c_util_car;
 
-  TextView ex_text;
   CheckBox checkCar;
 
   Button registCar;
@@ -35,7 +34,7 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
 
   OldCarFragment oldCarFragment;
   NewCarFragment newCarFragment;
-    FragmentTransaction fragmentTransaction;
+  FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,14 +63,13 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
         };
 
         Intent intent = getIntent();
-        strParamId = intent.getStringExtra("id"); //회원가입 후 아이디 받아옴
+        strParamId = intent.getStringExtra("id"); //차량등록시 join 혹은 main에서 아이디 받아옴
 
         checkCar = (CheckBox) findViewById(R.id.checkCar);
         registCar =(Button) findViewById(R.id.registCar);
         registLater = (Button) findViewById(R.id.registLater);
 
         bindView();
-
     }
 
         private void bindView(){
@@ -102,6 +100,16 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                             }
                         });
                     }
+                }
+                @Override
+                public void deleteCarResult(boolean delete, String result, String message){ }
+
+                @Override
+                public void editCarResult(boolean edit, String result, String message){ }
+
+                @Override
+                public void checkCarResult(String result, boolean exist){
+
                 }
 
                 @Override
@@ -165,8 +173,7 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
         }
 
 
-    private void changeView(int index){
-
+    private void changeView(int index){  //신형 구형 뷰 선택
         switch (index){
             case 0: //구형
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame, oldCarFragment).commit();

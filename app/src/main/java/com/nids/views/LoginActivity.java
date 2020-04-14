@@ -136,14 +136,14 @@ public class LoginActivity extends AppCompatActivity  {
         });
 
       //차량 등록 테스트
-        button =(Button)findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent carIntent = new Intent(LoginActivity.this, CarActivity.class);
-                startActivity(carIntent);
-                }
-        });
+//        button =(Button)findViewById(R.id.button);
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent carIntent = new Intent(LoginActivity.this, CarActivity.class);
+//                startActivity(carIntent);
+//                }
+//        });
     }
 
 }

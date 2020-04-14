@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nids.kind4u.testapp.R;
+import com.nids.util.interfaces.JoinCallBackInterface;
+import com.nids.util.network.CommunicationUtil;
 
 public class SettingFragment extends Fragment {
-
 
     public SettingFragment() {
         // Required empty public constructor
@@ -23,8 +25,11 @@ public class SettingFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
