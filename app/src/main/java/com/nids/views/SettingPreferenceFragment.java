@@ -85,6 +85,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                             if(button == 0){ //차량등록 버튼 클릭시
                                 Intent intent = new Intent(getContext(),CarActivity.class);
                                 intent.putExtra("id",((MainActivity)getActivity()).getId());
+                                intent.putExtra("page", "main");
                                 startActivity(intent);
                             }else if(button == 1){//차량 수정 버튼 클릭시
                                 Toast.makeText(context, "차량 등록을 먼저 해주시기 바랍니다.", Toast.LENGTH_SHORT).show();
@@ -120,6 +121,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             public boolean onPreferenceClick(Preference preference) {
                 button =1;
                 c_util_car.checkCar(((MainActivity) getActivity()).getId());
+                return false;
                 }
         });
         editUserPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

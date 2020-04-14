@@ -31,6 +31,7 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
   int m;
   int model;
   String strParamId;
+  String strParmPage;
 
   OldCarFragment oldCarFragment;
   NewCarFragment newCarFragment;
@@ -64,6 +65,7 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
 
         Intent intent = getIntent();
         strParamId = intent.getStringExtra("id"); //차량등록시 join 혹은 main에서 아이디 받아옴
+        strParmPage = intent.getStringExtra("page"); //이전 페이지가 join 인지 main인지 string 으로 받아옴
 
         checkCar = (CheckBox) findViewById(R.id.checkCar);
         registCar =(Button) findViewById(R.id.registCar);
@@ -85,8 +87,15 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                                 registCar.setEnabled(true);
                                 Toast.makeText(getApplicationContext(), "차량등록 성공", Toast.LENGTH_SHORT).show();
                                 findViewById(R.id.carLoadingPannel).setVisibility(View.GONE);
-                                Intent intent = new Intent(CarActivity.this, LoginActivity.class);
-                                startActivity(intent);
+                                if(strParmPage.equals("car")) {
+                                    Intent intent = new Intent(CarActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }else if(strParmPage.equals("main")){
+                                    Intent intent = new Intent(CarActivity.this, MainActivity.class);
+                                    intent.putExtra("id",strParamId);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                }
                             }
                         });
                     } else {

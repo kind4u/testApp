@@ -122,27 +122,7 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
                 }
 
                 @Override
-                public void checkCarResult(String result, boolean exist){
-//                    if (exist) {
-//                        EditCarActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                editCar.setEnabled(false);
-//                                check=1;
-//                                Toast.makeText(getApplicationContext(), "차량 정보가 이미 등록되어있습니다.", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    } else {
-//                        EditCarActivity.this.runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                editCar.setEnabled(true);
-//                                check=0;
-//                                Toast.makeText(getApplicationContext(), "차량 정보를 등록해주세요.", Toast.LENGTH_SHORT).show();
-//                            }
-//                        });
-//                    }
-                }
+                public void checkCarResult(String result, boolean exist){  }
 
                 @Override
                 public void signUpResult(boolean insert, String result, String message) { }
@@ -190,6 +170,9 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
 
                         findViewById(R.id.carLoadingPannel).setVisibility(View.VISIBLE);
                         c_util_car.editCar(num, id, model);
+                        Intent intent = new Intent(EditCarActivity.this,MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
                     }
             });
             changeView(1);
@@ -221,6 +204,9 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
                 c_util_car.deleteCar(num, id, model);
 
                 Toast.makeText(getApplicationContext(), "OK Click", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(EditCarActivity.this,MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -231,6 +217,7 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
     }
 
     @Override
