@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
 
     private String id;
 
-
     public String getId(){
         return id;
     }
@@ -104,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         id = intent.getExtras().get("id").toString();
+
         setContentView(R.layout.activity_main);
 
         if(!checkLocationServiceStatus())   {                   // 177줄 - 위치 서비스 활성화 여부 확인

@@ -124,6 +124,7 @@ public class JoinActivity extends AppCompatActivity {
 							Toast.makeText(getApplicationContext(), "회원가입 성공", Toast.LENGTH_SHORT).show();
 							Intent intent = new Intent(JoinActivity.this, CarActivity.class);
 							intent.putExtra("id",id);
+							intent.putExtra("page", "car");
 							startActivity(intent);
 						}
 					});
