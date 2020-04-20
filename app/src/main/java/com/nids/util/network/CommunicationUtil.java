@@ -160,7 +160,7 @@ public class CommunicationUtil {
 					nameValuePairs.add(new BasicNameValuePair("num", this.num));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 					nameValuePairs.add(new BasicNameValuePair("model", Integer.toString(this.model)));
-					
+
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 					// Execute HTTP Post Request
 					HttpResponse response = httpclient.execute(httppost);
