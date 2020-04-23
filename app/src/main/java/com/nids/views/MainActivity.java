@@ -1,5 +1,6 @@
 package com.nids.views;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +21,18 @@ import android.widget.Button;
 import android.widget.Toast;
 import android.location.LocationManager;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.BackPressCloseHandler;
+import com.nids.util.PushService;
 import com.nids.util.TabPagerAdapter;
 import com.nids.util.gps.GpsTracker;
 import com.nids.util.interfaces.NetworkCallBackInterface;
@@ -134,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         backPressCloseHandler = new BackPressCloseHandler(this);
+
+        Intent pushIntent = new Intent(MainActivity.this, PushService.class);
+        startService(pushIntent);
     }
 
     @Override
