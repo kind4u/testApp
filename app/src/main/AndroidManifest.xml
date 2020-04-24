@@ -2,10 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.nids.kind4u.testapp">
+
     <!-- 인터넷 퍼미션 추가 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 위치 관련 퍼미션 추가 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -16,14 +19,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name="com.nids.views.ModifyPwActivity"></activity>
+        <service
+            android:name="com.nids.util.PushService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name="com.nids.views.ModifyPwActivity" />
         <activity android:name="com.nids.views.ModifyActivity" />
         <activity android:name="com.nids.views.ValidationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as"/> <!-- 구글 맵 인증키-->
-
+            android:value="AIzaSyDt0CAxNXxRSdiVQszDLinOJdzUtD464as" /> <!-- 구글 맵 인증키 -->
         <activity android:name="com.nids.views.JoinActivity" />
         <activity android:name="com.nids.views.LoginActivity"> <!-- 얘가 시작 -->
             <intent-filter>
@@ -35,6 +42,13 @@
         <activity android:name="com.nids.views.MainActivity" />
         <activity android:name="com.nids.views.CarActivity" />
         <activity android:name="com.nids.views.EditCarActivity" />
+
+        <service android:name="com.nids.util.MyFireBaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
