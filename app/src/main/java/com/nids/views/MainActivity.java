@@ -10,10 +10,15 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
+import android.bluetooth.BluetoothA2dp;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -38,11 +43,18 @@ import com.nids.util.gps.GpsTracker;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.CharsetEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
     InsideFragment insideFragment;
@@ -52,6 +64,20 @@ public class MainActivity extends AppCompatActivity {
     List<VOSensorData> inDoorDataList;
     VOSensorData inDoorData;
     VOOutdoor data = new VOOutdoor();
+
+    // Bluetooth variable 모음들
+    private static final int REQUEST_ENABLE_BT = 10;    // 블루투스 활성화 상태
+    private BluetoothAdapter bluetoothAdapter;          // 블루투스 어댑터
+    private int pariedDeviceCount;                      // 페어링 된 디바이스 크기
+    private Set<BluetoothDevice> devices;               // 블루투스 디바이스 데이터 셋
+    private BluetoothDevice bluetoothDevice;            // 블루투스 디바이스
+    private BluetoothSocket bluetoothSocket = null;     // 블루투스 소켓
+    private OutputStream outputStream = null;           // 블루투스에 데이터를 출력하기 위한 출력 스트림
+    private InputStream inputStream = null;             // 블루투스에 데이터를 입력하기 위한 입력 스트림
+    private Thread workerThread = null;                 // 문자열 수신에 사용되는 쓰레드
+    private byte[] readBuffer;                          // 수신 된 문자열을 저장하기 위한 버퍼
+    private int readBufferPosition;                     // 버퍼 내 문자 저장 위치
+    // end of Bluetooth variable
 
     private String id;
 
@@ -117,6 +143,22 @@ public class MainActivity extends AppCompatActivity {
         }   else    {
             checkRunTimePermission();                           // 160줄 - 런타임 퍼미션 실행
         }
+
+        // 블루투스 활성화
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();        // bluetoothAdapter를 기본 어댑터로 설정
+        if(bluetoothAdapter == null)    {
+            //bluetooth 기능을 지원하지 않음
+        }   else    {
+            if(bluetoothAdapter.isEnabled())    {       // 블루투스 활성화 상태
+                selectBluetoothDevice();    // 블루투스 디바이스 선택 함수
+            }
+            else    {       // 블루투스 비활성화 상태
+                // 블루투스 활성화를 위한 Dialog 출력
+                Intent BTIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                // 선택한 값은 onActivityResult로 출력
+                startActivityForResult(BTIntent, REQUEST_ENABLE_BT);
+            }
+        }
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("먼지"));
         tabLayout.addTab(tabLayout.newTab().setText("지도"));
@@ -164,6 +206,16 @@ public class MainActivity extends AppCompatActivity {
                    return;
                 }
                 break;
+            case REQUEST_ENABLE_BT:
+                if(requestCode == RESULT_OK)    {
+                    selectBluetoothDevice();
+                    return;
+                }   else    {
+                    // reject to select BT devices
+                    Toast.makeText(this, "블루투스를 활성화 해야 합니다.", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                break;
         }
     }
 
@@ -190,17 +242,12 @@ public class MainActivity extends AppCompatActivity {
         String longitude = String.valueOf(gpsTracker.getLongitude());       // 경도 측정
         System.out.println("latitude = " + latitude);
         System.out.println("longitude = " + longitude);
-        //Toast.makeText(MainActivity.this, "lat = "+ latitude + "lon = " + longitude, Toast.LENGTH_SHORT).show();
         c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
         //c_util.findStationWithGPS("37.441722","127.171786");              // ※ Virtual Device는 위경도를 측정할 수 없음
-//        while(true) {
-//            if(data != null) {                  // 측정소 및 미세먼지 데이터가 들어올 때까지 강제로 Holding (좋은 방법은 아닌 듯)
                 map.put("data", data);                      // 측정 미세먼지 데이터 객체
                 map.put("lat",latitude);
                 map.put("lon",longitude);
                 return map;                                 // outsideFragment로 전송
-//            }   else    {}
-//        }
     }
 
     private void showDialogForLocationServiceSetting()  {           // 위치 설정 허용 확인 메세지 출력
@@ -246,6 +293,132 @@ public class MainActivity extends AppCompatActivity {
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    public void selectBluetoothDevice() {
+        // 페어링 되어있는 BT device 검색
+        devices = bluetoothAdapter.getBondedDevices();
+        // 페어링 된 디바이스 크기 저장
+        pariedDeviceCount = devices.size();
+        if (pariedDeviceCount == 0) {
+            // 페어링 함수 검색해서 찾아보자
+        }
+        // 페어링 장치 보유한 경우
+        else    {
+            // 디바이스 선택을 위한 Dialog 생성
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("페어링 되어있는 블루투스 디바이스 목록");
+            // 페어링 된 각각의 디바이스 이름과 주소 저장
+            List<String> list = new ArrayList<>();
+            // 모든 디바이스 이름을 리스트에 추가
+            for(BluetoothDevice bluetoothDevice : devices)  {
+                list.add(bluetoothDevice.getName());
+            }
+            list.add("취소");
+
+            // List를 CharSequence 배열로 변경
+            final CharSequence[] charSequences = list.toArray(new CharSequence[list.size()]);
+            list.toArray(new CharSequence[list.size()]);
+
+            // 해당 아이템을 눌렀을 때 호출되는 이벤트 리스너
+            builder.setItems(charSequences, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // 해당 디바이스와 연결하는 함수
+                    connectDevice(charSequences[which].toString());
+                }
+            });
+
+            // 뒤로가기 버튼 누를 때 창이 안 닫히도록 설정
+            builder.setCancelable(false);
+            // Dialog 생성
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
+    }
+
+    public void connectDevice(String deviceName)    {
+        // 페어링 된 디바이스들 모두 탐색
+        for(BluetoothDevice tempDevice : devices)   {
+            // 사용자가 선택한 이름과 같은 디바이스로 설정하고 반복문 종료
+            if(deviceName.equals(tempDevice.getName())) {
+                bluetoothDevice = tempDevice;
+                break;
+            }
+        }
+
+        // UUID 생성
+        UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+        // Rfcomm 채널을 통해 블루투스 디바이스와 통신하는 소켓 생성
+        try {
+            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(uuid);
+            bluetoothSocket.connect();
+            // 데이터 송,수신 스트림 취득
+            outputStream = bluetoothSocket.getOutputStream();
+            inputStream = bluetoothSocket.getInputStream();
+            // 데이터 수신 함수 호출
+            receiveData();
+        }   catch(IOException e)    {
+            e.printStackTrace();
+        }
+    }
+
+    public void receiveData()   {
+        final Handler handler = new Handler();
+        // 데이터 수신을 위한 버퍼 생성
+        readBufferPosition = 0;
+        readBuffer = new byte[1024];
+
+        // 데이터 수신을 위한 thread 생성
+        workerThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while(Thread.currentThread().isInterrupted())   {
+                    try {
+                        // 데이터 수신 확인
+                        int byteAvailable = inputStream.available();
+                        if(byteAvailable > 0)   {
+                            // 입력 스트림에서 바이트 단위로 수집
+                            byte[] bytes = new byte[byteAvailable];
+                            inputStream.read(bytes);
+                            // 입력 스트림 바이트를 한 바이트씩 읽어 옴
+                            for(int i=0;i<byteAvailable;i++)    {
+                                byte tempByte = bytes[i];
+                                // 개행문자를 기준으로 수집
+                                if(tempByte == '\n')    {
+                                    // readBuffer 배열
+                                    // 을 encodedBytesd로 복사
+                                    byte[] encodedBytes = new byte[readBufferPosition];
+                                    System.arraycopy(readBuffer, 0, encodedBytes, 0, encodedBytes.length);
+                                    // 인코딩 된 바이트 배열을 문자열로 변환
+                                    final String text = new String(encodedBytes, "UTF-8");
+                                    readBufferPosition = 0;
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                                // 텍스트 뷰에 출력(예정)
+                                            System.out.println("text : " + text);
+                                            }
+                                        });
+                                }   // 개행 문자가 아닐 경우
+                                else    {
+                                    readBuffer[readBufferPosition++] = tempByte;
+                                }
+                            }
+                        }
+                    }   catch (IOException e)   {
+                        e.printStackTrace();
+                    }
+                    try {
+                        // 1초마다 받아옴
+                        Thread.sleep(1000);
+                    }   catch (InterruptedException e)  {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        workerThread.start();
     }
 
     public void setData(VOOutdoor data) {this.data = data;}
