@@ -1,5 +1,8 @@
 package com.nids.views;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,6 +21,7 @@ import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.SwitchPreference;
 
 import com.nids.kind4u.testapp.R;
 import com.nids.util.interfaces.JoinCallBackInterface;
@@ -49,6 +53,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         editUserPreference = (PreferenceScreen) findPreference("edit_user");
         registCarPreference = (Preference) findPreference("regist_car");
         editCarPreference = (Preference) findPreference("edit_car");
+
         joinCallBackInterface = new JoinCallBackInterface() {
             @Override
             public void carResult(boolean insert, String result, String message) { }
@@ -116,7 +121,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             }
         });
 
-        editCarPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
+        editCarPreference.setOnPreferenceClickListener( new Preference.OnPreferenceClickListener(){
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 button =1;
@@ -133,6 +138,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 return false;
             }
         });
+
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
@@ -153,10 +159,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     };
 
     @Override
-    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-
-    }
-
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) { }
 
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.nids.kind4u.testapp">
     <!-- 인터넷 퍼미션 추가 -->
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 위치 관련 퍼미션 추가 -->
@@ -37,6 +38,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
     </application>
 
 </manifest>

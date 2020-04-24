@@ -1,8 +1,16 @@
 package com.nids.views;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -46,13 +54,13 @@ public class LoginActivity extends AppCompatActivity  {
         bindView();
     }
 
-    private void bindView(){
+    private void bindView() {
         callbackInstance = new NetworkCallBackInterface() {
             VOUser user;
+
             @Override
             public void signInResult(boolean result, String message, VOUser userInfo) {
-                if(result)
-                {
+                if (result) {
                     user = userInfo;
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -61,15 +69,13 @@ public class LoginActivity extends AppCompatActivity  {
                             btn_signin.setEnabled(true);
                             btn_join.setEnabled(true);
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                            intent.putExtra("id",user.getId());
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.putExtra("id", user.getId());
                             startActivity(intent);
                         }
                     });
-                }
-                else
-                {
-                    if(!message.equals("Connection Error")) {
+                } else {
+                    if (!message.equals("Connection Error")) {
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -79,8 +85,7 @@ public class LoginActivity extends AppCompatActivity  {
                                 btn_join.setEnabled(true);
                             }
                         });
-                    }
-                    else{
+                    } else {
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -95,31 +100,46 @@ public class LoginActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void modifyResult(boolean result) { }
+            public void modifyResult(boolean result) {
+            }
+
             @Override
-            public void findStation(boolean result, final VOStation station_info) { }
+            public void findStation(boolean result, final VOStation station_info) {
+            }
+
             @Override
-            public void dataReqResult(String result, List<VOSensorData> data) { }
+            public void dataReqResult(String result, List<VOSensorData> data) {
+            }
+
             @Override
-            public void dataReqResultOutdoor(boolean result, VOOutdoor data) { }
+            public void dataReqResultOutdoor(boolean result, VOOutdoor data) {
+            }
         };
 
         c_util = new CommunicationUtil(callbackInstance);
 
-        btn_signin = (Button)findViewById(R.id.btn_signin);
-        btn_join = (Button)findViewById(R.id.btn_join);
-        edit_id = (EditText)findViewById(R.id.edit_id);
-        edit_pw = (EditText)findViewById(R.id.edit_pw);
+        btn_signin = (Button) findViewById(R.id.btn_signin);
+        btn_join = (Button) findViewById(R.id.btn_join);
+        edit_id = (EditText) findViewById(R.id.edit_id);
+        edit_pw = (EditText) findViewById(R.id.edit_pw);
 
         btn_signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String id_text = edit_id.getText().toString();
                 String pw_text = edit_pw.getText().toString();
-                if(!id_text.equals("")){ id = id_text; }
-                else{ Toast.makeText(LoginActivity.this, "아이디를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
+                if (!id_text.equals("")) {
+                    id = id_text;
+                } else {
+                    Toast.makeText(LoginActivity.this, "아이디를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                if(!pw_text.equals("")){ pw = pw_text; }
-                else{ Toast.makeText(LoginActivity.this, "패스워드를 입력해 주세요.", Toast.LENGTH_SHORT).show(); return; }
+                if (!pw_text.equals("")) {
+                    pw = pw_text;
+                } else {
+                    Toast.makeText(LoginActivity.this, "패스워드를 입력해 주세요.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 
                 btn_signin.setEnabled(false);
@@ -136,16 +156,31 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(joinIntent);
             }
         });
+        //알림설정 테스트
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onClick(View v) {
+                createNotification();
 
-      //차량 등록 테스트
-//        button =(Button)findViewById(R.id.button);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent carIntent = new Intent(LoginActivity.this, CarActivity.class);
-//                startActivity(carIntent);
-//                }
-//        });
+            }
+        });
     }
+
+    public void createNotification(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setContentTitle("알림 제목");
+        builder.setContentText("알림 세부 텍스트");
+
+        NotificationManager notificationManager= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
+        }
+        notificationManager.notify(1, builder.build());
+    }
+
+
 
 }
