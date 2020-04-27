@@ -82,7 +82,6 @@ public class DustFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_dust, container, false);
- /*
         insideFragment = new InsideFragment();
         outsideFragment = new OutsideFragment();
         getChildFragmentManager().beginTransaction().replace(R.id.container1,insideFragment).commit();
@@ -116,7 +115,6 @@ public class DustFragment extends Fragment {
         Timer timer = new Timer();
         timer.schedule(tt,0,10000);
         timer.schedule(tt2,0,10000);
-*/
         return v;
     }
 

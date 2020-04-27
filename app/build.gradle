@@ -27,6 +27,9 @@ android {
 }
 
 dependencies {
+    def work_version = "2.3.1"
+
+    implementation "androidx.work:work-runtime:$work_version"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
     implementation 'com.google.firebase:firebase-messaging:20.1.5'

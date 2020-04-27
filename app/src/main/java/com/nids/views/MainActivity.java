@@ -8,9 +8,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.PeriodicWorkRequest;
 
 import android.Manifest;
-import android.bluetooth.BluetoothA2dp;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -21,16 +22,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import android.location.LocationManager;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
@@ -39,6 +35,7 @@ import com.nids.kind4u.testapp.R;
 import com.nids.util.BackPressCloseHandler;
 import com.nids.util.PushService;
 import com.nids.util.TabPagerAdapter;
+import com.nids.util.WorkManager;
 import com.nids.util.gps.GpsTracker;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
@@ -46,15 +43,13 @@ import com.nids.util.network.CommunicationUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.CharsetEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     InsideFragment insideFragment;
@@ -185,6 +180,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent pushIntent = new Intent(MainActivity.this, PushService.class);
         startService(pushIntent);
+
+        // PeriodicWorkRequest 추가
+        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, 10, TimeUnit.SECONDS).setInitialDelay(10, TimeUnit.SECONDS).build();
+        androidx.work.WorkManager.getInstance(getApplicationContext()).enqueue(periodicWorkRequest);
     }
 
     @Override
@@ -423,5 +422,4 @@ public class MainActivity extends AppCompatActivity {
 
     public void setData(VOOutdoor data) {this.data = data;}
     public void setInDoorData(VOSensorData inDoorData) { this.inDoorData = inDoorData;}
-
 }
