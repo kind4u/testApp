@@ -88,13 +88,13 @@ public class OutsideFragment extends Fragment {
             stationText.setText("실외 미세먼지 현황 (" + outDoorData.getStationName() + "측정소)");
             dateText.setText("측정시간 : " + outDoorData.getMeasureDate());
             dustText.setText(outDoorData.getPM100() + "㎍/㎥");
-            if (pm10 > 75.0) {
+            if (pm10 > 150.0) {
                 infoText.setText("매우나쁨");
                 createNotification4();
-            } else if (pm10 > 35.0) {
+            } else if (pm10 > 80.0) {
                 infoText.setText("나쁨");
                 createNotification3();
-            } else if (pm10 > 15.0) {
+            } else if (pm10 > 30.0) {
                 infoText.setText("보통");
                 createNotification2();
             } else {

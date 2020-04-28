@@ -35,7 +35,7 @@ public class WorkManager extends Worker {
         String messageTitle = "Content Title";
         String messageBody = "Content Body using work manager";
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //이미 존재하는 액티비티를 포그라운드로 가져옴
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         String channelId = "Channel ID";
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -44,7 +44,7 @@ public class WorkManager extends Worker {
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle(messageTitle)
                         .setContentText(messageBody)
-                        .setAutoCancel(true)
+                        .setAutoCancel(true) //알림터치시 반응 후 삭제
                         .setSound(defaultSoundUri)
                         .setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
