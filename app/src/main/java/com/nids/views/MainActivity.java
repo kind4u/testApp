@@ -419,7 +419,6 @@ public class MainActivity extends AppCompatActivity {
         });
         workerThread.start();
     }
-
     public void setData(VOOutdoor data) {this.data = data;}
     public void setInDoorData(VOSensorData inDoorData) { this.inDoorData = inDoorData;}
 }
