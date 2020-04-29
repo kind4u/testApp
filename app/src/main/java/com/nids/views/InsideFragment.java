@@ -1,10 +1,12 @@
 package com.nids.views;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -25,6 +27,8 @@ public class InsideFragment extends Fragment {
     TextView dateTextInDoor;
     TextView dustTextInDoor;
     TextView infoTextInDoor;
+
+    ConstraintLayout backGround;
 
     public InsideFragment() {
         // Required empty public constructor
@@ -62,6 +66,9 @@ public class InsideFragment extends Fragment {
         dateTextInDoor = v.findViewById(R.id.dateTextInDoor);
         dustTextInDoor = v.findViewById(R.id.dustTextInDoor);
         infoTextInDoor = v.findViewById(R.id.infoTextInDoor);
+
+        backGround =v.findViewById(R.id.in);
+
         bindInDoorView(v);
         return v;
     }
@@ -76,15 +83,19 @@ public class InsideFragment extends Fragment {
         dustTextInDoor.setText(pm10+"㎍/㎥");
         if(pm10 > 75.0){
             infoTextInDoor.setText("매우나쁨");
+            backGround.setBackgroundColor(Color.parseColor("#B9062F"));
         }
         else if(pm10 > 35.0){
             infoTextInDoor.setText("나쁨");
+            backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
         }
         else if(pm10 > 15.0){
             infoTextInDoor.setText("보통");
+            backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
         }
         else{
             infoTextInDoor.setText("좋음");
+            backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
         }
 
     }
