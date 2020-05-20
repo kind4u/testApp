@@ -11,7 +11,10 @@ public class VOOutdoor {
     float pm100;
     float pm025;
 
-    public VOOutdoor(){    }
+    public VOOutdoor(){
+//        this.station_name="미측정";
+//        this.pm100 = 0;
+    }
 
     public VOOutdoor(String json_str){
         parseJSON(json_str);

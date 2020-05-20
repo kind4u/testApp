@@ -22,10 +22,19 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkInfo;
+import androidx.work.WorkerFactory;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.WorkManager;
 import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     JoinCallBackInterface joinCallBackInterface;
@@ -42,17 +51,23 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     Preference registCarPreference;
     Preference editCarPreference;
     ListPreference soundPreference;
+    SwitchPreference noticePrefernece;
+
+    PeriodicWorkRequest periodicWorkRequest;
+    WorkInfo.State workState;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context =getActivity();
 
+
         addPreferencesFromResource(R.xml.settings_preference);
         soundPreference = (ListPreference)findPreference("sound_list");
         editUserPreference = (PreferenceScreen) findPreference("edit_user");
         registCarPreference = (Preference) findPreference("regist_car");
         editCarPreference = (Preference) findPreference("edit_car");
+        noticePrefernece = (SwitchPreference) findPreference("notice");
 
         joinCallBackInterface = new JoinCallBackInterface() {
             @Override
@@ -111,6 +126,8 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         };
       
         c_util_car = new CommunicationUtil(joinCallBackInterface);
+
+
       
         registCarPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
             @Override
@@ -138,6 +155,33 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 return false;
             }
         });
+
+        noticePrefernece.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                boolean isValue = (Boolean) newValue;
+                try {
+                if(isValue) {
+                    // PeriodicWorkRequest 추가
+                            periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, 10, TimeUnit.SECONDS).setInitialDelay(10, TimeUnit.SECONDS).build();
+                            androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("mywork", ExistingPeriodicWorkPolicy.KEEP,periodicWorkRequest);
+                            //System.out.println("work state : " + androidx.work.WorkManager.getInstance(context).getWorkInfoById(periodicWorkRequest.getId()).get().getState().toString());
+                }   else    {
+                        androidx.work.WorkManager.getInstance(context.getApplicationContext()).cancelAllWork();
+                        //ystem.out.println("work state : " + androidx.work.WorkManager.getInstance(context).getWorkInfoById(periodicWorkRequest.getId()).get().getState().toString());
+                }
+
+                //ListenableFuture<WorkInfo> workInfo = androidx.work.WorkManager.getInstance(context.getApplicationContext()).getWorkInfoById(periodicWorkRequest.getId());
+                //System.out.println("work info : " + workInfo);
+                return true;
+                } catch (Exception e)   {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        });
+
+
 
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());

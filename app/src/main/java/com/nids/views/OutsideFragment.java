@@ -25,7 +25,6 @@ import java.util.Map;
 
 
 public class OutsideFragment extends Fragment {
-
     MainActivity activity;
     Map<String, Object> map;
 
@@ -53,6 +52,7 @@ public class OutsideFragment extends Fragment {
 //        }
         activity = (MainActivity) getActivity();
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -94,22 +94,18 @@ public class OutsideFragment extends Fragment {
 
             stationText.setText("실외 미세먼지 현황 (" + outDoorData.getStationName() + "측정소)");
             dateText.setText("측정시간 : " + outDoorData.getMeasureDate());
-            dustText.setText(outDoorData.getPM100() + "㎍/㎥");
+            dustText.setText(pm10 + "㎍/㎥");
             if (pm10 > 150.0) {
                 infoText.setText("매우나쁨");
-                createNotification4();
                 backGround.setBackgroundColor(Color.parseColor("#B9062F"));
             } else if (pm10 > 80.0) {
                 infoText.setText("나쁨");
-                createNotification3();
                 backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
             } else if (pm10 > 30.0) {
                 infoText.setText("보통");
-                createNotification2();
                 backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
             } else {
                 infoText.setText("좋음");
-                createNotification1();
                 backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
             }
             lat.setText(String.valueOf(map.get("lat")));
@@ -117,50 +113,16 @@ public class OutsideFragment extends Fragment {
         }
     }
 
-    public void createNotification1(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("미세먼지 농도 알림");
-        builder.setContentText("미세먼지 농도 : 좋음");
-        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        notificationManager.notify(1, builder.build());
-    }
-    public void createNotification2(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("미세먼지 농도 알림");
-        builder.setContentText("미세먼지 농도 : 보통");
-        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        notificationManager.notify(1, builder.build());
-    }
-    public void createNotification3(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("미세먼지 농도 알림");
-        builder.setContentText("미세먼지 농도 : 나쁨");
-        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        notificationManager.notify(1, builder.build());
-    }
-    public void createNotification4(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("미세먼지 농도 알림");
-        builder.setContentText("미세먼지 농도 : 매우나쁨");
-        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        notificationManager.notify(1, builder.build());
-    }
+//    public void createNotification2(){
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
+//        builder.setSmallIcon(R.mipmap.ic_launcher);
+//        builder.setContentTitle("미세먼지 농도 알림");
+//        builder.setContentText("미세먼지 농도 : 보통");
+//        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+//            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
+//        }
+//        notificationManager.notify(1, builder.build());
 
 //    private  void setData(VOOutdoor data){
 //        stationText.setText("실외 미세먼지 현황 ("+ map.get("lan") +"측정소)");
