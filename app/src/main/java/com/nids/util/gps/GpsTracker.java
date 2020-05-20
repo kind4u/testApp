@@ -32,7 +32,6 @@ public class GpsTracker extends Service implements LocationListener {
 
     public  GpsTracker (Context context)    {           // 생성자 생성 시 위치정보 탐색
         this.mContext = context;
-        mainActivity = new MainActivity();
         locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
         getLocation();
     }
