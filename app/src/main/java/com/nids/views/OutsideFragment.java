@@ -3,16 +3,19 @@ package com.nids.views;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nids.data.VOOutdoor;
@@ -22,6 +25,7 @@ import java.util.Map;
 
 
 public class OutsideFragment extends Fragment {
+
     MainActivity activity;
     Map<String, Object> map;
 
@@ -33,6 +37,8 @@ public class OutsideFragment extends Fragment {
 
     TextView lat;
     TextView lon;
+
+    ConstraintLayout backGround;
 
     public OutsideFragment() {
         // Required empty public constructor
@@ -47,7 +53,6 @@ public class OutsideFragment extends Fragment {
 //        }
         activity = (MainActivity) getActivity();
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -70,6 +75,8 @@ public class OutsideFragment extends Fragment {
         lat = v.findViewById(R.id.latitude);
         lon = v.findViewById(R.id.longitude);
 
+        backGround =v.findViewById(R.id.out);
+
         bindComponent(v);
         // Inflate the layout for this fragment
         return v;
@@ -91,15 +98,19 @@ public class OutsideFragment extends Fragment {
             if (pm10 > 150.0) {
                 infoText.setText("매우나쁨");
                 createNotification4();
+                backGround.setBackgroundColor(Color.parseColor("#B9062F"));
             } else if (pm10 > 80.0) {
                 infoText.setText("나쁨");
                 createNotification3();
+                backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
             } else if (pm10 > 30.0) {
                 infoText.setText("보통");
                 createNotification2();
+                backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
             } else {
                 infoText.setText("좋음");
                 createNotification1();
+                backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
             }
             lat.setText(String.valueOf(map.get("lat")));
             lon.setText(String.valueOf(map.get("lon")));
