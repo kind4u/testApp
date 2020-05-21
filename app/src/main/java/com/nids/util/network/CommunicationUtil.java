@@ -699,6 +699,7 @@ public class CommunicationUtil {
 					callback_Instance.findStation(false, null);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
+					e.printStackTrace();
 					callback_Instance.findStation(false, null);
 				}
 			} catch (Exception e) {

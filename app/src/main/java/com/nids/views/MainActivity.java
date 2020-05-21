@@ -96,8 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void findStation(boolean result, VOStation station_info) {       // 현재 위치에서 가까운 측정소의 정보
-            station_name = station_info.getStationName();
-            c_util.getOutDoorData(station_name);        // 받은 축정소 정보를 파라미터로 한 후 해당 측정소 데이터 불러오기
+            if(result) {
+                station_name = station_info.getStationName();
+                c_util.getOutDoorData(station_name);        // 받은 축정소 정보를 파라미터로 한 후 해당 측정소 데이터 불러오기
+            }
         }
 
         @Override
@@ -178,12 +180,12 @@ public class MainActivity extends AppCompatActivity {
 
         backPressCloseHandler = new BackPressCloseHandler(this);
 
-        Intent pushIntent = new Intent(MainActivity.this, PushService.class);
-        startService(pushIntent);
+//        Intent pushIntent = new Intent(MainActivity.this, PushService.class);
+//        startService(pushIntent);
 
-        // PeriodicWorkRequest 추가
-        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, 10, TimeUnit.SECONDS).setInitialDelay(10, TimeUnit.SECONDS).build();
-        androidx.work.WorkManager.getInstance(getApplicationContext()).enqueue(periodicWorkRequest);
+//        // PeriodicWorkRequest 추가
+//        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, 10, TimeUnit.SECONDS).setInitialDelay(10, TimeUnit.SECONDS).build();
+//        androidx.work.WorkManager.getInstance(getApplicationContext()).enqueue(periodicWorkRequest);
     }
 
     @Override

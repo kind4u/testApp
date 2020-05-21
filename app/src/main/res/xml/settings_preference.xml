@@ -24,15 +24,18 @@
             android:defaultValue="false"
             android:key="notice"
             android:title="미세먼지 농도 위험 알림"
-            android:summary="미세먼지 위험 농도 알림 설정."/>
-        <EditTextPreference
-            android:key="set_time"
-            android:title="알림 간격 설정"
-            android:summary="5분"/>
-<!--        <ListPreference-->
-<!--            android:entries="@array/array_sound"-->
-<!--            android:key="sound_list"-->
+            android:summary="미세먼지 위험 농도 알림 설정." />
+<!--        <EditTextPreference-->
+<!--            android:key="set_time"-->
 <!--            android:title="알림 간격 설정"-->
 <!--            android:summary="5분"/>-->
+        <ListPreference
+            android:key="sound_list"
+            android:title="알림 간격 설정"
+            android:summary="5분"
+            android:defaultValue="5"
+            android:entries="@array/array_sound"
+            android:entryValues="@array/array_sound_value"
+            android:dependency="notice"/>
     </PreferenceCategory>
 </PreferenceScreen>
