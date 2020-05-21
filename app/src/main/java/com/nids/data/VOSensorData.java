@@ -14,6 +14,8 @@ public class VOSensorData {
     private String id;
     private int amount;
     private Float pm100;
+    private Float temp;
+    private Float humi;
 
     public VOSensorData(){}
 
@@ -31,6 +33,8 @@ public class VOSensorData {
         JsonObject rawObj = jsonArr.get(0).getAsJsonObject();
         JsonObject dataObj = rawObj.get("data").getAsJsonObject();
         pm100 = dataObj.get("PM10").getAsFloat();
+        temp = dataObj.get("temp").getAsFloat();
+        humi = dataObj.get("humi").getAsFloat();
     }
 
     public int getIdx(){ return this.idx; }
@@ -47,8 +51,19 @@ public class VOSensorData {
     public Float getPm100() {
         return pm100;
     }
-
     public void setPm100(Float pm100) {
         this.pm100 = pm100;
+    }
+    public Float getTemp() {
+        return temp;
+    }
+    public void setPmTemp(Float temp) {
+        this.temp =temp;
+    }
+    public Float getHumi() {
+        return humi;
+    }
+    public void setHumi(Float humi) {
+        this.humi = humi;
     }
 }

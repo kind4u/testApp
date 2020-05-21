@@ -31,8 +31,6 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity  {
 
-    Button btn_set;
-    Button button;
     Button btn_signin;
     Button btn_join;
 
@@ -109,6 +107,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             @Override
             public void dataReqResult(String result, List<VOSensorData> data) {
+
             }
 
             @Override
@@ -156,31 +155,6 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(joinIntent);
             }
         });
-        //알림설정 테스트
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                createNotification();
 
-            }
-        });
     }
-
-    public void createNotification(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default");
-        builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setContentTitle("알림 제목");
-        builder.setContentText("알림 세부 텍스트");
-
-        NotificationManager notificationManager= (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-        }
-        notificationManager.notify(1, builder.build());
-    }
-
-
-
 }

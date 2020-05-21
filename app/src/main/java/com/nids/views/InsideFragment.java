@@ -27,6 +27,8 @@ public class InsideFragment extends Fragment {
     TextView dateTextInDoor;
     TextView dustTextInDoor;
     TextView infoTextInDoor;
+    TextView tempTextInDoor;
+    TextView humiTextInDoor;
 
     ConstraintLayout backGround;
 
@@ -66,6 +68,8 @@ public class InsideFragment extends Fragment {
         dateTextInDoor = v.findViewById(R.id.dateTextInDoor);
         dustTextInDoor = v.findViewById(R.id.dustTextInDoor);
         infoTextInDoor = v.findViewById(R.id.infoTextInDoor);
+        tempTextInDoor = v.findViewById(R.id.tempTextInDoor);
+        humiTextInDoor = v.findViewById(R.id.humiTextInDoor);
 
         backGround =v.findViewById(R.id.in);
 
@@ -77,10 +81,13 @@ public class InsideFragment extends Fragment {
         map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");
         float pm10 = sensorData.getPm100();                            // 미세먼지 농도 추출
-
+        float temp = sensorData.getTemp();
+        float humi = sensorData.getHumi();
 
         dateTextInDoor.setText(sensorData.getDate());
         dustTextInDoor.setText(pm10+"㎍/㎥");
+        tempTextInDoor.setText(temp+"°C");
+        humiTextInDoor.setText(humi+"%");
         if(pm10 > 75.0){
             infoTextInDoor.setText("매우나쁨");
             backGround.setBackgroundColor(Color.parseColor("#B9062F"));
