@@ -117,8 +117,8 @@ public class WorkManager extends Worker {
                 info = "좋음";
             }
         }
-        String messageTitle = "Content Title";
-        String messageBody = "PM10 = " + String.valueOf(pm10) + " / and info = " + info;
+        String messageTitle = "TestAPP 제목";
+        String messageBody = "현재 미세먼지 농도는 " + String.valueOf(pm10) + "㎍/㎥ 입니다.(상태 : " + info + ")";
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //이미 존재하는 액티비티를 포그라운드로 가져옴
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
