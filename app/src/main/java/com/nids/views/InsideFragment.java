@@ -86,8 +86,8 @@ public class InsideFragment extends Fragment {
 
         dateTextInDoor.setText(sensorData.getDate());
         dustTextInDoor.setText(pm10+"㎍/㎥");
-        tempTextInDoor.setText(temp+"°C");
-        humiTextInDoor.setText(humi+"%");
+        tempTextInDoor.setText("온도: "+temp+"°C");
+        humiTextInDoor.setText("습도: "+humi+"%");
         if(pm10 > 75.0){
             infoTextInDoor.setText("매우나쁨");
             backGround.setBackgroundColor(Color.parseColor("#B9062F"));

@@ -33,8 +33,11 @@ public class VOSensorData {
         JsonObject rawObj = jsonArr.get(0).getAsJsonObject();
         JsonObject dataObj = rawObj.get("data").getAsJsonObject();
         pm100 = dataObj.get("PM10").getAsFloat();
-        temp = dataObj.get("temp").getAsFloat();
-        humi = dataObj.get("humi").getAsFloat();
+
+        JsonObject rawObj2 = jsonArr.get(1).getAsJsonObject();
+        JsonObject dataObj2 = rawObj2.get("data").getAsJsonObject();
+        temp = dataObj2.get("temp").getAsFloat();
+        humi = dataObj2.get("humi").getAsFloat();
     }
 
     public int getIdx(){ return this.idx; }
