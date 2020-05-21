@@ -10,7 +10,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -52,6 +56,10 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     Preference editCarPreference;
     ListPreference soundPreference;
     SwitchPreference noticePrefernece;
+
+    String notice_term;
+    Integer notice_time;
+    TimeUnit notice_timeunit;
 
     PeriodicWorkRequest periodicWorkRequest;
     WorkInfo.State workState;
@@ -127,7 +135,17 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
       
         c_util_car = new CommunicationUtil(joinCallBackInterface);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        if(!prefs.getString("sound_list", "").equals("")){
+            soundPreference.setSummary(prefs.getString("sound_list", "5분"));
+
+        }
+        prefs.registerOnSharedPreferenceChangeListener(prefListener);
+
+        notice_term = prefs.getString("sound_list","5분");
+
+        ConvertTermTime(notice_term);
       
         registCarPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
             @Override
@@ -163,7 +181,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 try {
                 if(isValue) {
                     // PeriodicWorkRequest 추가
-                            periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, 10, TimeUnit.SECONDS).setInitialDelay(10, TimeUnit.SECONDS).build();
+                            periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, notice_time, notice_timeunit).setInitialDelay(notice_time,notice_timeunit).build();
                             androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("mywork", ExistingPeriodicWorkPolicy.KEEP,periodicWorkRequest);
                             //System.out.println("work state : " + androidx.work.WorkManager.getInstance(context).getWorkInfoById(periodicWorkRequest.getId()).get().getState().toString());
                 }   else    {
@@ -181,29 +199,70 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             }
         });
 
+//        soundPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                //showAlertDialog();
+//                return true;
+//            }
+//        });
 
 
-
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-        if(!prefs.getString("sound_list", "").equals("")){
-            soundPreference.setSummary(prefs.getString("sound_list", "5분"));
-        }
-        prefs.registerOnSharedPreferenceChangeListener(prefListener);
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
 
-      @Override
+        @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if(key.equals("sound_list")){
                 soundPreference.setSummary(prefs.getString("sound_list", "5분"));
+                notice_term = prefs.getString("sound_list","5분");
+                ConvertTermTime(notice_term);
+                Log.d("@@@","changed to " + notice_term);
+                periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, notice_time, notice_timeunit).setInitialDelay(notice_time,notice_timeunit).build();
+                androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("mywork", ExistingPeriodicWorkPolicy.REPLACE,periodicWorkRequest);
             }
         }
     };
-
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) { }
 
 
+//    private void showAlertDialog()  {
+//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+//        LayoutInflater inflater = getLayoutInflater();
+//        View view = inflater.inflate(R.layout. , null);
+//        builder.setView(view);
+//
+//        final ListView listView = (ListView)view.findViewById(R.id.);
+//        final AlertDialog dialog = builder.create();
+//
+//        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(), )
+//    }
+
+
+    public void ConvertTermTime(String notice_term)   {
+        switch (notice_term)    {
+            case "1분":
+                this.notice_time = 1;
+                this.notice_timeunit = TimeUnit.MINUTES;
+                break;
+            case "5분":
+                this.notice_time = 5;
+                this.notice_timeunit = TimeUnit.MINUTES;
+                break;
+            case "10분":
+                this.notice_time = 10;
+                this.notice_timeunit = TimeUnit.MINUTES;
+                break;
+            case "30분":
+                this.notice_time = 30;
+                this.notice_timeunit = TimeUnit.MINUTES;
+                break;
+            case "1시간":
+                this.notice_time = 1;
+                this.notice_timeunit = TimeUnit.HOURS;
+                break;
+        }
+    }
 }
