@@ -3,10 +3,12 @@ package com.nids.views;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
@@ -25,7 +27,6 @@ public class OutsideFragment extends Fragment {
     MainActivity activity;
     Map<String, Object> map;
 
-    String station;
     TextView dateText;
     TextView stationText;
     TextView dustText;
@@ -33,6 +34,8 @@ public class OutsideFragment extends Fragment {
 
     TextView lat;
     TextView lon;
+
+    ConstraintLayout backGround;
 
     public OutsideFragment() {
         // Required empty public constructor
@@ -42,9 +45,6 @@ public class OutsideFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        if(getActivity() != null && getActivity() instanceof MainActivity)  {
-//            map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
-//        }
         activity = (MainActivity) getActivity();
     }
 
@@ -69,6 +69,7 @@ public class OutsideFragment extends Fragment {
         infoText = v.findViewById(R.id.infoTextOutDoor);
         lat = v.findViewById(R.id.latitude);
         lon = v.findViewById(R.id.longitude);
+        backGround =v.findViewById(R.id.out);
 
         bindComponent(v);
         // Inflate the layout for this fragment
@@ -90,31 +91,19 @@ public class OutsideFragment extends Fragment {
             dustText.setText(pm10 + "㎍/㎥");
             if (pm10 > 150.0) {
                 infoText.setText("매우나쁨");
+                backGround.setBackgroundColor(Color.parseColor("#B9062F"));
             } else if (pm10 > 80.0) {
                 infoText.setText("나쁨");
+                backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
             } else if (pm10 > 30.0) {
                 infoText.setText("보통");
+                backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
             } else {
                 infoText.setText("좋음");
+                backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
             }
             lat.setText(String.valueOf(map.get("lat")));
             lon.setText(String.valueOf(map.get("lon")));
         }
     }
-
-//    public void createNotification2(){
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
-//        builder.setSmallIcon(R.mipmap.ic_launcher);
-//        builder.setContentTitle("미세먼지 농도 알림");
-//        builder.setContentText("미세먼지 농도 : 보통");
-//        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-//            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-//        }
-//        notificationManager.notify(1, builder.build());
-
-//    private  void setData(VOOutdoor data){
-//        stationText.setText("실외 미세먼지 현황 ("+ map.get("lan") +"측정소)");
-//        dateText.setText("측정시간 : " + data.getMeasureDate());
-//    }
 }

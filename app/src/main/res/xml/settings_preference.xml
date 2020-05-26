@@ -33,7 +33,7 @@
             android:key="sound_list"
             android:title="알림 간격 설정"
             android:summary="5분"
-            android:defaultValue="5"
+            android:defaultValue="5분"
             android:entries="@array/array_sound"
             android:entryValues="@array/array_sound_value"
             android:dependency="notice"/>

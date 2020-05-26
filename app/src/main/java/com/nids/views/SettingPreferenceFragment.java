@@ -181,6 +181,10 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 try {
                 if(isValue) {
                     // PeriodicWorkRequest 추가
+                    if(notice_time == null || notice_timeunit == null)  {
+                        notice_time = 5;
+                        notice_timeunit = TimeUnit.MINUTES;
+                    }
                             periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, notice_time, notice_timeunit).setInitialDelay(notice_time,notice_timeunit).build();
                             androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("mywork", ExistingPeriodicWorkPolicy.KEEP,periodicWorkRequest);
                             //System.out.println("work state : " + androidx.work.WorkManager.getInstance(context).getWorkInfoById(periodicWorkRequest.getId()).get().getState().toString());

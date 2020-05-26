@@ -31,8 +31,6 @@ import java.util.List;
 
 public class LoginActivity extends AppCompatActivity  {
 
-    Button btn_set;
-    Button button;
     Button btn_signin;
     Button btn_join;
 
@@ -154,16 +152,6 @@ public class LoginActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent joinIntent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(joinIntent);
-            }
-        });
-        //알림설정 테스트
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                createNotification();
-
             }
         });
     }

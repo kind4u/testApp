@@ -10,7 +10,31 @@
         android:id="@+id/in"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lightGreen">
+        android:background="@color/unload">
+
+        <TextView
+            android:id="@+id/tempTextInDoor"
+            android:layout_width="85dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateTextInDoor" />
+
+        <TextView
+            android:id="@+id/humiTextInDoor"
+            android:layout_width="85dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="20dp"
+            android:text=""
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dateTextInDoor" />
 
         <TextView
             android:id="@+id/dateTextInDoor"
@@ -19,7 +43,7 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
-            android:text="측정시간: 0000-00-00 00:00"
+            android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stationTextInDoor" />
 
@@ -42,7 +66,7 @@
             android:layout_marginEnd="88dp"
             android:layout_marginRight="88dp"
             android:layout_marginBottom="10dp"
-            android:text="매우나쁨"
+            android:text="측정중"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/dustTextInDoor"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -54,7 +78,7 @@
             android:layout_marginEnd="60dp"
             android:layout_marginRight="60dp"
             android:layout_marginBottom="90dp"
-            android:text="120㎍/m³"
+            android:text="0.0㎍/m³"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

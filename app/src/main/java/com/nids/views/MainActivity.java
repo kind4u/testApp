@@ -220,19 +220,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public Map<String, Object> getInDoorData()  {
+    public Map<String, Object> getInDoorData() {
 
         Map<String, Object> inDoorMap = new HashMap<String, Object>();
-
-
         c_util.getInDoorData(id);
-
-        while(true)   {
-            if(inDoorData != null)  {
-                inDoorMap.put("data",inDoorData);
-                return inDoorMap;
-            }   else    {}
-        }
+        inDoorMap.put("data", inDoorData);
+        return inDoorMap;
     }
 
     public Map<String, Object> getData() {
@@ -245,10 +238,10 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("longitude = " + longitude);
         c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
         //c_util.findStationWithGPS("37.441722","127.171786");              // ※ Virtual Device는 위경도를 측정할 수 없음
-                map.put("data", data);                      // 측정 미세먼지 데이터 객체
-                map.put("lat",latitude);
-                map.put("lon",longitude);
-                return map;                                 // outsideFragment로 전송
+        map.put("data", data);                      // 측정 미세먼지 데이터 객체
+        map.put("lat", latitude);
+        map.put("lon", longitude);
+        return map;                                 // outsideFragment로 전송
     }
 
     private void showDialogForLocationServiceSetting()  {           // 위치 설정 허용 확인 메세지 출력
