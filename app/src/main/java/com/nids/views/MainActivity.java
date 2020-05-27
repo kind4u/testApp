@@ -325,9 +325,9 @@ public class MainActivity extends AppCompatActivity {
 
             // 뒤로가기 버튼 누를 때 창이 안 닫히도록 설정
             builder.setCancelable(false);
-            // Dialog 생성
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
+            // Dialog 생성        ==  현재는 임시로 꺼둠
+//            AlertDialog alertDialog = builder.create();
+//            alertDialog.show();
         }
     }
 
