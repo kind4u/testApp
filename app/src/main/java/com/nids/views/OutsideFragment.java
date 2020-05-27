@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nids.data.VOOutdoor;
@@ -69,6 +70,8 @@ public class OutsideFragment extends Fragment {
         infoText = v.findViewById(R.id.infoTextOutDoor);
         lat = v.findViewById(R.id.latitude);
         lon = v.findViewById(R.id.longitude);
+        backGround =v.findViewById(R.id.out);
+
         backGround =v.findViewById(R.id.out);
 
         bindComponent(v);

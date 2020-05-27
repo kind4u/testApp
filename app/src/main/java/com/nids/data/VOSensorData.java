@@ -16,9 +16,9 @@ public class VOSensorData {
     private Float pm100;
     private Float temp;
     private Float humi;
-
     private Float lat;
     private Float lon;
+
 
     public VOSensorData(){}
 
@@ -43,7 +43,6 @@ public class VOSensorData {
         JsonObject rawObj = jsonArr.get(0).getAsJsonObject();
         JsonObject dataObj = rawObj.get("data").getAsJsonObject();
         pm100 = dataObj.get("PM10").getAsFloat();
-
         JsonObject rawObj2 = jsonArr.get(1).getAsJsonObject();
         JsonObject dataObj2 = rawObj2.get("data").getAsJsonObject();
         temp = dataObj2.get("temp").getAsFloat();

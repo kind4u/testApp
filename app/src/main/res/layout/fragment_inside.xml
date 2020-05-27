@@ -12,6 +12,20 @@
         android:layout_height="match_parent"
         android:background="@color/unload">
 
+
+
+        <TextView
+            android:id="@+id/dateTextInDoor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginLeft="48dp"
+            android:layout_marginTop="12dp
+            android:text=""
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stationTextInDoor" />
+
+
         <TextView
             android:id="@+id/tempTextInDoor"
             android:layout_width="85dp"
@@ -35,17 +49,6 @@
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateTextInDoor" />
-
-        <TextView
-            android:id="@+id/dateTextInDoor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
-            android:text=""
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stationTextInDoor" />
 
         <TextView
             android:id="@+id/stationTextInDoor"
