@@ -67,11 +67,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        
-                      
-                      
-                      
-                      .addMarker(mkOption);
+                      mMap.addMarker(mkOption);
                     }
                 });
             }
