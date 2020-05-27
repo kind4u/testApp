@@ -17,7 +17,7 @@ public class VOUser implements Serializable {
     private Timestamp signup;
     private String auth;
     private String tmx;
-    private String tmy;
+    private String tmy; //
 
     public VOUser() {
     }

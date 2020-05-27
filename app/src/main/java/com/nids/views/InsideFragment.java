@@ -75,24 +75,27 @@ public class InsideFragment extends Fragment {
     private void bindInDoorView(View v) {
         map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");
-        if(sensorData!=null) {
-            float pm10 = sensorData.getPm100();                            // 미세먼지 농도 추출
-            float temp = sensorData.getTemp();
-            float humi = sensorData.getHumi();
 
-            dateTextInDoor.setText(sensorData.getDate());
-            dustTextInDoor.setText(pm10 + "㎍/㎥");
-            tempTextInDoor.setText(temp + "°C");
-            humiTextInDoor.setText(humi + "%");
-            if (pm10 > 75.0) {
-                infoTextInDoor.setText("매우나쁨");
-                backGround.setBackgroundColor(Color.parseColor("#B9062F"));
-            } else if (pm10 > 35.0) {
-                infoTextInDoor.setText("나쁨");
-                backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
-            } else if (pm10 > 15.0) {
-                infoTextInDoor.setText("보통");
-                backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
+        if(sensorData!=null) {
+        float pm10 = sensorData.getPm100();                            // 미세먼지 농도 추출
+        float temp = sensorData.getTemp();
+        float humi = sensorData.getHumi();
+
+        dateTextInDoor.setText(sensorData.getDate());
+        dustTextInDoor.setText(pm10+"㎍/㎥");
+        tempTextInDoor.setText("온도: "+temp+"°C");
+        humiTextInDoor.setText("습도: "+humi+"%");
+        if(pm10 > 75.0){
+            infoTextInDoor.setText("매우나쁨");
+            backGround.setBackgroundColor(Color.parseColor("#B9062F"));
+        }
+        else if(pm10 > 35.0){
+            infoTextInDoor.setText("나쁨");
+            backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
+        }
+        else if(pm10 > 15.0){
+            infoTextInDoor.setText("보통");
+            backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
             } else {
                 infoTextInDoor.setText("좋음");
                 backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));

@@ -33,7 +33,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import java.util.Map;
+
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+    Map<String, Object> m;
+
 
     List<VOSensorData> indoorDataList;
     VOSensorData indoorData;
@@ -63,7 +67,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mMap.addMarker(mkOption);
+                        
+                      
+                      
+                      
+                      .addMarker(mkOption);
                     }
                 });
             }
@@ -74,6 +82,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     };
 
     private GoogleMap mMap;
+
 
     public MapFragment() { }
 
@@ -99,6 +108,41 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+//        m = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
+//        VOSensorData sensorData = (VOSensorData) m.get("data");
+//        String latString = sensorData.getLat();                            // 센서 데이터 내 위도 추출
+//        double lat = Double.parseDouble(latString);
+//        String lonString = sensorData.getLon();                            // 센서 데이터 내 경도 추출
+//        double lon = Double.parseDouble(lonString);
+//
+//        mMap = googleMap;
+//        for(int idx =0; idx < 10; idx++){
+//            // 1. 마커 옵션 설정 (만드는 과정)
+//
+//            MarkerOptions makerOptions = new MarkerOptions();
+//            makerOptions // LatLng에 대한 어레이를 만들어서 이용할 수도 있다.
+//                    .position(new LatLng(lat + idx, lon))
+//                    //.position(new LatLng(37.52487 + idx, 126.92723))
+//                    .title("마커" + idx); // 타이틀.
+//
+//            // 2. 마커 생성 (마커를 나타냄)
+//            mMap.addMarker(makerOptions);
+//
+//            mMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(lat, lon)));
+//            mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+//        }
+        //LatLng position = new LatLng(MainActivity.gpsTracker.getLatitude(),MainActivity.gpsTracker.getLongitude());
+
+//        MarkerOptions markerOptions = new MarkerOptions();
+//        markerOptions.position(position);
+//        markerOptions.title("현재 위치");
+//        markerOptions.snippet("위치정보 : "+position.latitude+", "+position.longitude);
+//        mMap.addMarker(markerOptions);
+
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(position));
+//        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
+
         mMap = googleMap;
 
         String [][] arr = new String[][] {{"명동","37.563576","126.983431", "11.0"},
@@ -123,6 +167,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
         c_util.findData(((MainActivity)getActivity()).getId());
-
     }
 }
