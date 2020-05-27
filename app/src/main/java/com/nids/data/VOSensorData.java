@@ -16,12 +16,17 @@ public class VOSensorData {
     private Float pm100;
     private Float temp;
     private Float humi;
+    private String lat;
+    private String lon;
 
     public VOSensorData(){}
 
-    public VOSensorData(String json_str, String time){
+    public VOSensorData(String json_str, String time, String lat, String lon){
         parseJSON(json_str);
         setDate(time);
+        setLat(lat);
+        setLon(lon);
+
     }
 
     private void parseJSON(String json_str){
@@ -60,7 +65,7 @@ public class VOSensorData {
     public Float getTemp() {
         return temp;
     }
-    public void setPmTemp(Float temp) {
+    public void setTemp(Float temp) {
         this.temp =temp;
     }
     public Float getHumi() {
@@ -69,4 +74,8 @@ public class VOSensorData {
     public void setHumi(Float humi) {
         this.humi = humi;
     }
+    public String getLat() { return lat; }
+    public void setLat(String lat) { this.lat =lat; }
+    public String getLon() { return lon; }
+    public void setLon(String lon) { this.lon = lon; }
 }

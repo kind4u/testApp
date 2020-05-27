@@ -497,8 +497,12 @@ public class CommunicationUtil {
 					String post_result = jsonObj.get("result").getAsString();
 					String timeStamp = jsonObj.get("date").getAsString();
 					String resp_data = jsonObj.get("data").getAsString();		// VOOutdoor 객체
+					String lat_data = jsonObj.get("lat").getAsString();
+					String lon_data = jsonObj.get("lon").getAsString();
 
-					VOSensorData sensorData = new VOSensorData(resp_data, timeStamp);
+
+					VOSensorData sensorData = new VOSensorData(resp_data, timeStamp, lat_data, lon_data);
+					//VOSensorData sensorData = new VOSensorData(resp_data, lat_data, lon_data);
 
 					List<VOSensorData> dataList = new ArrayList<VOSensorData>();
 					dataList.add(sensorData);
