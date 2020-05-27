@@ -99,8 +99,8 @@ public class CommunicationUtil {
 		t.start();
 	}
 
-	public void findStation(String id) {
-		Thread t = new Thread(new Station(id));
+	public void findData(String id) {
+		Thread t = new Thread(new LoadData(id));
 		t.start();
 	}
 
@@ -180,13 +180,14 @@ public class CommunicationUtil {
 
 					joincallback_Instance.carResult(post_insert, result,"Success");
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.carResult(false, "500", "ClientProtocolException");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.carResult(false, "500", "IOException");
 				}
 			} catch (Exception e)	{
+				e.printStackTrace();
 				joincallback_Instance.carResult(false,"500", "httpClientException");
 			}
 		}
@@ -235,13 +236,14 @@ public class CommunicationUtil {
 
 					joincallback_Instance.deleteCarResult(post_delete, result,"Success");
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.deleteCarResult(false, "500", "ClientProtocolException");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.deleteCarResult(false, "500", "IOException");
 				}
 			} catch (Exception e)	{
+				e.printStackTrace();
 				joincallback_Instance.deleteCarResult(false,"500", "httpClientException");
 			}
 		}
@@ -290,13 +292,14 @@ public class CommunicationUtil {
 
 					joincallback_Instance.editCarResult(post_edit, result,"Success");
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.editCarResult(false, "500", "ClientProtocolException");
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.editCarResult(false, "500", "IOException");
 				}
 			} catch (Exception e)	{
+				e.printStackTrace();
 				joincallback_Instance.editCarResult(false,"500", "httpClientException");
 			}
 		}
@@ -341,13 +344,14 @@ public class CommunicationUtil {
 
 					joincallback_Instance.checkCarResult(result, exist);
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.checkCarResult("error", true);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.checkCarResult("error", true);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				joincallback_Instance.checkCarResult("error", true);
 			}
 		}
@@ -392,27 +396,27 @@ public class CommunicationUtil {
 
 					joincallback_Instance.existResult(result, exist);
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.existResult("error", true);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					joincallback_Instance.existResult("error", true);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				joincallback_Instance.existResult("error", true);
 			}
 		}
 	}
 
-	public class Station implements Runnable {
+	public class LoadData implements Runnable {
 		String id;
 
-		public Station(String id) {
+		public LoadData(String id) {
 			this.id = id;
 		}
 
 		public void run() {
-			// TODO Auto-generated method stub
 			try {
 
 				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
@@ -420,12 +424,12 @@ public class CommunicationUtil {
 				httpclient.getParams().setParameter("http.connection.timeout", 5000);
 				httpclient.getParams().setParameter("http.socket.timeout", 5000);
 
-				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
+				HttpPost httppost = new HttpPost(server_url + "/DataLoad");
 				try {
 					// Add your data
 					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
-					nameValuePairs.add(new BasicNameValuePair("type", "station"));
-					nameValuePairs.add(new BasicNameValuePair("user_id", this.id));
+					nameValuePairs.add(new BasicNameValuePair("type", "withid"));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 
 					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 					// Execute HTTP Post Request
@@ -441,21 +445,28 @@ public class CommunicationUtil {
 					JsonObject jsonObj = element.getAsJsonObject();
 
 
-					boolean post_result = jsonObj.get("result").getAsBoolean();
-					String str_data = jsonObj.get("data").getAsString();
+					String post_result = jsonObj.get("result").getAsString();
+					String timeStamp = jsonObj.get("date").getAsString();
+					String resp_data = jsonObj.get("data").getAsString();		// VOOutdoor 객체
+					String lat = jsonObj.get("lat").getAsString();
+					String lon = jsonObj.get("lon").getAsString();
 
-					VOStation vos = new VOStation(str_data);
+					VOSensorData sensorData = new VOSensorData(resp_data, timeStamp, lat, lon);
 
-					callback_Instance.findStation(post_result, vos);
+					List<VOSensorData> dataList = new ArrayList<VOSensorData>();
+					dataList.add(sensorData);
+
+					callback_Instance.dataReqResult(post_result, dataList);
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
-					callback_Instance.findStation(false, null);
+					e.printStackTrace();
+					callback_Instance.dataReqResult("500", null);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					callback_Instance.findStation(false, null);
+					e.printStackTrace();
+					callback_Instance.dataReqResult("500", null);
 				}
 			} catch (Exception e) {
-				callback_Instance.signInResult(false, "Connection Error", null);
+				e.printStackTrace();
+				callback_Instance.dataReqResult("500", null);
 			}
 		}
 	}
@@ -509,14 +520,18 @@ public class CommunicationUtil {
 
 					callback_Instance.dataReqResult(post_result, dataList);		// MainActivity의 callback 메소드 호출
 				} catch (IOException e) {
+					e.printStackTrace();
 					callback_Instance.dataReqResult("500", null);
 				} catch (ParseException e) {
+					e.printStackTrace();
 					callback_Instance.dataReqResult("500", null);
 				} catch (JsonSyntaxException e) {
+					e.printStackTrace();
 					callback_Instance.dataReqResult("500", null);
 				}
 
 			}	catch(Exception e)	{
+				e.printStackTrace();
 				callback_Instance.dataReqResult("500", null);
 			}
 		}
@@ -568,13 +583,14 @@ public class CommunicationUtil {
 
 					callback_Instance.dataReqResultOutdoor(post_result, out_data);		// MainActivity의 callback 메소드 호출
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					callback_Instance.dataReqResultOutdoor(false, null);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					callback_Instance.dataReqResultOutdoor(false, null);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				callback_Instance.dataReqResultOutdoor(false, null);
 			}
 		}
@@ -593,7 +609,6 @@ public class CommunicationUtil {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			try {
 
 				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
@@ -638,14 +653,15 @@ public class CommunicationUtil {
 
 					callback_Instance.signInResult(post_result, message, user_info);
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					callback_Instance.signInResult(false, "Connection Error", null);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					callback_Instance.signInResult(false, "Connection Error", null);
 				}
 
 			} catch (Exception e) {
+				e.printStackTrace();
 				callback_Instance.signInResult(false, "Connection Error", null);
 			}
 		}
@@ -699,14 +715,14 @@ public class CommunicationUtil {
 
 					callback_Instance.findStation(post_result, vos);			// MainActivity의 callback 메소드 호출
 				} catch (ClientProtocolException e) {
-					// TODO Auto-generated catch block
+					e.printStackTrace();
 					callback_Instance.findStation(false, null);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 					callback_Instance.findStation(false, null);
 				}
 			} catch (Exception e) {
+				e.printStackTrace();
 				callback_Instance.findStation(false, null);
 			}
 		}
@@ -769,18 +785,15 @@ public class CommunicationUtil {
 						send();
 						Thread.sleep(delay);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						//System.out.println("InterruptedException");
 						Log.d("CommunicationUtil", "Thread Interrupted");
+						e.printStackTrace();
 						//e.printStackTrace();
 					} catch (Exception e) {
-						//System.out.println("Exception");
 						Log.d("CommunicationUtil", "Thread Exception Occurred");
-						//e.printStackTrace();
+						e.printStackTrace();
 					}
 				}
 				Log.d("CommunicationUtil", "Thread End");
-				//System.out.println("thread end");
 			}
 		}
 
@@ -847,13 +860,14 @@ public class CommunicationUtil {
 
 						joincallback_Instance.signUpResult(post_insert, result,null);
 					} catch (ClientProtocolException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
 						joincallback_Instance.signUpResult(false, "500", "ClientProtocolException");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
 						joincallback_Instance.signUpResult(false, "500", "IOException");
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					joincallback_Instance.signUpResult(false, "500", "httpClientException");
 				}
 
@@ -911,13 +925,14 @@ public class CommunicationUtil {
 
 						joincallback_Instance.positionResult(position_result, position_data);
 					} catch (ClientProtocolException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
 						joincallback_Instance.positionResult(false, "ClientProtocolException");
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
 						joincallback_Instance.positionResult(false, "IOException");
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					joincallback_Instance.positionResult(false, "httpClientException");
 				}
 
@@ -968,13 +983,14 @@ public class CommunicationUtil {
 
 						callback_Instance.modifyResult(post_result);
 					} catch (ClientProtocolException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
 						callback_Instance.modifyResult(false);
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
+						e.printStackTrace();
 						callback_Instance.modifyResult(false);
 					}
 				} catch (Exception e) {
+					e.printStackTrace();
 					callback_Instance.modifyResult(false);
 				}
 			}

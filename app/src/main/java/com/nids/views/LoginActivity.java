@@ -155,6 +155,5 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(joinIntent);
             }
         });
-
     }
 }

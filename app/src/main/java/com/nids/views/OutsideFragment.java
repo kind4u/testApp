@@ -28,7 +28,6 @@ public class OutsideFragment extends Fragment {
     MainActivity activity;
     Map<String, Object> map;
 
-    String station;
     TextView dateText;
     TextView stationText;
     TextView dustText;
@@ -47,9 +46,6 @@ public class OutsideFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        if(getActivity() != null && getActivity() instanceof MainActivity)  {
-//            map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
-//        }
         activity = (MainActivity) getActivity();
     }
 
@@ -74,6 +70,7 @@ public class OutsideFragment extends Fragment {
         infoText = v.findViewById(R.id.infoTextOutDoor);
         lat = v.findViewById(R.id.latitude);
         lon = v.findViewById(R.id.longitude);
+        backGround =v.findViewById(R.id.out);
 
         backGround =v.findViewById(R.id.out);
 
@@ -112,20 +109,4 @@ public class OutsideFragment extends Fragment {
             lon.setText(String.valueOf(map.get("lon")));
         }
     }
-
-//    public void createNotification2(){
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "default");
-//        builder.setSmallIcon(R.mipmap.ic_launcher);
-//        builder.setContentTitle("미세먼지 농도 알림");
-//        builder.setContentText("미세먼지 농도 : 보통");
-//        NotificationManager notificationManager= (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-//        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-//            notificationManager.createNotificationChannel(new NotificationChannel("default", "기본채널", NotificationManager.IMPORTANCE_DEFAULT));
-//        }
-//        notificationManager.notify(1, builder.build());
-
-//    private  void setData(VOOutdoor data){
-//        stationText.setText("실외 미세먼지 현황 ("+ map.get("lan") +"측정소)");
-//        dateText.setText("측정시간 : " + data.getMeasureDate());
-//    }
 }

@@ -52,6 +52,7 @@
                     android:id="@+id/edit_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:ems="10"
                     android:hint="ID"
                     android:inputType="textPersonName" />
@@ -60,7 +61,7 @@
                     android:id="@+id/btn_duplicate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:gravity="end"
                     android:text="중복확인" />
             </LinearLayout>

@@ -113,8 +113,8 @@ public class DustFragment extends Fragment {
         };
 
         Timer timer = new Timer();
-        timer.schedule(tt,0,10000);
-        timer.schedule(tt2,0,10000);
+        timer.schedule(tt,5000,100000);
+        timer.schedule(tt2,5000,600000);
         return v;
     }
 

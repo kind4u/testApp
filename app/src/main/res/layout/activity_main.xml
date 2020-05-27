@@ -6,51 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.nids.views.MainActivity">
 
-<!--    <LinearLayout-->
-<!--        android:id="@+id/linearLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:orientation="vertical">-->
-
-<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/container1"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_weight="1">&ndash;&gt;-->
-
-<!--&lt;!&ndash;            <fragment&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/fragment"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:name="com.nids.views.InsideFragment"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="match_parent" />&ndash;&gt;-->
-<!--&lt;!&ndash;        </FrameLayout>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/container2"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_weight="1">&ndash;&gt;-->
-
-<!--&lt;!&ndash;            <fragment&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/fragment2"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:name="com.nids.views.OutsideFragment"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="match_parent" />&ndash;&gt;-->
-<!--&lt;!&ndash;        </FrameLayout>&ndash;&gt;-->
-
-<!--&lt;!&ndash;        <FrameLayout&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/container"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="match_parent">&ndash;&gt;-->
-
-<!--&lt;!&ndash;            <fragment&ndash;&gt;-->
-<!--&lt;!&ndash;                android:id="@+id/fragment3"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:name="com.nids.views.DustFragment"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;                android:layout_height="match_parent" />&ndash;&gt;-->
-<!--&lt;!&ndash;        </FrameLayout>&ndash;&gt;-->
-<!--    </LinearLayout>-->
-
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"

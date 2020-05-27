@@ -99,7 +99,6 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                             }
                         });
                     } else {
-                        // TODO : 예외처리 고려
                         CarActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -136,13 +135,11 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
             checkCar.setOnClickListener(new CheckBox.OnClickListener(){ //차량 번호판 신형or구형 선택했을때
                 @Override
                 public void onClick(View v){
-                    if(((CheckBox)v).isChecked()){ //구형 번호판 선택한 경우
-                        //TODO: CheckBox is checked.
+                    if(((CheckBox)v).isChecked()){ //구형 번호판 선택한 경우 (Checkbox is checked)
                         m=0;
                         changeView(0);
                     }
-                    else{ //신형 번호판 선택한 경우
-                        //TODO: CheckBox is unchecked
+                    else{ //신형 번호판 선택한 경우 (Checkbox is unchecked)
                         m=1;
                         changeView(1);
                     }
@@ -151,7 +148,6 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
             registCar.setOnClickListener(new Button.OnClickListener(){ //차량 등록 버튼 눌렀을 때
                 @Override
                 public void onClick(View v){
-                    //TODO: 차량정보 등록
 
                     if(m == 0){ //차량이 구형 번호판일 경우
                         fragmentTransaction.add(oldCarFragment,"oldCarFragment");
