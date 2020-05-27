@@ -66,7 +66,6 @@ public class ModifyPwActivity extends AppCompatActivity {
                     return;
                 } else {
                     c_util.modifyPassword(userId, modifyPassword.getText().toString());
-                    //TODO : ID와 새로 변경 PW값 서버로 전송,
                 }
             }
         });

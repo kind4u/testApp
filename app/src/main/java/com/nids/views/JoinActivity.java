@@ -129,7 +129,6 @@ public class JoinActivity extends AppCompatActivity {
 						}
 					});
 				} else {
-					// TODO : 예외처리 고려
 					JoinActivity.this.runOnUiThread(new Runnable() {
 						@Override
 						public void run() {

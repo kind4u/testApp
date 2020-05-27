@@ -32,16 +32,11 @@ public class InsideFragment extends Fragment {
 
     ConstraintLayout backGround;
 
-    public InsideFragment() {
-        // Required empty public constructor
-    }
+    public InsideFragment() { }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        if(getActivity() != null && getActivity() instanceof MainActivity)  {
-//            map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
-//        }
         activity = (MainActivity) getActivity();
     }
 
@@ -80,30 +75,28 @@ public class InsideFragment extends Fragment {
     private void bindInDoorView(View v) {
         map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");
-        float pm10 = sensorData.getPm100();                            // 미세먼지 농도 추출
-        float temp = sensorData.getTemp();
-        float humi = sensorData.getHumi();
+        if(sensorData!=null) {
+            float pm10 = sensorData.getPm100();                            // 미세먼지 농도 추출
+            float temp = sensorData.getTemp();
+            float humi = sensorData.getHumi();
 
-        dateTextInDoor.setText(sensorData.getDate());
-        dustTextInDoor.setText(pm10+"㎍/㎥");
-        tempTextInDoor.setText(temp+"°C");
-        humiTextInDoor.setText(humi+"%");
-        if(pm10 > 75.0){
-            infoTextInDoor.setText("매우나쁨");
-            backGround.setBackgroundColor(Color.parseColor("#B9062F"));
+            dateTextInDoor.setText(sensorData.getDate());
+            dustTextInDoor.setText(pm10 + "㎍/㎥");
+            tempTextInDoor.setText(temp + "°C");
+            humiTextInDoor.setText(humi + "%");
+            if (pm10 > 75.0) {
+                infoTextInDoor.setText("매우나쁨");
+                backGround.setBackgroundColor(Color.parseColor("#B9062F"));
+            } else if (pm10 > 35.0) {
+                infoTextInDoor.setText("나쁨");
+                backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
+            } else if (pm10 > 15.0) {
+                infoTextInDoor.setText("보통");
+                backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
+            } else {
+                infoTextInDoor.setText("좋음");
+                backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
+            }
         }
-        else if(pm10 > 35.0){
-            infoTextInDoor.setText("나쁨");
-            backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
-        }
-        else if(pm10 > 15.0){
-            infoTextInDoor.setText("보통");
-            backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
-        }
-        else{
-            infoTextInDoor.setText("좋음");
-            backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
-        }
-
     }
 }
