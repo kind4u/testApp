@@ -10,6 +10,13 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- naver app을 통한 인증을 위해 필요한 permission -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- network 상태를 미리 체크하여 연결 안된 경우 다이얼로그를 보여주려면 아래 permission 추가 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- android test 돌릴 때 화면 lock 풀어야 로그인 touch 가능 -->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
 
     <application
@@ -44,6 +51,8 @@
         <activity android:name="com.nids.views.MainActivity" />
         <activity android:name="com.nids.views.CarActivity" />
         <activity android:name="com.nids.views.EditCarActivity" />
+        <activity android:name="com.nids.views.NaverLoginActivity" />
+
 
         <service android:name="com.nids.util.MyFireBaseMessagingService">
             <intent-filter>
@@ -61,6 +70,12 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+        <!-- [naveroauthlogin][start] 네이버아이디로로그인을 사용하기 위해서 넣어줘야하는 부분 -->
+<!--        <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginActivity"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
+<!--        <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"-->
+<!--            android:label="OAuth2.0 In-app"/>-->
 
     </application>
 

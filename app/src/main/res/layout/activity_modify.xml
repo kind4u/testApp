@@ -8,11 +8,11 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/modify_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="680dp"
+        android:layout_width="397dp"
+        android:layout_height="610dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toTopOf="@+id/submit_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -20,8 +20,13 @@
 
     <Button
         android:id="@+id/submit_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="196dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="92dp"
         android:text="완료"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

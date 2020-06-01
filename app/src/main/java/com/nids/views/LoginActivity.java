@@ -47,11 +47,13 @@ import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
-
 import java.security.MessageDigest;
+import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity  {
+
+    OAuthLoginButton btn_naver;
 
     Button btn_signin;
     Button btn_join;
@@ -157,6 +159,7 @@ public class LoginActivity extends AppCompatActivity  {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        btn_naver = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
 
         btn_signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -191,7 +194,7 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(joinIntent);
             }
         });
-
+      
         btn_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -265,5 +268,14 @@ public class LoginActivity extends AppCompatActivity  {
         }   catch (Exception e) {
             Log.e("name not found", e.toString());
         }
+
+        btn_naver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = "kind4u";
+                String pw = "admin123";
+                c_util.signIn(id,pw);
+            }
+        });
     }
 }
