@@ -47,11 +47,14 @@ import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
+
 import java.security.MessageDigest;
+
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
+
 import java.util.List;
 
-public class LoginActivity extends AppCompatActivity  {
+public class LoginActivity extends AppCompatActivity {
 
     OAuthLoginButton btn_naver;
 
@@ -78,7 +81,6 @@ public class LoginActivity extends AppCompatActivity  {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_login);
-        getAppKeyHash();
         bindView();
     }
 
@@ -158,7 +160,7 @@ public class LoginActivity extends AppCompatActivity  {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         btn_naver = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
 
         btn_signin.setOnClickListener(new View.OnClickListener() {
@@ -194,16 +196,25 @@ public class LoginActivity extends AppCompatActivity  {
                 startActivity(joinIntent);
             }
         });
-      
+
         btn_google.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
+
+        btn_naver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick (View v){
+                String id = "kind4u";
+                String pw = "admin123";
+                c_util.signIn(id, pw);
+            }
+        });
     }
 
-    private void signIn()   {
+    private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -213,22 +224,22 @@ public class LoginActivity extends AppCompatActivity  {
         super.onActivityResult(requestCode, resultCode, data);
 
         // Result returned from launching the Intent from GoogleSignInApi.getSingInIntent(...);
-        if(requestCode == RC_SIGN_IN)   {
+        if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
     }
 
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask)    {
+    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             firebaseAuthWithGoogle(account);
-        } catch(ApiException e) {
+        } catch (ApiException e) {
             Log.w("Google", "signInResult:failed code = " + e.getStatusCode());
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct)   {
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -246,36 +257,12 @@ public class LoginActivity extends AppCompatActivity  {
                 });
     }
 
-    private void updateUI(FirebaseUser user)    {
-        if(user != null)    {
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("id",user.getUid());
+            intent.putExtra("id", user.getUid());
             startActivity(intent);
             finish();
         }
-    }
-
-    private void getAppKeyHash()    {
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
-            for(Signature signature: info.signatures)   {
-                MessageDigest md;
-                md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                String something = new String(Base64.encode(md.digest(),0));
-                Log.e("Hash key",something);
-            }
-        }   catch (Exception e) {
-            Log.e("name not found", e.toString());
-        }
-
-        btn_naver.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String id = "kind4u";
-                String pw = "admin123";
-                c_util.signIn(id,pw);
-            }
-        });
     }
 }
