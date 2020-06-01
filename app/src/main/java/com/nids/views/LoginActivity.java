@@ -27,9 +27,13 @@ import com.nids.kind4u.testapp.R;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
+import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
+
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity  {
+
+    OAuthLoginButton btn_naver;
 
     Button btn_signin;
     Button btn_join;
@@ -121,6 +125,7 @@ public class LoginActivity extends AppCompatActivity  {
         btn_join = (Button) findViewById(R.id.btn_join);
         edit_id = (EditText) findViewById(R.id.edit_id);
         edit_pw = (EditText) findViewById(R.id.edit_pw);
+        btn_naver = (OAuthLoginButton) findViewById(R.id.buttonOAuthLoginImg);
 
         btn_signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -153,6 +158,16 @@ public class LoginActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent joinIntent = new Intent(LoginActivity.this, JoinActivity.class);
                 startActivity(joinIntent);
+            }
+        });
+
+
+        btn_naver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = "kind4u";
+                String pw = "admin123";
+                c_util.signIn(id,pw);
             }
         });
     }

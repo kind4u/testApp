@@ -45,7 +45,7 @@ public class ValidationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getExtras().get("id").toString();
-        idValText.setText(id);
+        idValText.setText("   사용자 ID: "+id);
         idValText.setEnabled(false);
 
         callbackInstance = new NetworkCallBackInterface() {
