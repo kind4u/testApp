@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/naveridlogin_android_sdk_4.2.0/build.gradle" />
+    <file url="file://$PROJECT_DIR$/naveridlogin_android_sdk_4.2.0/naveridlogin_android_sdk_4.2.0.iml" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
