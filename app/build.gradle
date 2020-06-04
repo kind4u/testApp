@@ -36,7 +36,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.1.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.code.gson:gson:2.8.2'
-    implementation group:project.KAKAO_SDK_GROUP, name:'usermgmt', version:project.KAKAO_SDK_VERSION
+    implementation group:project.KAKAO_SDK_GROUP, name:'usermgmt', version:project.KAKAO_SDK_VERSION//
     implementation group: 'org.apache.httpcomponents', name: 'httpclient-android', version: '4.3.5.1'
     //noinspection GradleCompatible
     implementation 'androidx.preference:preference:1.1.0' 
