@@ -435,8 +435,7 @@ public class LoginActivity extends AppCompatActivity {
 
         sessionCallBack = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallBack);
-        Session.getCurrentSession().
-          AndImplicitOpen();
+        Session.getCurrentSession().checkAndImplicitOpen();
 
 
         btn_signin = (Button) findViewById(R.id.btn_signin);
@@ -587,7 +586,7 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(MeV2Response result) {
                     platform = Platform.KAKAO;
                     meV2Response = result;
-                    c_util.checkExist(String.valueOf(meV2Response.getId()));
+                    c_util_join.checkExist(String.valueOf(meV2Response.getId()));
                 }
             });
         }
