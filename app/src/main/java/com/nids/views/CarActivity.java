@@ -116,12 +116,15 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                 public void editCarResult(boolean edit, String result, String message){ }
 
                 @Override
-                public void checkCarResult(String result, boolean exist){
-
-                }
+                public void checkCarResult(String result, boolean exist){ }
 
                 @Override
                 public void signUpResult(boolean insert, String result, String message) { }
+
+                @Override
+                public void naverSignUpResult(boolean insert, String result, String message) {
+                    //TODO: 네이버 연동 로그인
+                }
 
                 @Override
                 public void positionResult(boolean position_result, String data) { }

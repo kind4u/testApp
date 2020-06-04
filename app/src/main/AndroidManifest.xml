@@ -51,7 +51,7 @@
         <activity android:name="com.nids.views.MainActivity" />
         <activity android:name="com.nids.views.CarActivity" />
         <activity android:name="com.nids.views.EditCarActivity" />
-        <activity android:name="com.nids.views.NaverLoginActivity" />
+<!--        <activity android:name="com.nids.views.NaverLoginActivity" />-->
 
 
         <service android:name="com.nids.util.MyFireBaseMessagingService">
@@ -71,12 +71,12 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <!-- [naveroauthlogin][start] 네이버아이디로로그인을 사용하기 위해서 넣어줘야하는 부분 -->
-<!--        <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginActivity"-->
-<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
-<!--        <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"-->
-<!--            android:label="OAuth2.0 In-app"/>-->
 
+<!--        &lt;!&ndash; [naveroauthlogin][start] 네이버아이디로로그인을 사용하기 위해서 넣어줘야하는 부분 &ndash;&gt;-->
+<!--                <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginActivity"-->
+<!--                    android:theme="@android:style/Theme.Translucent.NoTitleBar"/>-->
+<!--                <activity android:name="com.nhn.android.naverlogin.ui.OAuthLoginInAppBrowserActivity"-->
+<!--                    android:label="OAuth2.0 In-app"/>-->
     </application>
 
 </manifest>
