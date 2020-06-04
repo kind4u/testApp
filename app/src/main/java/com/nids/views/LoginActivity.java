@@ -3,6 +3,7 @@ package com.nids.views;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -13,6 +14,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -42,11 +44,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.kakao.auth.ApiErrorCode;
+import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.exception.KakaoException;
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
@@ -69,6 +80,10 @@ import java.security.MessageDigest;
 
 import java.util.List;
 
+enum Platform    {
+    DEFAULT, GOOGLE, NAVER, KAKAO
+}
+
 public class LoginActivity extends AppCompatActivity {
 
     OAuthLoginButton btn_naver;
@@ -78,7 +93,6 @@ public class LoginActivity extends AppCompatActivity {
     String testBd;
     String testGender;
     String testEmail;
-
     Button btn_signin;
     Button btn_join;
 
@@ -89,17 +103,17 @@ public class LoginActivity extends AppCompatActivity {
     String pw;
 
     CommunicationUtil c_util;
-    NetworkCallBackInterface callbackInstance;
-
     CommunicationUtil c_util_join;
+    NetworkCallBackInterface callbackInstance;
     JoinCallBackInterface joinCallBackInstance;
-
+    private SessionCallback sessionCallBack;
+  
+    private MeV2Response meV2Response = null;
+    private FirebaseUser user = null;
     private FirebaseAuth mAuth = null;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private SignInButton btn_google;
-
-
 
     //---------여기부터---------------
     Map<String, String> resultMap = new HashMap<>();
@@ -119,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
     private OAuthLoginButton mOAuthLoginButton;
     public static OAuthLogin mOAuthLoginInstance;
 
-
+    private Platform platform = Platform.DEFAULT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,13 +173,8 @@ public class LoginActivity extends AppCompatActivity {
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
 
                 new RequestApiTask().execute();
+                platform = Platform.NAVER;
                 c_util_join.checkExist(testId);
-
-                //로그인 후 MainActivity로로
-//                String ids = f_array[6];
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                intent.putExtra("id", ids);
-//                startActivity(intent);
 
             } else {
                 //로그인 인증 실패
@@ -336,10 +345,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void findStation(boolean result, final VOStation station_info) { }
-
             @Override
             public void dataReqResult(String result, List<VOSensorData> data) { }
-
             @Override
             public void dataReqResultOutdoor(boolean result, VOOutdoor data) { }
         };
@@ -362,33 +369,60 @@ public class LoginActivity extends AppCompatActivity {
             public void checkCarResult(String result, boolean exist){ }
 
             @Override
-            public void signUpResult(boolean insert, String result, String message) { }
-
-            @Override
-            public void existResult(String result, boolean exist) {
-                if (!exist) { //db에 등록되어있지 않아서 db에 회원정보 등록필요함
+            public void signUpResult(boolean insert, String result, String message) {
+                if(insert)  {
                     LoginActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
-
-                        }
-                    });
-                } else { //db에 등록되어 있음. id 얻어서 MainActivity
-                    LoginActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("id", testId); //네이버 연동 id 받아와서 넣기!
-                            startActivity(intent);
+                            Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
+                            intent2.putExtra("id",user.getUid());
+                            startActivity(intent2);
+                            finish();
                         }
                     });
                 }
             }
 
             @Override
-            public void naverSignUpResult(boolean insert, String result, String message) {
+            public void naverSignUpResult(boolean insert, String result, String message) { }
                 //TODO: 네이버 연동 로그인
+
+            @Override
+            public void existResult(String result, boolean exist) {
+                if(exist)   {       //db에 등록되어 있음. id 얻어서 MainActivity
+                    switch(platform)    {
+                        case GOOGLE:
+                            Intent intent_google = new Intent(getApplicationContext(), MainActivity.class);
+                            intent_google.putExtra("id", user.getUid());
+                            startActivity(intent_google);
+                            finish();
+                            break;
+                      case NAVER:
+                            Intent intent_naver = new Intent(LoginActivity.this, MainActivity.class);
+                            intent_naver.putExtra("id", testId); //네이버 연동 id 받아와서 넣기!
+                            startActivity(intent_naver);
+                            break;
+                        case KAKAO:
+                            Intent intent_kakao = new Intent(getApplicationContext(), MainActivity.class);
+                            intent_kakao.putExtra("id", meV2Response.getId());
+                            startActivity(intent_kakao);
+                            finish();
+                            break;
+                    }
+                }
+                else    {     //db에 등록되어있지 않아서 db에 회원정보 등록필요함
+                    switch (platform)   {
+                        case GOOGLE:
+                            c_util_join.signUp(user.getUid(), null, null, null, null, null, 9, null, null);
+                            break;
+                      case NAVER:
+                            c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
+                            break;
+                        case KAKAO:
+                            c_util_join.signUp(String.valueOf(meV2Response.getId()),null, null, null, null, null, 9, null, null);
+                            break;
+                    }
+                }
 
             }
 
@@ -396,9 +430,14 @@ public class LoginActivity extends AppCompatActivity {
             public void positionResult(boolean position_result, final String data) { }
         };
 
-
         c_util_join = new CommunicationUtil(joinCallBackInstance);
-        //여기까지
+      
+
+        sessionCallBack = new SessionCallback();
+        Session.getCurrentSession().addCallback(sessionCallBack);
+        Session.getCurrentSession().
+          AndImplicitOpen();
+
 
         btn_signin = (Button) findViewById(R.id.btn_signin);
         btn_join = (Button) findViewById(R.id.btn_join);
@@ -468,6 +507,9 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        }   else if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data))    {
+            super.onActivityResult(requestCode,resultCode,data);
+            return;
         }
     }
 
@@ -488,7 +530,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -499,11 +541,60 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("id", user.getUid());
-            startActivity(intent);
-            finish();
+        if(user != null) {
+            platform = Platform.GOOGLE;
+            c_util_join.checkExist(user.getUid());
+        }   else    {
+            LoginActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("구글 로그인에 실패했습니다. 다시 시도해주세요.");
+                    alert.show();
+                }
+            });
+        }
+    }
+
+    private class SessionCallback implements ISessionCallback   {
+
+        @Override
+        public void onSessionOpened() {
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                @Override
+                public void onFailure(ErrorResult errorResult) {
+                    int result = errorResult.getErrorCode();
+                    if(result == ApiErrorCode.CLIENT_ERROR_CODE)    {
+                        Toast.makeText(getApplicationContext(), "네트워크 연결이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }   else    {
+                        Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다."+errorResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+                    Toast.makeText(getApplicationContext(), "세션이 닫혔습니다. 다시 시도해 주세요."+errorResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    platform = Platform.KAKAO;
+                    meV2Response = result;
+                    c_util.checkExist(String.valueOf(meV2Response.getId()));
+                }
+            });
+        }
+
+        @Override
+        public void onSessionOpenFailed(KakaoException exception) {
+            Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요.: "+exception.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 }
