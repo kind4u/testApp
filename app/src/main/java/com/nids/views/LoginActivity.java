@@ -3,6 +3,7 @@ package com.nids.views;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 
@@ -11,6 +12,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -40,11 +42,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.kakao.auth.ApiErrorCode;
+import com.kakao.auth.ISessionCallback;
+import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeV2ResponseCallback;
+import com.kakao.usermgmt.response.MeV2Response;
+import com.kakao.util.exception.KakaoException;
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
@@ -54,10 +65,13 @@ import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
 
 import java.util.List;
 
+enum Platform    {
+    DEFAULT, GOOGLE, NAVER, KAKAO
+}
+
 public class LoginActivity extends AppCompatActivity {
 
     OAuthLoginButton btn_naver;
-
     Button btn_signin;
     Button btn_join;
 
@@ -68,12 +82,19 @@ public class LoginActivity extends AppCompatActivity {
     String pw;
 
     CommunicationUtil c_util;
+    CommunicationUtil c_util_join;
     NetworkCallBackInterface callbackInstance;
+    JoinCallBackInterface joinCallBackInstance;
+    private SessionCallback sessionCallBack;
 
+    private MeV2Response meV2Response = null;
+    private FirebaseUser user = null;
     private FirebaseAuth mAuth = null;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     private SignInButton btn_google;
+
+    private Platform platform = Platform.DEFAULT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,24 +151,86 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void modifyResult(boolean result) {
-            }
-
+            public void modifyResult(boolean result) { }
             @Override
-            public void findStation(boolean result, final VOStation station_info) {
-            }
-
+            public void findStation(boolean result, final VOStation station_info) { }
             @Override
-            public void dataReqResult(String result, List<VOSensorData> data) {
-
-            }
-
+            public void dataReqResult(String result, List<VOSensorData> data) { }
             @Override
-            public void dataReqResultOutdoor(boolean result, VOOutdoor data) {
-            }
+            public void dataReqResultOutdoor(boolean result, VOOutdoor data) { }
         };
 
         c_util = new CommunicationUtil(callbackInstance);
+
+        joinCallBackInstance = new JoinCallBackInterface()  {
+
+            @Override
+            public void carResult(boolean insert, String result, String message) { }
+
+            @Override
+            public void deleteCarResult(boolean delete, String result, String message) { }
+
+            @Override
+            public void editCarResult(boolean edit, String result, String message) { }
+
+            @Override
+            public void checkCarResult(String result, boolean exist) { }
+
+            @Override
+            public void signUpResult(boolean insert, String result, String message) {
+                if(insert)  {
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent2 = new Intent(getApplicationContext(), MainActivity.class);
+                            intent2.putExtra("id",user.getUid());
+                            startActivity(intent2);
+                            finish();
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void positionResult(boolean position_result, String data) { }
+
+            @Override
+            public void existResult(String result, boolean exist) {
+                if(exist)   {
+                    switch(platform)    {
+                        case GOOGLE:
+                            Intent intent_google = new Intent(getApplicationContext(), MainActivity.class);
+                            intent_google.putExtra("id", user.getUid());
+                            startActivity(intent_google);
+                            finish();
+                            break;
+                        case KAKAO:
+                            Intent intent_kakao = new Intent(getApplicationContext(), MainActivity.class);
+                            intent_kakao.putExtra("id", meV2Response.getId());
+                            startActivity(intent_kakao);
+                            finish();
+                            break;
+                    }
+                }
+                else    {
+                    switch (platform)   {
+                        case GOOGLE:
+                            c_util_join.signUp(user.getUid(), null, null, null, null, null, 9, null, null);
+                            break;
+                        case KAKAO:
+                            c_util_join.signUp(String.valueOf(meV2Response.getId()),null, null, null, null, null, 9, null, null);
+                            break;
+                    }
+                }
+            }
+        };
+
+        c_util_join = new CommunicationUtil(joinCallBackInstance);
+
+        sessionCallBack = new SessionCallback();
+        Session.getCurrentSession().addCallback(sessionCallBack);
+        Session.getCurrentSession().checkAndImplicitOpen();
+
 
         btn_signin = (Button) findViewById(R.id.btn_signin);
         btn_join = (Button) findViewById(R.id.btn_join);
@@ -227,6 +310,9 @@ public class LoginActivity extends AppCompatActivity {
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
+        }   else if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data))    {
+            super.onActivityResult(requestCode,resultCode,data);
+            return;
         }
     }
 
@@ -247,7 +333,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -258,11 +344,60 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void updateUI(FirebaseUser user) {
-        if (user != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("id", user.getUid());
-            startActivity(intent);
-            finish();
+        if(user != null) {
+            platform = Platform.GOOGLE;
+            c_util_join.checkExist(user.getUid());
+        }   else    {
+            LoginActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("구글 로그인에 실패했습니다. 다시 시도해주세요.");
+                    alert.show();
+                }
+            });
+        }
+    }
+
+    private class SessionCallback implements ISessionCallback   {
+
+        @Override
+        public void onSessionOpened() {
+            UserManagement.getInstance().me(new MeV2ResponseCallback() {
+                @Override
+                public void onFailure(ErrorResult errorResult) {
+                    int result = errorResult.getErrorCode();
+                    if(result == ApiErrorCode.CLIENT_ERROR_CODE)    {
+                        Toast.makeText(getApplicationContext(), "네트워크 연결이 불안정합니다. 다시 시도해 주세요.", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }   else    {
+                        Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다."+errorResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+                    Toast.makeText(getApplicationContext(), "세션이 닫혔습니다. 다시 시도해 주세요."+errorResult.getErrorMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(MeV2Response result) {
+                    platform = Platform.KAKAO;
+                    meV2Response = result;
+                    c_util.checkExist(String.valueOf(meV2Response.getId()));
+                }
+            });
+        }
+
+        @Override
+        public void onSessionOpenFailed(KakaoException exception) {
+            Toast.makeText(getApplicationContext(), "로그인 도중 오류가 발생했습니다. 인터넷 연결을 확인해주세요.: "+exception.toString(), Toast.LENGTH_SHORT).show();
         }
     }
 }
