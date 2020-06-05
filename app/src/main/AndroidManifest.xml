@@ -53,8 +53,8 @@
             </intent-filter>
         </activity>
         <activity android:name="com.nids.views.MainActivity" />
-        <activity android:name="com.nids.views.CarActivity" />
-        <activity android:name="com.nids.views.EditCarActivity" />
+        <activity android:name="com.nids.views.CarActivity"/>
+        <activity android:name="com.nids.views.EditCarActivity"/>
 <!--        <activity android:name="com.nids.views.NaverLoginActivity" />-->
 
 

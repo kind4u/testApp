@@ -17,6 +17,7 @@
             android:id="@+id/oldcarNumText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="70dp"
             android:text="차량 번호"
             android:textSize="18sp" />
 
@@ -28,7 +29,7 @@
 
             <EditText
                 android:id="@+id/edit_oldcarNum0"
-                android:layout_width="66dp"
+                android:layout_width="75dp"
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="지역"
@@ -36,7 +37,7 @@
 
             <EditText
                 android:id="@+id/edit_oldcarNum1"
-                android:layout_width="53dp"
+                android:layout_width="55dp"
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="123"
@@ -44,16 +45,16 @@
 
             <EditText
                 android:id="@+id/edit_oldcarNum2"
-                android:layout_width="43dp"
-                android:layout_height="49dp"
+                android:layout_width="45dp"
+                android:layout_height="50dp"
                 android:ems="10"
                 android:hint="가"
                 android:inputType="textPersonName" />
 
             <EditText
                 android:id="@+id/edit_oldcarNum3"
-                android:layout_width="79dp"
-                android:layout_height="49dp"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
                 android:ems="10"
                 android:hint="1234"
                 android:inputType="number" />

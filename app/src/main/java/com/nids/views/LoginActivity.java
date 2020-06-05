@@ -312,6 +312,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("id", user.getId());
+                            intent.putExtra("platform",platform);
                             startActivity(intent);
                         }
                     });
