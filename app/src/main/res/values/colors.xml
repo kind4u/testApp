@@ -8,4 +8,6 @@
     <color name="disable">#DDDDDD</color>
     <color name="unload">#999999</color>
     <color name="black">#000000</color>
+    <color name="mainblue">#A5D8FA</color>
+    <color name="textblue">#78A9ED</color>
 </resources>
