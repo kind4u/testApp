@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--bold-->
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/nanumsquareb"/>
+
+    <!--light-->
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/nanumsquarel"/>
+
+    <!--regular-->
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/nanumsquarer"/>
+
+    <!--extra bold-->
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/nanumsquareeb"/>
+
+</font-family>
