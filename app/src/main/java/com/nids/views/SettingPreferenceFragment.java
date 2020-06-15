@@ -69,11 +69,13 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     PeriodicWorkRequest periodicWorkRequest;
     WorkInfo.State workState;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context =getActivity();
         platform = ((MainActivity)getActivity()).getPlatform();
+
         addPreferencesFromResource(R.xml.settings_preference);
         soundPreference = (ListPreference)findPreference("sound_list");
         editUserPreference = (PreferenceScreen) findPreference("edit_user");
@@ -139,11 +141,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
 
             @Override
             public void signUpResult(boolean insert, String result, String message) { }
-
-            @Override
-            public void naverSignUpResult(boolean insert, String result, String message) {
-                //TODO: 네이버 연동 로그인
-            }
 
             @Override
             public void positionResult(boolean position_result, String data) { }
@@ -242,16 +239,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 }
             }
         });
-
-//        soundPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                //showAlertDialog();
-//                return true;
-//            }
-//        });
-
-
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -270,20 +257,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     };
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) { }
-
-
-//    private void showAlertDialog()  {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//        LayoutInflater inflater = getLayoutInflater();
-//        View view = inflater.inflate(R.layout. , null);
-//        builder.setView(view);
-//
-//        final ListView listView = (ListView)view.findViewById(R.id.);
-//        final AlertDialog dialog = builder.create();
-//
-//        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(), )
-//    }
-
 
     public void ConvertTermTime(String notice_term)   {
         switch (notice_term)    {

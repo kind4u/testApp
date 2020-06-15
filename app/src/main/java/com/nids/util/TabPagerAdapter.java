@@ -1,7 +1,5 @@
 package com.nids.util;
 
-import android.app.StatusBarManager;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,19 +18,15 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         this.tabCount = tabCount;
     }
 
-    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch(position)    {
             case 0:
-                DustFragment dustFragment = new DustFragment();
-                return dustFragment;
+                return new DustFragment();
             case 1:
-                MapFragment mapFragment = new MapFragment();
-                return mapFragment;
+                return new MapFragment();
             case 2:
-                SettingFragment settingFragment = new SettingFragment();
-                return settingFragment;
+                return new SettingFragment();
             default:
                 return null;
         }

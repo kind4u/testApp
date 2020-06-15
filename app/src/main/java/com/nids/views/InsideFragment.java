@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.nids.data.VOSensorData;
@@ -22,15 +23,15 @@ import java.util.Map;
 
 public class InsideFragment extends Fragment {
 
-    Map<String, Object> map;
-    MainActivity activity;
-    TextView dateTextInDoor;
-    TextView dustTextInDoor;
-    TextView infoTextInDoor;
-    TextView tempTextInDoor;
-    TextView humiTextInDoor;
+    private MainActivity activity;
+    private TextView dateTextInDoor;
+    private TextView dustTextInDoor;
+    private TextView infoTextInDoor;
+    private TextView tempTextInDoor;
+    private TextView humiTextInDoor;
+    private Button bluetoothButton;
 
-    ConstraintLayout backGround;
+    private ConstraintLayout backGround;
 
     public InsideFragment() { }
 
@@ -68,12 +69,22 @@ public class InsideFragment extends Fragment {
 
         backGround =v.findViewById(R.id.in);
 
+        bluetoothButton = v.findViewById(R.id.button_bt);
+        bluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.selectBluetoothDevice();
+            }
+        });
+        bluetoothButton.setVisibility(View.GONE);
+        bluetoothButton.setEnabled(false);
+
         bindInDoorView(v);
         return v;
     }
 
     private void bindInDoorView(View v) {
-        map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
+        Map<String, Object> map = ((MainActivity) getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");
 
         if(sensorData!=null) {

@@ -70,9 +70,9 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
         strParamId = intent.getStringExtra("id"); //차량등록시 join 혹은 main에서 아이디 받아옴
         strParmPage = intent.getStringExtra("page"); //이전 페이지가 join 인지 main인지 string 으로 받아옴
 
-        checkCar = (CheckBox) findViewById(R.id.checkCar);
-        registCar = (Button) findViewById(R.id.registCar);
-        registLater = (Button) findViewById(R.id.registLater);
+        checkCar = findViewById(R.id.checkCar);
+        registCar = findViewById(R.id.registCar);
+        registLater = findViewById(R.id.registLater);
 
         bindView();
     }
@@ -133,11 +133,6 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
             }
 
             @Override
-            public void naverSignUpResult(boolean insert, String result, String message) {
-                //TODO: 네이버 연동 로그인
-            }
-
-            @Override
             public void positionResult(boolean position_result, String data) {
             }
 
@@ -167,10 +162,12 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
                 if (m == 0) { //차량이 구형 번호판일 경우
                     fragmentTransaction.add(oldCarFragment, "oldCarFragment");
                     OldCarFragment nf0 = (OldCarFragment) getSupportFragmentManager().findFragmentByTag("oldCarFragment");
+                    assert nf0 != null;
                     nf0.getCarInfo0();
                 } else if (m == 1) { //차량이 신형 번호판일 경우
                     fragmentTransaction.add(newCarFragment, "newCarFragment");
                     NewCarFragment nf1 = (NewCarFragment) getSupportFragmentManager().findFragmentByTag("newCarFragment");
+                    assert nf1 != null;
                     nf1.getCarInfo1();
                 }
 

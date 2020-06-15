@@ -30,11 +30,11 @@ import java.util.List;
 
 
 public class WorkManager extends Worker {
-    String station_name = "";
-    VOOutdoor nullOutDoor;
+    private String station_name = "";
+    private VOOutdoor nullOutDoor;
 
-    static boolean notifyResult = false;
-    NetworkCallBackInterface networkCallBackInterface = new NetworkCallBackInterface() {
+    private static boolean notifyResult = false;
+    private NetworkCallBackInterface networkCallBackInterface = new NetworkCallBackInterface() {
         @Override
         public void signInResult(boolean result, String message, VOUser userinfo) {
         }
@@ -66,7 +66,7 @@ public class WorkManager extends Worker {
             }
         }
     };
-    CommunicationUtil c_util = new CommunicationUtil(networkCallBackInterface);
+    private CommunicationUtil c_util = new CommunicationUtil(networkCallBackInterface);
 
     public WorkManager(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -105,7 +105,7 @@ public class WorkManager extends Worker {
     private void sendNotification(VOOutdoor data) {
         String info = "";
         float pm10 = 0;
-        if (data.isNull() != true) {
+        if (!data.isNull()) {
             pm10 = data.getPM100();                            // 미세먼지 농도 추출
             if (pm10 > 150.0) {
                 info = "매우나쁨";
@@ -118,7 +118,7 @@ public class WorkManager extends Worker {
             }
         }
         String messageTitle = "TestAPP 제목";
-        String messageBody = "현재 미세먼지 농도는 " + String.valueOf(pm10) + "㎍/㎥ 입니다.(상태 : " + info + ")";
+        String messageBody = "현재 미세먼지 농도는 " + pm10 + "㎍/㎥ 입니다.(상태 : " + info + ")";
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //이미 존재하는 액티비티를 포그라운드로 가져옴
         PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -136,8 +136,10 @@ public class WorkManager extends Worker {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String channelName = "Channel Name";
             NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+            assert notificationManager != null;
             notificationManager.createNotificationChannel(channel);
         }
+        assert notificationManager != null;
         notificationManager.notify(0, notificationBuilder.build());
         notifyResult = true;
     }

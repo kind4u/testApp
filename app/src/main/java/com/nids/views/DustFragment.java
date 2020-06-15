@@ -29,13 +29,12 @@ import java.util.TimerTask;
 
 
 public class DustFragment extends Fragment {
-    InsideFragment insideFragment;
-    OutsideFragment outsideFragment;
-    Button btn_analysis;
-    String station_name = "";
-    List<VOSensorData> inDoorDataList;
-    VOSensorData inDoorData;
-    VOOutdoor data = new VOOutdoor();
+    private InsideFragment insideFragment;
+    private OutsideFragment outsideFragment;
+    private String station_name = "";
+    private List<VOSensorData> inDoorDataList;
+    private VOSensorData inDoorData;
+    private VOOutdoor data = new VOOutdoor();
     String id;
 
     NetworkCallBackInterface callBackInterface = new NetworkCallBackInterface() {        // callback 값을 받기 위한 callback Interface 호출
