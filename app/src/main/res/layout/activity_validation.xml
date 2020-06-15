@@ -8,7 +8,7 @@
     tools:context="com.nids.views.ValidationActivity">
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
+        android:id="@+id/linearLayout"
         android:layout_width="327dp"
         android:layout_height="405dp"
         android:layout_marginStart="8dp"

@@ -150,11 +150,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             public void signUpResult(boolean insert, String result, String message) { }
 
             @Override
-            public void naverSignUpResult(boolean insert, String result, String message) {
-                //TODO: 네이버 연동 로그인
-            }
-
-            @Override
             public void positionResult(boolean position_result, String data) { }
 
             @Override

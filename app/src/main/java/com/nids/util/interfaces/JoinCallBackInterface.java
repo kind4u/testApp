@@ -11,5 +11,4 @@ public interface JoinCallBackInterface {
     public void signUpResult(boolean insert, String result, String message);
     public void positionResult(boolean position_result, String data);
     public void existResult(String result, boolean exist);
-    public void naverSignUpResult(boolean insert, String result, String message);
 }

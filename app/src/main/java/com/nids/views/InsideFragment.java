@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.nids.data.VOSensorData;
@@ -29,6 +30,7 @@ public class InsideFragment extends Fragment {
     TextView infoTextInDoor;
     TextView tempTextInDoor;
     TextView humiTextInDoor;
+    Button bluetoothButton;
 
     ConstraintLayout backGround;
 
@@ -67,6 +69,16 @@ public class InsideFragment extends Fragment {
         humiTextInDoor = v.findViewById(R.id.humiTextInDoor);
 
         backGround =v.findViewById(R.id.in);
+
+        bluetoothButton = v.findViewById(R.id.button_bt);
+        bluetoothButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activity.selectBluetoothDevice();
+            }
+        });
+        bluetoothButton.setVisibility(View.GONE);
+        bluetoothButton.setEnabled(false);
 
         bindInDoorView(v);
         return v;
