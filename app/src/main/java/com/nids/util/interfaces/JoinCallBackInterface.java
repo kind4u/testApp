@@ -3,6 +3,7 @@ package com.nids.util.interfaces;
 import com.nids.data.VOUser;
 
 public interface JoinCallBackInterface {
+    public void getUserResult(boolean result, String message, VOUser userinfo);
     public void carResult(boolean insert, String result, String message);
     public void deleteCarResult(boolean delete, String result, String message);
     public void editCarResult(boolean edit, String result, String message);

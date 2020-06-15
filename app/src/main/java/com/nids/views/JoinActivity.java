@@ -52,8 +52,7 @@ public class JoinActivity extends AppCompatActivity {
     String addr;
     String addr_detail;
     int gender;
-    String tmX;
-    String tmY;
+    String platform;
 
 	EditText edit_id;
 	EditText edit_pw;
@@ -63,8 +62,6 @@ public class JoinActivity extends AppCompatActivity {
 	EditText edit_addr;
 	EditText edit_addr_detail;
 	RadioGroup genderGroup;
-	TextView edit_tmX;
-	TextView edit_tmY;
 
 	Button btn_signup;
 	Button btn_duplicate;
@@ -83,8 +80,6 @@ public class JoinActivity extends AppCompatActivity {
 		edit_addr = findViewById(R.id.edit_addr);
 		edit_addr_detail = findViewById(R.id.edit_addr_detail);
 		genderGroup = findViewById(R.id.genderGroup);
-		edit_tmX = findViewById(R.id.edit_tmX);
-		edit_tmY = findViewById(R.id.edit_tmY);
 
 		webView = (WebView) findViewById(R.id.addrWebView);
 
@@ -100,6 +95,8 @@ public class JoinActivity extends AppCompatActivity {
 	private void bindView() {
 
 		joinCallBackInstance = new JoinCallBackInterface() {
+			@Override
+			public void getUserResult(boolean result, String message, VOUser userinfo){  }
 
 			@Override
 			public void carResult(boolean insert, String result, String message) { }
@@ -178,8 +175,7 @@ public class JoinActivity extends AppCompatActivity {
 							JsonObject jusoObj = (JsonObject) (((JsonArray) jusoArray.get(0)).get(0));
 							String tmX = jusoObj.get("entX").toString().replace("\"", "");
 							String tmY = jusoObj.get("entY").toString().replace("\"", "");
-							edit_tmX.setText(tmX);
-							edit_tmY.setText(tmY);
+
 
 							findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);
 						}
@@ -323,8 +319,7 @@ public class JoinActivity extends AppCompatActivity {
 					break;
 				}
 				}
-				tmX = edit_tmX.getText().toString();
-				tmY = edit_tmY.getText().toString();
+				platform ="DEFAULT";
 
 				btn_get_addr.setEnabled(false);
 				btn_signup.setEnabled(false);
@@ -337,10 +332,9 @@ public class JoinActivity extends AppCompatActivity {
 				Log.d("addr", addr);
 				Log.d("detail", addr_detail);
 				Log.d("gender", Integer.toString(gender));
-				Log.d("tmX", tmX);
-				Log.d("tmY", tmY);
+				Log.d("platform", platform);
 
-				c_util_join.signUp(id, pw, name, zip_code, addr, addr_detail, gender, tmX, tmY); // communication util의
+				c_util_join.signUp(id, pw, name, zip_code, addr, addr_detail, gender, platform); // communication util의
 																									// signup 함수 호출
 
 			}

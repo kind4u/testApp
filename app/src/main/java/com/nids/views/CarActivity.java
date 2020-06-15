@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
@@ -79,6 +80,9 @@ public class CarActivity extends AppCompatActivity implements NewCarFragment.OnN
     private void bindView() {
 
         joinCallBackInterface = new JoinCallBackInterface() {
+            @Override
+            public void getUserResult(boolean result, String message, VOUser userinfo){  }
+
             @Override
             public void carResult(boolean insert, String result, String message) {
                 if (insert) {

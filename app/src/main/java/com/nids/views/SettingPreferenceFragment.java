@@ -32,6 +32,7 @@ import androidx.work.WorkInfo;
 import androidx.work.WorkerFactory;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.WorkManager;
 import com.nids.util.interfaces.JoinCallBackInterface;
@@ -43,6 +44,8 @@ import java.util.concurrent.TimeUnit;
 public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     JoinCallBackInterface joinCallBackInterface;
     CommunicationUtil c_util_car;
+
+    VOUser user;
 
     int check;
     int button;
@@ -64,11 +67,21 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     PeriodicWorkRequest periodicWorkRequest;
     WorkInfo.State workState;
 
+    //public String platform;
+
+    //RequestActivity에서 전달한 번들 저장
+    //Bundle bundle = getArguments();
+    //번들 안의 텍스트 불러오기
+    //String platform = bundle.getString("platform");
+    String platform = ((MainActivity)getActivity()).getPlatform();
+//    Intent intent = getIntent();
+//    platform = intent.getStringExtra("platform"); //로그인 시 platform 받아옴
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context =getActivity();
-
 
         addPreferencesFromResource(R.xml.settings_preference);
         soundPreference = (ListPreference)findPreference("sound_list");
@@ -77,7 +90,17 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         editCarPreference = (Preference) findPreference("edit_car");
         noticePrefernece = (SwitchPreference) findPreference("notice");
 
+
+
         joinCallBackInterface = new JoinCallBackInterface() {
+
+            @Override
+            public void getUserResult(boolean result, String message, VOUser userinfo){
+                if(result) {
+                    user = userinfo;
+                }
+            }
+
             @Override
             public void carResult(boolean insert, String result, String message) { }
 
@@ -167,9 +190,25 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         editUserPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Intent intent = new Intent(getContext(),ValidationActivity.class);
-                intent.putExtra("id",((MainActivity)getActivity()).getId());
-                startActivity(intent);
+                switch (platform){
+                    case "DEFAULT" :
+                        Intent intent = new Intent(getContext(),ValidationActivity.class);
+                        intent.putExtra("id",((MainActivity)getActivity()).getId());
+                        startActivity(intent);
+                        break;
+
+                    case "GOOGLE":
+                        break;
+                    case "NAVER":
+                        c_util_car.getUser(((MainActivity) getActivity()).getId());
+                        Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
+                        intent_naver.putExtra("user", user);
+                        startActivity(intent_naver);
+                        break;
+                    case "KAKAO":
+                        break;
+
+                }
                 return false;
             }
         });

@@ -360,6 +360,9 @@ public class LoginActivity extends AppCompatActivity {
         joinCallBackInstance = new JoinCallBackInterface() {
 
             @Override
+            public void getUserResult(boolean result, String message, VOUser userinfo){  }
+
+            @Override
             public void carResult(boolean insert, String result, String message) {
             }
 
@@ -378,7 +381,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void signUpResult(boolean insert, String result, String message) {
                 if (insert) {
-                    switch (platform) {
+
+                    switch(platform)    {
+
                         case "GOOGLE":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
@@ -430,11 +435,13 @@ public class LoginActivity extends AppCompatActivity {
                         case "NAVER":
                             Intent intent_naver = new Intent(LoginActivity.this, MainActivity.class);
                             intent_naver.putExtra("id", testId); //네이버 연동 id 받아와서 넣기!
+                            intent_naver.putExtra("platform", platform);
                             startActivity(intent_naver);
                             break;
                         case "KAKAO":
                             Intent intent_kakao = new Intent(getApplicationContext(), MainActivity.class);
                             intent_kakao.putExtra("id", meV2Response.getId());
+                            intent_kakao.putExtra("platform", platform);
                             startActivity(intent_kakao);
                             finish();
                             break;
