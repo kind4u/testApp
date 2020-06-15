@@ -55,7 +55,6 @@ public class ModifyActivity extends AppCompatActivity {
                 if(gender == 0){genderDesc="남성";}    else    { genderDesc="여성"; }
                 infoArrayList.add(new InfoItem("성별",genderDesc));
                 break;
-
             case "GOOGLE":
                 break;
             case "NAVER":
