@@ -1,7 +1,6 @@
 package com.nids.util;
 
-import android.app.Activity;
-import android.app.Notification;
+import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,18 +13,14 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
-
 import com.nids.kind4u.testapp.R;
-import com.nids.views.LoginActivity;
 import com.nids.views.MainActivity;
 
 public class PushService extends Service {
     NotificationManager notifi_m;
     ServiceThread thread;
-    Notification notifi;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -69,8 +64,10 @@ public class PushService extends Service {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)  {
                 String channelName = "Channel Name";
                 NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+                assert notificationManager != null;
                 notificationManager.createNotificationChannel(channel);
             }
+            assert notificationManager != null;
             notificationManager.notify(0, notificationBuilder.build());
         }
     }

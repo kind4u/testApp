@@ -19,7 +19,6 @@ import com.nids.views.MainActivity;
 
 public class GpsTracker extends Service implements LocationListener {
 
-    MainActivity mainActivity;
     private final Context mContext;
     Location location;
     double latitude;
@@ -97,14 +96,6 @@ public class GpsTracker extends Service implements LocationListener {
         return longitude;
     }
 
-    // 이 아래는 입력하지 않은 Override 세팅들 (추후 개발 가능성 있음)
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
     @Override
     public void onLocationChanged(Location location) {
         // 위치값이 갱신되면 이벤트 발생
@@ -113,18 +104,20 @@ public class GpsTracker extends Service implements LocationListener {
         double latitude = location.getLatitude();
     }
 
+    // 이 아래는 입력하지 않은 Override 세팅들 (추후 개발 가능성 있음)
+    @Nullable
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
 
     @Override
-    public void onProviderDisabled(String provider) {
+    public void onStatusChanged(String provider, int status, Bundle extras) {}
 
-    }
+    @Override
+    public void onProviderEnabled(String provider) {}
+
+    @Override
+    public void onProviderDisabled(String provider) {}
 }

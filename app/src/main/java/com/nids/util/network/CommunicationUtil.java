@@ -38,7 +38,6 @@ import java.util.List;
 
 public class CommunicationUtil {
 
-	//public static final String root_url_goorm = "https://spring-nids-kglhs.run.goorm.io";
 	public static final String root_url_goorm = "https://nids-spring-psdg.run.goorm.io";
 	public static final String root_url_aws = "http://nidsprojtestapp.372fabauwi.us-east-1.elasticbeanstalk.com";
 	public static final String server_url = root_url_goorm;
@@ -131,16 +130,6 @@ public class CommunicationUtil {
 		t.start();
 	}
 
-	public void runReceiverThread(String auth) {
-		receiver_t = new Thread(new Receiver(auth));
-		receiver_t.start();
-	}
-
-	public void stopReceiverThread() {
-		if (receiver_t != null && !stop_flag) {
-			stop_flag = true;
-		}
-	}
 
 	public class CarInfo implements Runnable{
 		String num;
@@ -152,7 +141,7 @@ public class CommunicationUtil {
 		@Override
 		public void run(){
 			try {
-				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				HttpClient httpclient = new DefaultHttpClient();  //HttpClientBuilder.create().build();
 				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
 				httpclient.getParams().setParameter("http.connection.timeout", 5000);
 				httpclient.getParams().setParameter("http.socket.timeout", 5000);
@@ -771,7 +760,6 @@ public class CommunicationUtil {
 					str_response = EntityUtils.toString(entity);
 
 					System.out.println(str_response);		// 가까운 측정소 정보가 담긴 entity 패키지
-
 
 					JsonParser parser = new JsonParser();
 					JsonElement element = parser.parse(str_response);
