@@ -25,38 +25,57 @@ public class ModifyActivity extends AppCompatActivity {
     int gender;
     Button submit_button;
 
+    String id;
+    private String platform;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify);
+
         Intent intent = getIntent();
-        voUser = (VOUser) intent.getExtras().get("user");
+        platform = intent.getExtras().get("platform").toString();
 
         recyclerView = findViewById(R.id.modify_recycler_view);
-
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         ArrayList<InfoItem> infoArrayList = new ArrayList<>();
-        infoArrayList.add(new InfoItem("ID",voUser.getId()));
-        infoArrayList.add(new InfoItem("비밀번호",voUser.getPw()));
-        infoArrayList.add(new InfoItem("이름",voUser.getName()));
-        gender = voUser.getGender();
-        if(gender == 0){genderDesc="남성";}    else    { genderDesc="여성"; }
-        infoArrayList.add(new InfoItem("성별",genderDesc));
+        switch (platform){
+            case "DEFAULT" :
 
+                voUser = (VOUser) intent.getExtras().get("user");
+                id =voUser.getId();
+                infoArrayList.add(new InfoItem("ID",id));
+                infoArrayList.add(new InfoItem("비밀번호",voUser.getPw()));
+                infoArrayList.add(new InfoItem("이름",voUser.getName()));
+                gender = voUser.getGender();
+                if(gender == 0){genderDesc="남성";}    else    { genderDesc="여성"; }
+                infoArrayList.add(new InfoItem("성별",genderDesc));
+                break;
+            case "GOOGLE":
+                break;
+            case "NAVER":
+                id = intent.getExtras().get("id").toString();
+                infoArrayList.add(new InfoItem("ID", id));
+                infoArrayList.add(new InfoItem("비밀번호",""));
+                infoArrayList.add(new InfoItem("이름",""));
+                infoArrayList.add(new InfoItem("성별",""));
+                break;
+            case "KAKAO":
+                break;
 
+        }
         ModifyAdapter mAdapter = new ModifyAdapter(infoArrayList);
         recyclerView.setAdapter(mAdapter);
-
         submit_button = findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ModifyActivity.this,MainActivity.class);
-                intent.putExtra("id",voUser.getId());
+                intent.putExtra("id",id);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }

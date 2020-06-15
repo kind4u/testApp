@@ -52,6 +52,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
 
     private Context context;
     private String platform;
+    private String id;
 
     SharedPreferences prefs;
 
@@ -68,20 +69,11 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     PeriodicWorkRequest periodicWorkRequest;
     WorkInfo.State workState;
 
-    //public String platform;
-
-    //RequestActivity에서 전달한 번들 저장
-    //Bundle bundle = getArguments();
-    //번들 안의 텍스트 불러오기
-    //String platform = bundle.getString("platform");
-//    Intent intent = getIntent();
-//    platform = intent.getStringExtra("platform"); //로그인 시 platform 받아옴
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        context = getActivity();
+        context =getActivity();
         platform = ((MainActivity)getActivity()).getPlatform();
 
         addPreferencesFromResource(R.xml.settings_preference);
@@ -195,6 +187,8 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                     case "DEFAULT" :
                         Intent intent = new Intent(getContext(),ValidationActivity.class);
                         intent.putExtra("id",((MainActivity)getActivity()).getId());
+                        intent.putExtra("platform",platform);
+                        id = ((MainActivity)getActivity()).getId();
                         startActivity(intent);
                         break;
 
@@ -204,6 +198,9 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         c_util_car.getUser(((MainActivity) getActivity()).getId());
                         Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
                         intent_naver.putExtra("user", user);
+                        intent_naver.putExtra("platform",platform);
+                        intent_naver.putExtra("id",((MainActivity)getActivity()).getId());
+                        id = ((MainActivity)getActivity()).getId();
                         startActivity(intent_naver);
                         break;
                     case "KAKAO":
@@ -242,16 +239,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 }
             }
         });
-
-//        soundPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//            @Override
-//            public boolean onPreferenceClick(Preference preference) {
-//                //showAlertDialog();
-//                return true;
-//            }
-//        });
-
-
     }
 
     SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
@@ -270,20 +257,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     };
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) { }
-
-
-//    private void showAlertDialog()  {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-//        LayoutInflater inflater = getLayoutInflater();
-//        View view = inflater.inflate(R.layout. , null);
-//        builder.setView(view);
-//
-//        final ListView listView = (ListView)view.findViewById(R.id.);
-//        final AlertDialog dialog = builder.create();
-//
-//        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(), )
-//    }
-
 
     public void ConvertTermTime(String notice_term)   {
         switch (notice_term)    {

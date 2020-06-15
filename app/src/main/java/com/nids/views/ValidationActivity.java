@@ -33,6 +33,7 @@ public class ValidationActivity extends AppCompatActivity {
 
     private String id;
     private String pw;
+    private String platform;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class ValidationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         id = intent.getExtras().get("id").toString();
+        platform = intent.getExtras().get("platform").toString();
         idValText.setText("   사용자 ID: "+id);
         idValText.setEnabled(false);
 
@@ -61,6 +63,7 @@ public class ValidationActivity extends AppCompatActivity {
 //                            findViewById(R.id.valLoadingPannel).setVisibility(View.GONE);
                             Intent intent=new Intent(ValidationActivity.this,ModifyActivity.class);
                             intent.putExtra("user",user);
+                            intent.putExtra("platform", platform);
                             startActivity(intent);
                         }
                     });

@@ -82,13 +82,11 @@ public class MainActivity extends AppCompatActivity {
     public String getId(){
         return id;
     }
-
     public void setId(String id){
         this.id =id;
     }
 
     public String getPlatform() { return platform; }
-
     public void setPlatform(String platform) { this.platform = platform; }
 
     public BackPressCloseHandler backPressCloseHandler;
@@ -140,14 +138,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getExtras().get("id").toString();
         platform = intent.getExtras().get("platform").toString();
-
-//        SettingPreferenceFragment fragment = new SettingPreferenceFragment();
-
-        //번들객체 생성,  platform값 저장
-//        Bundle bundle = new Bundle();
-//        bundle.putString("platform", platform);
-//        //fragment로 번들 전달
-//         fragment.setArguments(bundle);
 
         setContentView(R.layout.activity_main);
 
