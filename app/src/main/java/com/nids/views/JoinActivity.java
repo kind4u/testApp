@@ -173,8 +173,6 @@ public class JoinActivity extends AppCompatActivity {
 							JsonArray jusoArray = new JsonArray();
 							jusoArray.add(resultObj.get("juso"));
 							JsonObject jusoObj = (JsonObject) (((JsonArray) jusoArray.get(0)).get(0));
-							String tmX = jusoObj.get("entX").toString().replace("\"", "");
-							String tmY = jusoObj.get("entY").toString().replace("\"", "");
 
 
 							findViewById(R.id.joinLoadingPannel).setVisibility(View.GONE);

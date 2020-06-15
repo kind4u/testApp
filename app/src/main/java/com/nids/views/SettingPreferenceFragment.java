@@ -193,8 +193,8 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         break;
 
                     case "GOOGLE":
-                        break;
                     case "NAVER":
+                    case "KAKAO":
                         c_util_car.getUser(((MainActivity) getActivity()).getId());
                         Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
                         intent_naver.putExtra("user", user);
@@ -203,9 +203,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         id = ((MainActivity)getActivity()).getId();
                         startActivity(intent_naver);
                         break;
-                    case "KAKAO":
-                        break;
-
                 }
                 return false;
             }

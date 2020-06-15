@@ -56,15 +56,13 @@ public class ModifyActivity extends AppCompatActivity {
                 infoArrayList.add(new InfoItem("성별",genderDesc));
                 break;
             case "GOOGLE":
-                break;
             case "NAVER":
+            case "KAKAO":
                 id = intent.getExtras().get("id").toString();
                 infoArrayList.add(new InfoItem("ID", id));
                 infoArrayList.add(new InfoItem("비밀번호",""));
                 infoArrayList.add(new InfoItem("이름",""));
                 infoArrayList.add(new InfoItem("성별",""));
-                break;
-            case "KAKAO":
                 break;
 
         }

@@ -390,6 +390,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void run() {
                                     Intent intent_google = new Intent(getApplicationContext(), MainActivity.class);
                                     intent_google.putExtra("id", user.getUid());
+                                    intent_google.putExtra("platform",platform);
                                     startActivity(intent_google);
                                     finish();
                                 }
@@ -401,6 +402,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void run() {
                                     Intent intent_naver = new Intent(getApplicationContext(), MainActivity.class);
                                     intent_naver.putExtra("id", testId);
+                                    intent_naver.putExtra("platform", platform);
                                     startActivity(intent_naver);
                                     finish();
                                 }
@@ -412,6 +414,7 @@ public class LoginActivity extends AppCompatActivity {
                                 public void run() {
                                     Intent intent_kakao = new Intent(getApplicationContext(), MainActivity.class);
                                     intent_kakao.putExtra("id", meV2Response.getId());
+                                    intent_kakao.putExtra("platform", platform);
                                     startActivity(intent_kakao);
                                     finish();
                                 }
