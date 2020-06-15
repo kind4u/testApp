@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Bluetooth variable 모음들
     private static final int REQUEST_ENABLE_BT = 10;    // 블루투스 활성화 상태
+    private static final String TAG = "BluetoothClient";
     private BluetoothAdapter bluetoothAdapter;          // 블루투스 어댑터
     private int pariedDeviceCount;                      // 페어링 된 디바이스 크기
     private Set<BluetoothDevice> devices;               // 블루투스 디바이스 데이터 셋
@@ -132,6 +133,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         id = intent.getExtras().get("id").toString();
+        String platform = intent.getExtras().get("platform").toString();
 
         setContentView(R.layout.activity_main);
 
@@ -144,10 +146,12 @@ public class MainActivity extends AppCompatActivity {
         // 블루투스 활성화
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();        // bluetoothAdapter를 기본 어댑터로 설정
         if(bluetoothAdapter == null)    {
-            //bluetooth 기능을 지원하지 않음
+            //showErrorDialog("This device is not implement Bluetooth");
+            return;
         }   else    {
             if(bluetoothAdapter.isEnabled())    {       // 블루투스 활성화 상태
-                selectBluetoothDevice();    // 블루투스 디바이스 선택 함수
+                Log.d(TAG, "Initialisation succesful");
+                //selectBluetoothDevice();    // 블루투스 디바이스 선택 함수
             }
             else    {       // 블루투스 비활성화 상태
                 // 블루투스 활성화를 위한 Dialog 출력
@@ -179,13 +183,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         backPressCloseHandler = new BackPressCloseHandler(this);
-
-//        Intent pushIntent = new Intent(MainActivity.this, PushService.class);
-//        startService(pushIntent);
-
-//        // PeriodicWorkRequest 추가
-//        PeriodicWorkRequest periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, 10, TimeUnit.SECONDS).setInitialDelay(10, TimeUnit.SECONDS).build();
-//        androidx.work.WorkManager.getInstance(getApplicationContext()).enqueue(periodicWorkRequest);
     }
 
     @Override
@@ -325,9 +322,9 @@ public class MainActivity extends AppCompatActivity {
 
             // 뒤로가기 버튼 누를 때 창이 안 닫히도록 설정
             builder.setCancelable(false);
-            // Dialog 생성        ==  현재는 임시로 꺼둠
-//            AlertDialog alertDialog = builder.create();
-//            alertDialog.show();
+            // Dialog 생성
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
         }
     }
 
@@ -340,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-
         // UUID 생성
         UUID uuid = java.util.UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
         // Rfcomm 채널을 통해 블루투스 디바이스와 통신하는 소켓 생성
@@ -391,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void run() {
                                                 // 텍스트 뷰에 출력(예정)
-                                            System.out.println("text : " + text);
+                                            Toast.makeText(getApplicationContext(),text,Toast.LENGTH_SHORT).show();
                                             }
                                         });
                                 }   // 개행 문자가 아닐 경우

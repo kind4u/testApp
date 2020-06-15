@@ -80,10 +80,6 @@ import java.security.MessageDigest;
 
 import java.util.List;
 
-enum Platform {
-    DEFAULT, GOOGLE, NAVER, KAKAO
-}
-
 public class LoginActivity extends AppCompatActivity {
 
     OAuthLoginButton btn_naver;
@@ -133,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
     private OAuthLoginButton mOAuthLoginButton;
     public static OAuthLogin mOAuthLoginInstance;
 
-    private Platform platform = Platform.DEFAULT;
+    private String platform = "DEFAULT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -173,7 +169,7 @@ public class LoginActivity extends AppCompatActivity {
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
 
                 new RequestApiTask().execute();
-                platform = Platform.NAVER;
+                platform = "NAVER";
                 c_util_join.checkExist(testId);
 
             } else {
@@ -312,7 +308,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("id", user.getId());
-                            intent.putExtra("platform",platform);
+                            intent.putExtra("platform", platform);
                             startActivity(intent);
                         }
                     });
@@ -382,8 +378,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void signUpResult(boolean insert, String result, String message) {
                 if (insert) {
-                    switch(platform)    {
-                        case GOOGLE:
+                    switch (platform) {
+                        case "GOOGLE":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -394,7 +390,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                             break;
-                        case NAVER:
+                        case "NAVER":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -405,7 +401,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                             break;
-                        case KAKAO:
+                        case "KAKAO":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -421,26 +417,22 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void naverSignUpResult(boolean insert, String result, String message) {
-            }
-            //TODO: 네이버 연동 로그인
-
-            @Override
             public void existResult(String result, boolean exist) {
                 if (exist) {       //db에 등록되어 있음. id 얻어서 MainActivity
                     switch (platform) {
-                        case GOOGLE:
+                        case "GOOGLE":
                             Intent intent_google = new Intent(getApplicationContext(), MainActivity.class);
                             intent_google.putExtra("id", user.getUid());
+                            intent_google.putExtra("platform", platform);
                             startActivity(intent_google);
                             finish();
                             break;
-                        case NAVER:
+                        case "NAVER":
                             Intent intent_naver = new Intent(LoginActivity.this, MainActivity.class);
                             intent_naver.putExtra("id", testId); //네이버 연동 id 받아와서 넣기!
                             startActivity(intent_naver);
                             break;
-                        case KAKAO:
+                        case "KAKAO":
                             Intent intent_kakao = new Intent(getApplicationContext(), MainActivity.class);
                             intent_kakao.putExtra("id", meV2Response.getId());
                             startActivity(intent_kakao);
@@ -449,14 +441,31 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 } else {     //db에 등록되어있지 않아서 db에 회원정보 등록필요함
                     switch (platform) {
-                        case GOOGLE:
-                            c_util_join.signUp(user.getUid(), null, null, null, null, null, 9, null, null);
+                        case "GOOGLE":
+                            c_util_join.signUp(user.getUid(),
+                                    user.getPhoneNumber(),
+                                    user.getDisplayName(),
+                                    null,
+                                    null,
+                                    null,
+                                    9,
+                                    null,
+                                    null);
                             break;
-                        case NAVER:
-                            c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
+                        case "NAVER":
+                            //c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
+                            c_util_join.signUp(testId, null, testName, null, null, null, 9, null, null);
                             break;
-                        case KAKAO:
-                            c_util_join.signUp(String.valueOf(meV2Response.getId()), null, null, null, null, null, 9, null, null);
+                        case "KAKAO":
+                            c_util_join.signUp(String.valueOf(meV2Response.getId()),
+                                    meV2Response.getKakaoAccount().getBirthday(),
+                                    meV2Response.getKakaoAccount().getProfile().getNickname(),
+                                    null,
+                                    null,
+                                    null,
+                                    String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("MALE") ? 0 : String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("FEMALE") ? 1 : 9,
+                                    null,
+                                    null);
                             break;
                     }
                 }
@@ -579,7 +588,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            platform = Platform.GOOGLE;
+            platform = "GOOGLE";
             c_util_join.checkExist(user.getUid());
         } else {
             LoginActivity.this.runOnUiThread(new Runnable() {
@@ -622,7 +631,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(MeV2Response result) {
-                    platform = Platform.KAKAO;
+                    platform = "KAKAO";
                     meV2Response = result;
                     c_util_join.checkExist(String.valueOf(meV2Response.getId()));
                 }

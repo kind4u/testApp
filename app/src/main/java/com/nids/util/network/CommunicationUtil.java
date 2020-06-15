@@ -84,11 +84,6 @@ public class CommunicationUtil {
 		t.start();
 	}
 
-	public void naverSignUp(String id, String name, String age)	{
-		Thread t = new Thread(new NaverUserJoin(id, name, age));
-		t.start();
-	}
-
 	public void findPosition(String amdCd, String rnMgtSn, String udrtYn, String buldMnnm, String buldSlno) {
 		Thread t = new Thread(new Position(amdCd, rnMgtSn, udrtYn, buldMnnm, buldSlno));
 		t.start();
@@ -879,65 +874,6 @@ public class CommunicationUtil {
 			}
 		}
 
-	public class NaverUserJoin implements Runnable {
-		String id;
-		String name;
-		String age;
-
-		NaverUserJoin(String id, String name, String age) {
-			this.id = id;
-			this.name = name;
-			this.age = age;
-		}
-
-		@Override
-		public void run() {
-			try {
-				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
-				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
-				httpclient.getParams().setParameter("http.connection.timeout", 5000);
-				httpclient.getParams().setParameter("http.socket.timeout", 5000);
-
-				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
-				try {
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(10);
-					nameValuePairs.add(new BasicNameValuePair("type", "NaverRegister"));
-					nameValuePairs.add(new BasicNameValuePair("id", this.id));
-					nameValuePairs.add(new BasicNameValuePair("name", this.name));
-					nameValuePairs.add(new BasicNameValuePair("ager", this.age));
-
-					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
-					// Execute HTTP Post Request
-					HttpResponse response = httpclient.execute(httppost);
-					HttpEntity entity = response.getEntity();
-					str_response = EntityUtils.toString(entity);
-
-					System.out.println(str_response);
-
-					JsonParser parser = new JsonParser();
-					JsonElement element = parser.parse(str_response);
-					JsonObject jsonObj = element.getAsJsonObject();
-
-					boolean post_insert = jsonObj.get("insert").getAsBoolean();
-					String result = jsonObj.get("result").getAsString();
-
-					System.out.println("post insert : " + String.valueOf(post_insert));
-
-					joincallback_Instance.signUpResult(post_insert, result,null);
-				} catch (ClientProtocolException e) {
-					e.printStackTrace();
-					joincallback_Instance.signUpResult(false, "500", "ClientProtocolException");
-				} catch (IOException e) {
-					e.printStackTrace();
-					joincallback_Instance.signUpResult(false, "500", "IOException");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				joincallback_Instance.signUpResult(false, "500", "httpClientException");
-			}
-
-		}
-	}
 
 		public class Position implements Runnable {        // 좌표 찾기 위한 함수
 			String amdCd;
