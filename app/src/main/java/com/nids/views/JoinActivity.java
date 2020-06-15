@@ -163,11 +163,6 @@ public class JoinActivity extends AppCompatActivity {
 			}
 
 			@Override
-			public void naverSignUpResult(boolean insert, String result, String message) {
-				//TODO: 네이버 연동 로그인
-			}
-
-			@Override
 			public void positionResult(boolean position_result, final String data) { // 좌표 값을 불러와서 파싱하는 과정
 				if (position_result) {
 					JoinActivity.this.runOnUiThread(new Runnable() {
