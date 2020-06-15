@@ -456,12 +456,11 @@ public class LoginActivity extends AppCompatActivity {
                                     null,
                                     null,
                                     9,
-                                    null,
-                                    null);
+                                    platform);
                             break;
                         case "NAVER":
                             //c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
-                            c_util_join.signUp(testId, null, testName, null, null, null, 9, null, null);
+                            c_util_join.signUp(testId, null, testName, null, null, null, 9, platform);
                             break;
                         case "KAKAO":
                             c_util_join.signUp(String.valueOf(meV2Response.getId()),
@@ -471,8 +470,7 @@ public class LoginActivity extends AppCompatActivity {
                                     null,
                                     null,
                                     String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("MALE") ? 0 : String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("FEMALE") ? 1 : 9,
-                                    null,
-                                    null);
+                                    platform);
                             break;
                     }
                 }

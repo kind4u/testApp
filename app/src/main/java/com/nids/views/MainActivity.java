@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         id = intent.getExtras().get("id").toString();
         platform = intent.getExtras().get("platform").toString();
 
-        SettingPreferenceFragment fragment = new SettingPreferenceFragment();
+//        SettingPreferenceFragment fragment = new SettingPreferenceFragment();
 
         //번들객체 생성,  platform값 저장
 //        Bundle bundle = new Bundle();

@@ -51,6 +51,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     int button;
 
     private Context context;
+    private String platform;
 
     SharedPreferences prefs;
 
@@ -73,7 +74,6 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     //Bundle bundle = getArguments();
     //번들 안의 텍스트 불러오기
     //String platform = bundle.getString("platform");
-    String platform = ((MainActivity)getActivity()).getPlatform();
 //    Intent intent = getIntent();
 //    platform = intent.getStringExtra("platform"); //로그인 시 platform 받아옴
 
@@ -81,7 +81,8 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        context =getActivity();
+        context = getActivity();
+        platform = ((MainActivity)getActivity()).getPlatform();
 
         addPreferencesFromResource(R.xml.settings_preference);
         soundPreference = (ListPreference)findPreference("sound_list");
