@@ -26,7 +26,7 @@ public class BackPressCloseHandler {
             //backpressed를 누르고 2초 이내에 한번 더 누를 시 activity를 종료하고 killprocess 실행
         }
     }
-    public void showGuide() {
+    private void showGuide() {
         toast = Toast.makeText(activity, "\'뒤로\'버튼을 한번 더 누르시면 종료됩니다.", Toast.LENGTH_SHORT);
         toast.show();
     }

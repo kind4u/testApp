@@ -23,16 +23,15 @@ import java.util.Map;
 
 public class InsideFragment extends Fragment {
 
-    Map<String, Object> map;
-    MainActivity activity;
-    TextView dateTextInDoor;
-    TextView dustTextInDoor;
-    TextView infoTextInDoor;
-    TextView tempTextInDoor;
-    TextView humiTextInDoor;
-    Button bluetoothButton;
+    private MainActivity activity;
+    private TextView dateTextInDoor;
+    private TextView dustTextInDoor;
+    private TextView infoTextInDoor;
+    private TextView tempTextInDoor;
+    private TextView humiTextInDoor;
+    private Button bluetoothButton;
 
-    ConstraintLayout backGround;
+    private ConstraintLayout backGround;
 
     public InsideFragment() { }
 
@@ -85,7 +84,7 @@ public class InsideFragment extends Fragment {
     }
 
     private void bindInDoorView(View v) {
-        map = ((MainActivity)getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
+        Map<String, Object> map = ((MainActivity) getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");
 
         if(sensorData!=null) {

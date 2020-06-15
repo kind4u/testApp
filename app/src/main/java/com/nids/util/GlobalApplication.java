@@ -2,9 +2,6 @@ package com.nids.util;
 
 import android.app.Application;
 import android.content.Context;
-
-import androidx.annotation.Nullable;
-
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
@@ -15,7 +12,7 @@ import com.kakao.auth.KakaoSDK;
 public class GlobalApplication extends Application {
     private static GlobalApplication instance;
 
-    public static GlobalApplication getGlabalApplicationContext()   {
+    public static GlobalApplication getGlobalApplicationContext()   {
         if(instance == null)    {
             throw new IllegalStateException("This Application does not inherit com.kakao.GlobalApplicaion");
         }
@@ -56,7 +53,6 @@ public class GlobalApplication extends Application {
                     return false;
                 }
 
-                @Nullable
                 @Override
                 public ApprovalType getApprovalType() {
                     return ApprovalType.INDIVIDUAL;
@@ -75,7 +71,7 @@ public class GlobalApplication extends Application {
             return new IApplicationConfig() {
                 @Override
                 public Context getApplicationContext() {
-                    return GlobalApplication.getGlabalApplicationContext();
+                    return GlobalApplication.getGlobalApplicationContext();
                 }
             };
         }

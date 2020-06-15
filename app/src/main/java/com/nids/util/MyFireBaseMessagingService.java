@@ -11,15 +11,12 @@ import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.nids.kind4u.testapp.R;
 import com.nids.views.LoginActivity;
-import com.nids.views.MainActivity;
 
 public class MyFireBaseMessagingService extends FirebaseMessagingService {
 
@@ -32,7 +29,6 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         if(remoteMessage.getNotification() != null) {
             Log.d("FCM Log","알림 메세지 : " + remoteMessage.getNotification().getBody());
-            String messageBody = remoteMessage.getNotification().getBody();
             String messageTitle = remoteMessage.getNotification().getTitle();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -50,8 +46,10 @@ public class MyFireBaseMessagingService extends FirebaseMessagingService {
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)  {
                 String channelName = "Channel Name";
                 NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+                assert notificationManager != null;
                 notificationManager.createNotificationChannel(channel);
             }
+            assert notificationManager != null;
             notificationManager.notify(0, notificationBuilder.build());
         }
     }
