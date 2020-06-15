@@ -79,6 +79,7 @@ import java.security.MessageDigest;
 
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -157,6 +158,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //-----------여기부터---------------
+    @SuppressLint("HandlerLeak")
     private OAuthLoginHandler mOAuthLoginHandler = new OAuthLoginHandler() {
         @SuppressLint("HandlerLeak")
         @Override
@@ -204,11 +206,11 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             //임의변수설정 수정 필요
-            testId = mUserInfoMap.get("email");
-            testName = mUserInfoMap.get("profile_image");
-            testAge = mUserInfoMap.get("nickname");
-            testBd = mUserInfoMap.get("age");
-            testGender = mUserInfoMap.get("enc_id");
+            testId = mUserInfoMap.get("id");
+            testName = mUserInfoMap.get("name");
+            testAge = mUserInfoMap.get("age");
+            testBd = mUserInfoMap.get("birthday");
+            testGender = mUserInfoMap.get("gender");
             //testEmail =mUserInfoMap.get("email");
         }
 
@@ -276,15 +278,21 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("dd", "Error in network call", e);
         }
         //Map<String, String> resultMap = new HashMap<>();
-        resultMap.put("email", f_array[0]);
-        resultMap.put("nickname", f_array[1]);
-        resultMap.put("enc_id", f_array[2]);
-        resultMap.put("profile_image", f_array[3]);
-        resultMap.put("age", f_array[4]);
-        resultMap.put("gender", f_array[5]);
-        resultMap.put("id", f_array[6]);
-        resultMap.put("name", f_array[7]);
-        resultMap.put("birthday", f_array[8]);
+        resultMap.put("id", f_array[0]);
+        resultMap.put("age", f_array[1]);
+        resultMap.put("gender", f_array[2]);
+        if(!Pattern.matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+$",f_array[3]))  {
+            resultMap.put("name", f_array[3]);
+            resultMap.put("birthday", f_array[4]);
+        } else {
+            resultMap.put("email", f_array[3]);
+            resultMap.put("name", f_array[4]);
+            resultMap.put("birthday", f_array[5]);
+        }
+
+//        resultMap.put("id", f_array[6]);
+//        resultMap.put("name", f_array[7]);
+//        resultMap.put("birthday", f_array[8]);
 
         return resultMap;
 
@@ -381,9 +389,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void signUpResult(boolean insert, String result, String message) {
                 if (insert) {
-
                     switch(platform)    {
-
                         case "GOOGLE":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
@@ -463,7 +469,14 @@ public class LoginActivity extends AppCompatActivity {
                             break;
                         case "NAVER":
                             //c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
-                            c_util_join.signUp(testId, null, testName, null, null, null, 9, platform);
+                            c_util_join.signUp(testId,
+                                    testBd,
+                                    testName,
+                                    null,
+                                    null,
+                                    null,
+                                    testGender.equals("M")?0:testGender.equals("F")?1:9,
+                                    platform);
                             break;
                         case "KAKAO":
                             c_util_join.signUp(String.valueOf(meV2Response.getId()),
