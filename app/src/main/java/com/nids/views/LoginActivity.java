@@ -80,9 +80,6 @@ import java.security.MessageDigest;
 
 import java.util.List;
 
-enum Platform {
-    DEFAULT, GOOGLE, NAVER, KAKAO
-}
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -133,8 +130,8 @@ public class LoginActivity extends AppCompatActivity {
     private OAuthLoginButton mOAuthLoginButton;
     public static OAuthLogin mOAuthLoginInstance;
 
-    private Platform platform = Platform.DEFAULT;
-
+    //private Platform platform = Platform.DEFAULT;
+    public  String platform ="DEFAULT";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
                 String tokenType = mOAuthLoginInstance.getTokenType(mContext);
 
                 new RequestApiTask().execute();
-                platform = Platform.NAVER;
+                platform = "NAVER";
                 c_util_join.checkExist(testId);
 
             } else {
@@ -364,6 +361,9 @@ public class LoginActivity extends AppCompatActivity {
         joinCallBackInstance = new JoinCallBackInterface() {
 
             @Override
+            public void getUserResult(boolean result, String message, VOUser userinfo){  }
+
+            @Override
             public void carResult(boolean insert, String result, String message) {
             }
 
@@ -383,7 +383,7 @@ public class LoginActivity extends AppCompatActivity {
             public void signUpResult(boolean insert, String result, String message) {
                 if (insert) {
                     switch(platform)    {
-                        case GOOGLE:
+                        case "GOOGLE":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -394,7 +394,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                             break;
-                        case NAVER:
+                        case "NAVER":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -405,7 +405,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             });
                             break;
-                        case KAKAO:
+                        case "KAKAO":
                             LoginActivity.this.runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -429,34 +429,37 @@ public class LoginActivity extends AppCompatActivity {
             public void existResult(String result, boolean exist) {
                 if (exist) {       //db에 등록되어 있음. id 얻어서 MainActivity
                     switch (platform) {
-                        case GOOGLE:
+                        case "GOOGLE":
                             Intent intent_google = new Intent(getApplicationContext(), MainActivity.class);
                             intent_google.putExtra("id", user.getUid());
+                            intent_google.putExtra("platform", platform);
                             startActivity(intent_google);
                             finish();
                             break;
-                        case NAVER:
+                        case "NAVER":
                             Intent intent_naver = new Intent(LoginActivity.this, MainActivity.class);
                             intent_naver.putExtra("id", testId); //네이버 연동 id 받아와서 넣기!
+                            intent_naver.putExtra("platform", platform);
                             startActivity(intent_naver);
                             break;
-                        case KAKAO:
+                        case "KAKAO":
                             Intent intent_kakao = new Intent(getApplicationContext(), MainActivity.class);
                             intent_kakao.putExtra("id", meV2Response.getId());
+                            intent_kakao.putExtra("platform", platform);
                             startActivity(intent_kakao);
                             finish();
                             break;
                     }
                 } else {     //db에 등록되어있지 않아서 db에 회원정보 등록필요함
                     switch (platform) {
-                        case GOOGLE:
-                            c_util_join.signUp(user.getUid(), null, null, null, null, null, 9, null, null);
+                        case "GOOGLE":
+                            c_util_join.signUp(user.getUid(), null, null, null, null, null, 9, platform);
                             break;
-                        case NAVER:
+                        case "NAVER":
                             c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
                             break;
-                        case KAKAO:
-                            c_util_join.signUp(String.valueOf(meV2Response.getId()), null, null, null, null, null, 9, null, null);
+                        case "KAKAO":
+                            c_util_join.signUp(String.valueOf(meV2Response.getId()), null, null, null, null, null, 9, platform);
                             break;
                     }
                 }
@@ -579,7 +582,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            platform = Platform.GOOGLE;
+            platform ="GOOGLE";
             c_util_join.checkExist(user.getUid());
         } else {
             LoginActivity.this.runOnUiThread(new Runnable() {
@@ -622,7 +625,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onSuccess(MeV2Response result) {
-                    platform = Platform.KAKAO;
+                    platform = "KAKAO";
                     meV2Response = result;
                     c_util_join.checkExist(String.valueOf(meV2Response.getId()));
                 }

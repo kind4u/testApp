@@ -16,8 +16,7 @@ public class VOUser implements Serializable {
     private int gender;
     private Timestamp signup;
     private String auth;
-    private String tmx;
-    private String tmy; //
+    private String platform;
 
     public VOUser() {
     }
@@ -47,7 +46,7 @@ public class VOUser implements Serializable {
     }
 
 
-    public VOUser(String id, String pw, String name, String age, String addr, String phone, int gender, String tmx, String tmy) {
+    public VOUser(String id, String pw, String name, String age, String addr, String phone, int gender, String platform) {
         this.id = id;
         this.pw = pw;
         this.name = name;
@@ -55,16 +54,10 @@ public class VOUser implements Serializable {
         this.addr = addr;
         this.gender = gender;
         this.phone = phone;
-        this.tmx = tmx;
-        this.tmy = tmy;
+        this.platform = platform;
         this.auth = getEncMD5(this.id).toUpperCase();
     }
 
-    public String getTmx(){ return this.tmx; }
-    public void setTmx(String tmx) {this.tmx = tmx;}
-
-    public String getTmy(){ return this.tmy; }
-    public void setTmy(String tmy) {this.tmy = tmy;}
 
     public String getId(){ return this.id; }
     public void setId(String id){ this.id = id; }
@@ -84,5 +77,7 @@ public class VOUser implements Serializable {
     public void setSignup(Timestamp signup){this.signup=signup;}
     public String getAuth(){return this.auth;}
     public void setAuth(String auth){this.auth = auth;}
+    public String getPlatform(){ return this.platform; }
+    public void setPlatform(String platform){ this.platform = platform; }
 
 }
