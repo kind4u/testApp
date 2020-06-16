@@ -20,8 +20,6 @@ public class ModifyActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     VOUser voUser;
-
-    String genderDesc;
     int gender;
     Button submit_button;
 
@@ -45,35 +43,42 @@ public class ModifyActivity extends AppCompatActivity {
         ArrayList<InfoItem> infoArrayList = new ArrayList<>();
         switch (platform){
             case "DEFAULT" :
-
                 voUser = (VOUser) intent.getExtras().get("user");
                 id =voUser.getId();
                 infoArrayList.add(new InfoItem("ID",id));
                 infoArrayList.add(new InfoItem("비밀번호",voUser.getPw()));
                 infoArrayList.add(new InfoItem("이름",voUser.getName()));
-                gender = voUser.getGender();
-                if(gender == 0){genderDesc="남성";}    else    { genderDesc="여성"; }
-                infoArrayList.add(new InfoItem("성별",genderDesc));
+                infoArrayList.add(new InfoItem("성별",voUser.getGender()==0?"남성":"여성"));
+                infoArrayList.add(new InfoItem("휴대전화",voUser.getPhone()));
+                infoArrayList.add(new InfoItem("생일",""/*voUser.getBirthday*/));
+                infoArrayList.add(new InfoItem("연령대",voUser.getAge()));
+                infoArrayList.add(new InfoItem("이메일",""/*voUser.getEmail*/));
                 break;
             case "GOOGLE":
             case "NAVER":
             case "KAKAO":
+                voUser = (VOUser) intent.getExtras().get("user");
                 id = intent.getExtras().get("id").toString();
                 infoArrayList.add(new InfoItem("ID", id));
                 infoArrayList.add(new InfoItem("비밀번호",""));
-                infoArrayList.add(new InfoItem("이름",""));
-                infoArrayList.add(new InfoItem("성별",""));
+                infoArrayList.add(new InfoItem("이름",voUser.getName()));
+                infoArrayList.add(new InfoItem("성별",voUser.getGender()==0?"남성":voUser.getGender()==1?"여성":"미설정"));
+                infoArrayList.add(new InfoItem("휴대전화",voUser.getPhone()));
+                infoArrayList.add(new InfoItem("생일",""/*voUser.getBirthday*/));
+                infoArrayList.add(new InfoItem("연령대",voUser.getAge()));
+                infoArrayList.add(new InfoItem("이메일",""/*voUser.getEmail*/));
                 break;
 
         }
-        ModifyAdapter mAdapter = new ModifyAdapter(infoArrayList);
+        ModifyAdapter mAdapter = new ModifyAdapter(this, infoArrayList);
         recyclerView.setAdapter(mAdapter);
         submit_button = findViewById(R.id.submit_button);
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ModifyActivity.this,MainActivity.class);
+                Intent intent = new Intent(ModifyActivity.this, MainActivity.class);
                 intent.putExtra("id",id);
+                intent.putExtra("platform",platform);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
