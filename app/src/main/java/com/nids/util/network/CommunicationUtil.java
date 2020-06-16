@@ -78,8 +78,8 @@ public class CommunicationUtil {
 		t.start();
 	}
 
-	public void signUp(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String platform)	{
-		Thread t = new Thread(new UserJoin(id, pw, name, zip_code, addr, addr_detail, gender, platform));
+	public void signUp(String id, String pw, String name, int gender, String platform, String bd, String email, String hp)	{
+		Thread t = new Thread(new UserJoin(id, pw, name, gender, platform, bd, email, hp));
 		t.start();
 	}
 
@@ -859,21 +859,21 @@ public class CommunicationUtil {
 			String id;
 			String pw;
 			String name;
-			String zip_code;
-			String addr;
-			String addr_detail;
 			int gender;
 			String platform;
+			String bd;
+			String email;
+			String hp;
 
-			UserJoin(String id, String pw, String name, String zip_code, String addr, String addr_detail, int gender, String platform) {
+			UserJoin(String id, String pw, String name, int gender, String platform, String bd, String email, String hp) {
 				this.id = id;
 				this.pw = pw;
 				this.name = name;
-				this.zip_code = zip_code;
-				this.addr = addr;
-				this.addr_detail = addr_detail;
 				this.gender = gender;
 				this.platform = platform;
+				this.bd = bd;
+				this.email = email;
+				this.hp = hp;
 			}
 
 			@Override
@@ -891,11 +891,11 @@ public class CommunicationUtil {
 						nameValuePairs.add(new BasicNameValuePair("id", this.id));
 						nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
 						nameValuePairs.add(new BasicNameValuePair("name", this.name));
-						nameValuePairs.add(new BasicNameValuePair("addr1", this.zip_code));
-						nameValuePairs.add(new BasicNameValuePair("addr2", this.addr));
-						nameValuePairs.add(new BasicNameValuePair("addr3", this.addr_detail));
 						nameValuePairs.add(new BasicNameValuePair("gender", Integer.toString(this.gender)));
 						nameValuePairs.add(new BasicNameValuePair("platform", this.platform));
+						nameValuePairs.add(new BasicNameValuePair("bd", this.bd));
+						nameValuePairs.add(new BasicNameValuePair("email", this.email));
+						nameValuePairs.add(new BasicNameValuePair("hp", this.hp));
 						httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 						// Execute HTTP Post Request
 						HttpResponse response = httpclient.execute(httppost);

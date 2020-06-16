@@ -281,7 +281,7 @@ public class LoginActivity extends AppCompatActivity {
         resultMap.put("id", f_array[0]);
         resultMap.put("age", f_array[1]);
         resultMap.put("gender", f_array[2]);
-        if(!Pattern.matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+$",f_array[3]))  {
+        if(!Pattern.matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.+[a-zA-Z0-9]{2,6}+$",f_array[3]))  {
             resultMap.put("name", f_array[3]);
             resultMap.put("birthday", f_array[4]);
         } else {
@@ -461,32 +461,32 @@ public class LoginActivity extends AppCompatActivity {
                             c_util_join.signUp(user.getUid(),
                                     user.getPhoneNumber(),
                                     user.getDisplayName(),
-                                    null,
-                                    null,
-                                    null,
                                     9,
-                                    platform);
+                                    platform,
+                                    null,
+                                    null,
+                                    null);
                             break;
                         case "NAVER":
                             //c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
                             c_util_join.signUp(testId,
                                     testBd,
                                     testName,
-                                    null,
-                                    null,
-                                    null,
                                     testGender.equals("M")?0:testGender.equals("F")?1:9,
-                                    platform);
+                                    platform,
+                                    null,
+                                    null,
+                                    null);
                             break;
                         case "KAKAO":
                             c_util_join.signUp(String.valueOf(meV2Response.getId()),
                                     meV2Response.getKakaoAccount().getBirthday(),
                                     meV2Response.getKakaoAccount().getProfile().getNickname(),
-                                    null,
-                                    null,
-                                    null,
                                     String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("MALE") ? 0 : String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("FEMALE") ? 1 : 9,
-                                    platform);
+                                    platform,
+                                    null,
+                                    null,
+                                    null);
                             break;
                     }
                 }
