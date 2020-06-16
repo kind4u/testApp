@@ -90,7 +90,11 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             @Override
             public void getUserResult(boolean result, String message, VOUser userinfo){
                 if(result) {
-                    user = userinfo;
+                    Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
+                    intent_naver.putExtra("user", userinfo);
+                    intent_naver.putExtra("platform",platform);
+                    intent_naver.putExtra("id",((MainActivity)getActivity()).getId());
+                    startActivity(intent_naver);
                 }
             }
 
@@ -191,17 +195,10 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         id = ((MainActivity)getActivity()).getId();
                         startActivity(intent);
                         break;
-
                     case "GOOGLE":
                     case "NAVER":
                     case "KAKAO":
                         c_util_car.getUser(((MainActivity) getActivity()).getId());
-                        Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
-                        intent_naver.putExtra("user", user);
-                        intent_naver.putExtra("platform",platform);
-                        intent_naver.putExtra("id",((MainActivity)getActivity()).getId());
-                        id = ((MainActivity)getActivity()).getId();
-                        startActivity(intent_naver);
                         break;
                 }
                 return false;

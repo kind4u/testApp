@@ -113,16 +113,11 @@ public class ModifyPwActivity extends AppCompatActivity {
         }
 
         @Override
-        public void findStation(boolean result, VOStation station_info) {
-        }
-
+        public void findStation(boolean result, VOStation station_info) { }
         @Override
-        public void dataReqResult(String result, List<VOSensorData> dataList) {
-        }
-
+        public void dataReqResult(String result, List<VOSensorData> dataList) { }
         @Override
-        public void dataReqResultOutdoor(boolean result, VOOutdoor data) {
-        }
+        public void dataReqResultOutdoor(boolean result, VOOutdoor data) { }
     };
 
     CommunicationUtil c_util = new CommunicationUtil(networkCallBackInterface);
