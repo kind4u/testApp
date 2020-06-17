@@ -34,6 +34,12 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
         TextView infoView;
         TextView descView;
 
+        private boolean platform = false;
+        private String userId;
+
+        public void setUserId(String userId)    { this.userId = userId; }
+        public void setPlatform(boolean platform) { this.platform = platform; }
+
         ModifyViewHolder(View v) {
             super(v);
             infoView = v.findViewById(R.id.info_text);
@@ -46,7 +52,14 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                     AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     switch(getAdapterPosition())    {
                         case 1:
-                            break;
+                            if(!platform)    {
+                                break;
+                            }   else    {
+                                Intent modPwIntent = new Intent(v.getContext(), ModifyPwActivity.class);
+                                modPwIntent.putExtra("id",userId);
+                                v.getContext().startActivity(modPwIntent);
+                                break;
+                            }
                         case 3:
                             View viewGender = LayoutInflater.from(mContext).inflate(R.layout.custom_dialog_gender, null, false);
                             builder.setView(viewGender);
@@ -72,8 +85,7 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                             buttonSubmitG.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    //String strDesc = dialogEditText.getText().toString();
-                                    String strDesc = "남성";
+                                    String strDesc = radioGroup.getCheckedRadioButtonId()==maleButton.getId()?"남성":radioGroup.getCheckedRadioButtonId()==femaleButton.getId()?"여성":"미설정";
                                     String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
                                     InfoItem infoItem = new InfoItem(strInfo,strDesc);
                                     infoItemArrayList.set(getAdapterPosition(),infoItem);
@@ -151,14 +163,14 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
         holder.infoView.setText(infoItemArrayList.get(position).infoName);
         switch (position) {
             case 0:     // id
-                //holder.setUserId(infoItemArrayList.get(position).desc);
+                holder.setUserId(infoItemArrayList.get(position).desc);
                 holder.descView.setText(infoItemArrayList.get(position).desc);
                 holder.descView.setTextColor(Color.parseColor("#CCCCCC"));
                 break;
             case 1:     // password
                 int count = infoItemArrayList.get(position).desc.length();
                 if (count != 0) {
-                    //holder.setPlatform(true);
+                    holder.setPlatform(true);
                     holder.descView.setText(new String(new char[count]).replace("\0", "*"));
                     holder.descView.setTextColor(Color.parseColor("#000000"));
                 } else {

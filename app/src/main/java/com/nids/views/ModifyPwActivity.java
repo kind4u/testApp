@@ -17,6 +17,7 @@ import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
+import com.nids.util.ModifyAdapter;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
