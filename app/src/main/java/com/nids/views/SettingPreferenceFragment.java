@@ -1,78 +1,53 @@
 package com.nids.views;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
-import androidx.preference.PreferenceFragment;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.PreferenceScreen;
 import androidx.preference.SwitchPreference;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
-import androidx.work.WorkInfo;
-import androidx.work.WorkerFactory;
-
-import com.google.common.util.concurrent.ListenableFuture;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.WorkManager;
 import com.nids.util.interfaces.JoinCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
 
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 public class SettingPreferenceFragment extends PreferenceFragmentCompat {
-    JoinCallBackInterface joinCallBackInterface;
-    CommunicationUtil c_util_car;
+    private CommunicationUtil c_util_car;
 
     VOUser user;
 
-    int check;
-    int button;
+    private int check;
+    private int button;
 
     private Context context;
 
     private String id;
-    public String name;
-    public  int gender;
     public String platform;
-    private String bd;
-    public String email;
 
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
 
-    PreferenceScreen editUserPreference;
-    Preference registCarPreference;
-    Preference editCarPreference;
-    ListPreference soundPreference;
-    SwitchPreference noticePrefernece;
+    private ListPreference soundPreference;
 
-    String notice_term;
-    Integer notice_time;
-    TimeUnit notice_timeunit;
+    private String notice_term;
+    private Integer notice_time;
+    private TimeUnit notice_timeunit;
 
-    PeriodicWorkRequest periodicWorkRequest;
-    WorkInfo.State workState;
+    private PeriodicWorkRequest periodicWorkRequest;
 
 
     @Override
@@ -84,38 +59,43 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         platform = ((MainActivity)getActivity()).getPlatform();
 
         addPreferencesFromResource(R.xml.settings_preference);
-        soundPreference = (ListPreference)findPreference("sound_list");
-        editUserPreference = (PreferenceScreen) findPreference("edit_user");
-        registCarPreference = (Preference) findPreference("regist_car");
-        editCarPreference = (Preference) findPreference("edit_car");
-        noticePrefernece = (SwitchPreference) findPreference("notice");
+        soundPreference = findPreference("sound_list");
+        PreferenceScreen editUserPreference = findPreference("edit_user");
+        Preference registCarPreference = findPreference("regist_car");
+        Preference editCarPreference = findPreference("edit_car");
+        SwitchPreference noticePreference = findPreference("notice");
 
 
-
-        joinCallBackInterface = new JoinCallBackInterface() {
+        //차량 정보 존재하면
+        //차량등록 버튼 클릭시
+        //차량 수정 버튼 클릭시
+        //차량 정보 존재하지 않으면
+        //차량등록 버튼 클릭시
+        //차량 수정 버튼 클릭시
+        JoinCallBackInterface joinCallBackInterface = new JoinCallBackInterface() {
 
             @Override
-            public void getUserResult(boolean result, String message, VOUser userinfo){
-                if(result) {
+            public void getUserResult(boolean result, String message, VOUser userinfo) {
+                if (result) {
                     Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
                     intent_naver.putExtra("user", userinfo);
-                    intent_naver.putExtra("name",name);
-                    intent_naver.putExtra("platform",platform);
-                    intent_naver.putExtra("bd",bd);
-                    intent_naver.putExtra("email", email);
-                    intent_naver.putExtra("id",id);
+                    intent_naver.putExtra("platform", platform);
+                    intent_naver.putExtra("id", id);
                     startActivity(intent_naver);
                 }
             }
 
             @Override
-            public void carResult(boolean insert, String result, String message) { }
+            public void carResult(boolean insert, String result, String message) {
+            }
 
             @Override
-            public void deleteCarResult(boolean delete, String result, String message){ }
+            public void deleteCarResult(boolean delete, String result, String message) {
+            }
 
             @Override
-            public void editCarResult(boolean edit, String result, String message){ }
+            public void editCarResult(boolean edit, String result, String message) {
+            }
 
             @Override
             public void checkCarResult(String result, boolean exist) {
@@ -126,9 +106,9 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         @Override
                         public void run() {
                             check = 1;
-                            if(button == 0){ //차량등록 버튼 클릭시
+                            if (button == 0) { //차량등록 버튼 클릭시
                                 Toast.makeText(context, "이미 차량등록이 완료되었습니다.", Toast.LENGTH_SHORT).show();
-                            }else if(button == 1){ //차량 수정 버튼 클릭시
+                            } else if (button == 1) { //차량 수정 버튼 클릭시
                                 Intent intent = new Intent(getContext(), EditCarActivity.class);
                                 intent.putExtra("id", ((MainActivity) getActivity()).getId());
                                 startActivity(intent);
@@ -140,12 +120,12 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         @Override
                         public void run() {
                             check = 0;
-                            if(button == 0){ //차량등록 버튼 클릭시
-                                Intent intent = new Intent(getContext(),CarActivity.class);
-                                intent.putExtra("id",((MainActivity)getActivity()).getId());
+                            if (button == 0) { //차량등록 버튼 클릭시
+                                Intent intent = new Intent(getContext(), CarActivity.class);
+                                intent.putExtra("id", ((MainActivity) getActivity()).getId());
                                 intent.putExtra("page", "car");
                                 startActivity(intent);
-                            }else if(button == 1){//차량 수정 버튼 클릭시
+                            } else if (button == 1) {//차량 수정 버튼 클릭시
                                 Toast.makeText(context, "차량 등록을 먼저 해주시기 바랍니다.", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -154,13 +134,16 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             }
 
             @Override
-            public void signUpResult(boolean insert, String result, String message) { }
+            public void signUpResult(boolean insert, String result, String message) {
+            }
 
             @Override
-            public void positionResult(boolean position_result, String data) { }
+            public void positionResult(boolean position_result, String data) {
+            }
 
             @Override
-            public void existResult(String result, boolean exist) { }
+            public void existResult(String result, boolean exist) {
+            }
         };
       
         c_util_car = new CommunicationUtil(joinCallBackInterface);
@@ -186,7 +169,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             }
         });
 
-        editCarPreference.setOnPreferenceClickListener( new Preference.OnPreferenceClickListener(){
+        editCarPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener(){
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 button =1;
@@ -215,7 +198,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
             }
         });
 
-        noticePrefernece.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+        noticePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 boolean isValue = (Boolean) newValue;
@@ -227,7 +210,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                         notice_timeunit = TimeUnit.MINUTES;
                     }
                             periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, notice_time, notice_timeunit).setInitialDelay(notice_time,notice_timeunit).build();
-                            androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("mywork", ExistingPeriodicWorkPolicy.KEEP,periodicWorkRequest);
+                            androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("myWork", ExistingPeriodicWorkPolicy.KEEP,periodicWorkRequest);
                             //System.out.println("work state : " + androidx.work.WorkManager.getInstance(context).getWorkInfoById(periodicWorkRequest.getId()).get().getState().toString());
                 }   else    {
                         androidx.work.WorkManager.getInstance(context.getApplicationContext()).cancelAllWork();
@@ -255,7 +238,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 ConvertTermTime(notice_term);
                 Log.d("@@@","changed to " + notice_term);
                 periodicWorkRequest = new PeriodicWorkRequest.Builder(WorkManager.class, notice_time, notice_timeunit).setInitialDelay(notice_time,notice_timeunit).build();
-                androidx.work.WorkManager.getInstance(context.getApplicationContext()).enqueueUniquePeriodicWork("mywork", ExistingPeriodicWorkPolicy.REPLACE,periodicWorkRequest);
+                androidx.work.WorkManager.getInstance(context).enqueueUniquePeriodicWork("myWork", ExistingPeriodicWorkPolicy.REPLACE,periodicWorkRequest);
             }
         }
     };
