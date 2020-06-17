@@ -348,7 +348,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void modifyResult(boolean result) {
             }
-
+            @Override
+            public void modifyUserResult(boolean result){ }
             @Override
             public void findStation(boolean result, final VOStation station_info) {
             }
