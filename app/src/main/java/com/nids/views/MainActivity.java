@@ -79,13 +79,9 @@ public class MainActivity extends AppCompatActivity {
     private String id;
     public String platform;
 
-    public String getId(){
-        return id;
-    }
-    public void setId(String id){
-        this.id =id;
-    }
 
+    public String getId(){ return id; }
+    public void setId(String id){ this.id =id; }
     public String getPlatform() { return platform; }
     public void setPlatform(String platform) { this.platform = platform; }
 
@@ -138,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         id = intent.getExtras().get("id").toString();
         platform = intent.getExtras().get("platform").toString();
+
+
 
         setContentView(R.layout.activity_main);
 
