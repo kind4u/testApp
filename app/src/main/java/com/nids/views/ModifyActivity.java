@@ -64,9 +64,9 @@ public class ModifyActivity extends AppCompatActivity {
                 infoArrayList.add(new InfoItem("이름",voUser.getName()));
                 infoArrayList.add(new InfoItem("성별",voUser.getGender()==0?"남성":voUser.getGender()==1?"여성":"미설정"));
                 infoArrayList.add(new InfoItem("휴대전화",voUser.getPhone()));
-                infoArrayList.add(new InfoItem("생일",""/*voUser.getBirthday*/));
+                infoArrayList.add(new InfoItem("생일",voUser.getBd()));
                 infoArrayList.add(new InfoItem("연령대",voUser.getAge()));
-                infoArrayList.add(new InfoItem("이메일",""/*voUser.getEmail*/));
+                infoArrayList.add(new InfoItem("이메일",voUser.getEmail()));
                 break;
 
         }

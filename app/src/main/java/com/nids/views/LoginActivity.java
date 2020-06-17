@@ -211,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
             testAge = mUserInfoMap.get("age");
             testBd = mUserInfoMap.get("birthday");
             testGender = mUserInfoMap.get("gender");
-            //testEmail =mUserInfoMap.get("email");
+            testEmail =mUserInfoMap.get("email");
         }
 
     }
@@ -459,32 +459,32 @@ public class LoginActivity extends AppCompatActivity {
                     switch (platform) {
                         case "GOOGLE":
                             c_util_join.signUp(user.getUid(),
-                                    user.getPhoneNumber(),
+                                    null,
                                     user.getDisplayName(),
                                     9,
                                     platform,
                                     null,
                                     null,
-                                    null);
+                                    user.getPhoneNumber());
                             break;
                         case "NAVER":
                             //c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
                             c_util_join.signUp(testId,
-                                    testBd,
+                                    null,
                                     testName,
                                     testGender.equals("M")?0:testGender.equals("F")?1:9,
                                     platform,
-                                    null,
-                                    null,
+                                    testBd,
+                                    testEmail,
                                     null);
                             break;
                         case "KAKAO":
                             c_util_join.signUp(String.valueOf(meV2Response.getId()),
-                                    meV2Response.getKakaoAccount().getBirthday(),
+                                    null,
                                     meV2Response.getKakaoAccount().getProfile().getNickname(),
                                     String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("MALE") ? 0 : String.valueOf(meV2Response.getKakaoAccount().getGender()).equals("FEMALE") ? 1 : 9,
                                     platform,
-                                    null,
+                                    meV2Response.getKakaoAccount().getBirthday(),
                                     null,
                                     null);
                             break;
@@ -504,7 +504,6 @@ public class LoginActivity extends AppCompatActivity {
         sessionCallBack = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallBack);
         Session.getCurrentSession().checkAndImplicitOpen();
-
 
         btn_signin = (Button) findViewById(R.id.btn_signin);
         btn_join = (Button) findViewById(R.id.btn_join);
