@@ -85,7 +85,7 @@ public class OutsideFragment extends Fragment {
 
         VOOutdoor outDoorData = (VOOutdoor) map.get("data");            // onAttach에서 getData 메소드로 얻어낸 데이터 Input
 
-        if(outDoorData.isNull() != true) {
+        if(!outDoorData.isNull()) {
             float pm10 = outDoorData.getPM100();                            // 미세먼지 농도 추출
             System.out.println("called bindComponent");
 

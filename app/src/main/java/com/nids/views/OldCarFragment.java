@@ -17,24 +17,15 @@ public class OldCarFragment extends Fragment {
         void onOldCarSet(String oldcarNumResult);
     }
 
-    OnOldCarSetListener onOldCarSetLisener;
+    private OnOldCarSetListener onOldCarSetLisener;
 
-    CarActivity caractivity;
-
-    String oldcarNum0;
-    String oldcarNum1;
-    String oldcarNum2;
-    String oldcarNum3;
-
-    EditText edit_oldcarNum0;
-    EditText edit_oldcarNum1;
-    EditText edit_oldcarNum2;
-    EditText edit_oldcarNum3;
+    private EditText edit_oldcarNum0;
+    private EditText edit_oldcarNum1;
+    private EditText edit_oldcarNum2;
+    private EditText edit_oldcarNum3;
 
 
-    public OldCarFragment() {
-        // Required empty public constructor
-    }
+    public OldCarFragment() { }
 
     @Override
     public void onAttach(Context context){
@@ -60,25 +51,25 @@ public class OldCarFragment extends Fragment {
         return v;
     }
 
-    public void bindComponents(View v) {
+    private void bindComponents(View v) {
         edit_oldcarNum0 = v.findViewById(R.id.edit_oldcarNum0);
         edit_oldcarNum1 = v.findViewById(R.id.edit_oldcarNum1);
         edit_oldcarNum2 = v.findViewById(R.id.edit_oldcarNum2);
         edit_oldcarNum3 = v.findViewById(R.id.edit_oldcarNum3);
     }
 
-    public void getCarInfo0(){
+    void getCarInfo0(){
         // TODO: 사용자가 입력한 차량 정보 받아오는 함수
-        oldcarNum0 = edit_oldcarNum0.getText().toString();
-        oldcarNum1 = edit_oldcarNum1.getText().toString();
-        oldcarNum2 = edit_oldcarNum2.getText().toString();
-        oldcarNum3 = edit_oldcarNum3.getText().toString();
+        String oldcarNum0 = edit_oldcarNum0.getText().toString();
+        String oldcarNum1 = edit_oldcarNum1.getText().toString();
+        String oldcarNum2 = edit_oldcarNum2.getText().toString();
+        String oldcarNum3 = edit_oldcarNum3.getText().toString();
 
-        String result = oldcarNum0+" "+oldcarNum1+" "+oldcarNum2+" "+oldcarNum3;
+        String result = oldcarNum0 +" "+oldcarNum1+" "+oldcarNum2+" "+oldcarNum3;
         passCarInfo(result);
     }
 
-    public void passCarInfo(String oldcarNumResult){
+    private void passCarInfo(String oldcarNumResult){
         onOldCarSetLisener.onOldCarSet(oldcarNumResult);
     }
 
