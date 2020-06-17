@@ -51,8 +51,13 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     int button;
 
     private Context context;
-    private String platform;
+
     private String id;
+    public String name;
+    public  int gender;
+    public String platform;
+    private String bd;
+    public String email;
 
     SharedPreferences prefs;
 
@@ -74,6 +79,8 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         context =getActivity();
+
+        id = ((MainActivity)getActivity()).getId();
         platform = ((MainActivity)getActivity()).getPlatform();
 
         addPreferencesFromResource(R.xml.settings_preference);
@@ -92,8 +99,11 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
                 if(result) {
                     Intent intent_naver = new Intent(getContext(), ModifyActivity.class);
                     intent_naver.putExtra("user", userinfo);
+                    intent_naver.putExtra("name",name);
                     intent_naver.putExtra("platform",platform);
-                    intent_naver.putExtra("id",((MainActivity)getActivity()).getId());
+                    intent_naver.putExtra("bd",bd);
+                    intent_naver.putExtra("email", email);
+                    intent_naver.putExtra("id",id);
                     startActivity(intent_naver);
                 }
             }

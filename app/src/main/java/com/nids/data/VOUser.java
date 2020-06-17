@@ -11,7 +11,6 @@ public class VOUser implements Serializable {
     private String pw;
     private String name;
     private String age;
-    private String addr;
     private String phone;
     private int gender;
     private Timestamp signup;
@@ -48,12 +47,11 @@ public class VOUser implements Serializable {
     }
 
 
-    public VOUser(String id, String pw, String name, String age, String addr, String phone, int gender, String platform, String bd, String email) {
+    public VOUser(String id, String pw, String name, String age,  String phone, int gender, String platform, String bd, String email) {
         this.id = id;
         this.pw = pw;
         this.name = name;
         this.age = age;
-        this.addr = addr;
         this.gender = gender;
         this.phone = phone;
         this.platform = platform;
@@ -71,8 +69,7 @@ public class VOUser implements Serializable {
     public void setName(String name) {this.name = name;}
     public String getAge() {return this.age;}
     public void setAge(String age){this.age = age;}
-    public String getAddr(){return this.addr;}
-    public void setAddr(String addr){this.addr = addr;}
+
     public String getPhone(){return this.phone;}
     public void setPhone(String phone){this.phone = phone;}
     public int getGender(){return this.gender;}
