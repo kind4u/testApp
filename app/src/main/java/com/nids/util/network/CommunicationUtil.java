@@ -130,6 +130,11 @@ public class CommunicationUtil {
 		t.start();
 	}
 
+	public void modifyUser(String id, String name, int gender, String hp, String bd, String age, String email)	{
+		Thread t = new Thread(new ModUser(id, name, gender, hp, bd, age, email));
+		t.start();
+	}
+
 
 	public class CarInfo implements Runnable{
 		String num;
@@ -1051,4 +1056,80 @@ public class CommunicationUtil {
 				}
 			}
 		}
+
+	public class ModUser implements Runnable	{
+		String id;
+//		String pw;
+		String name;
+		int gender;
+		String hp;
+		String bd;
+		String age;
+		String email;
+
+
+		ModUser(String id, String name, int gender, String hp, String bd, String age, String email)	{
+			this.id = id;
+//			this.pw = pw;
+			this.name = name;
+			this.gender = gender;
+			this.hp = hp;
+			this.bd = bd;
+			this.age = age;
+			this.email = email;
+		}
+
+		@Override
+		public void run() {
+			try {
+
+				HttpClient httpclient = new DefaultHttpClient();//HttpClientBuilder.create().build();
+				httpclient.getParams().setParameter("http.protocol.expect-continue", false);
+				httpclient.getParams().setParameter("http.connection.timeout", 5000);
+				httpclient.getParams().setParameter("http.socket.timeout", 5000);
+
+				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
+				try {
+					// Add your data
+					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					nameValuePairs.add(new BasicNameValuePair("type", "modUser"));
+					nameValuePairs.add(new BasicNameValuePair("id", this.id));
+//					nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
+					nameValuePairs.add(new BasicNameValuePair("name", this.name));
+					nameValuePairs.add(new BasicNameValuePair("gender", Integer.toString(this.gender)));
+					nameValuePairs.add(new BasicNameValuePair("hp", this.hp));
+					nameValuePairs.add(new BasicNameValuePair("bd", this.bd));
+					nameValuePairs.add(new BasicNameValuePair("age", this.age));
+					nameValuePairs.add(new BasicNameValuePair("email", this.email));
+
+					httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+					// Execute HTTP Post Request
+					HttpResponse response = httpclient.execute(httppost);
+					HttpEntity entity = response.getEntity();
+					str_response = EntityUtils.toString(entity);
+
+					System.out.println(str_response);
+
+					JsonParser parser = new JsonParser();
+					JsonElement element = parser.parse(str_response);
+					JsonObject jsonObj = element.getAsJsonObject();
+
+					boolean post_result = jsonObj.get("result").getAsBoolean();
+
+					System.out.println("post result : " + String.valueOf(post_result));
+
+					callback_Instance.modifyUserResult(post_result);
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+					callback_Instance.modifyUserResult(false);
+				} catch (IOException e) {
+					e.printStackTrace();
+					callback_Instance.modifyUserResult(false);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				callback_Instance.modifyUserResult(false);
+			}
+		}
+	}
 	}

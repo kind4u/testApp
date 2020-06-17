@@ -112,7 +112,8 @@ public class ModifyPwActivity extends AppCompatActivity {
                 });
             }
         }
-
+        @Override
+        public void modifyUserResult(boolean result){ }
         @Override
         public void findStation(boolean result, VOStation station_info) { }
         @Override
