@@ -3,16 +3,19 @@ package com.nids.util;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,9 +26,15 @@ import com.nids.kind4u.testapp.R;
 import com.nids.views.ModifyPwActivity;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 
 public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyViewHolder> {
+
+    private static String userId;
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId)    { this.userId = userId; }
 
     private ArrayList<InfoItem> infoItemArrayList;
     private Context mContext;
@@ -35,9 +44,7 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
         TextView descView;
 
         private boolean platform = false;
-        private String userId;
 
-        public void setUserId(String userId)    { this.userId = userId; }
         public void setPlatform(boolean platform) { this.platform = platform; }
 
         ModifyViewHolder(View v) {
@@ -49,14 +56,14 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     switch(getAdapterPosition())    {
                         case 1:
                             if(!platform)    {
                                 break;
                             }   else    {
                                 Intent modPwIntent = new Intent(v.getContext(), ModifyPwActivity.class);
-                                modPwIntent.putExtra("id",userId);
+                                modPwIntent.putExtra("id",getUserId());
                                 v.getContext().startActivity(modPwIntent);
                                 break;
                             }
@@ -79,7 +86,7 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                                     radioGroup.check(femaleButton.getId());
                                     break;
                             }
-                            dialogTextViewG.setText(infoItemArrayList.get(getAdapterPosition()).infoName + "정보 수정");
+                            dialogTextViewG.setText(infoItemArrayList.get(getAdapterPosition()).infoName + " 정보 수정");
 
                             final AlertDialog dialogG = builder.create();
                             buttonSubmitG.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +97,6 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                                     InfoItem infoItem = new InfoItem(strInfo,strDesc);
                                     infoItemArrayList.set(getAdapterPosition(),infoItem);
                                     notifyItemChanged(getAdapterPosition());
-                                    // TODO : 아이템 정보에 따른 DB 수정 c_util method
                                     dialogG.dismiss();
                                 }
                             });
@@ -103,6 +109,40 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                             });
 
                             dialogG.show();
+                            break;
+                        case 6:
+                            View viewAge = LayoutInflater.from(mContext).inflate(R.layout.custom_dialog_age, null, false);
+                            builder.setView(viewAge);
+                            final Button buttonSubmitA = viewAge.findViewById(R.id.okButton_a);
+                            final Button buttonCancelA = viewAge.findViewById(R.id.cancelButton_a);
+                            final TextView dialogTextViewA = viewAge.findViewById(R.id.title_a);
+                            final Spinner spinner = viewAge.findViewById(R.id.spinner);
+                            int index = Integer.parseInt(infoItemArrayList.get(getAdapterPosition()).desc.substring(0,1));
+                            spinner.setSelection(index);
+
+                            dialogTextViewA.setText(infoItemArrayList.get(getAdapterPosition()).infoName + " 정보 수정");
+
+                            final AlertDialog dialogA = builder.create();
+                            buttonSubmitA.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    String strDesc = spinner.getSelectedItem().toString();
+                                    String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
+                                    InfoItem infoItem = new InfoItem(strInfo,strDesc);
+                                    infoItemArrayList.set(getAdapterPosition(),infoItem);
+                                    notifyItemChanged(getAdapterPosition());
+                                    dialogA.dismiss();
+                                }
+                            });
+
+                            buttonCancelA.setOnClickListener(new View.OnClickListener()  {
+                                @Override
+                                public void onClick(View v) {
+                                    dialogA.dismiss();
+                                }
+                            });
+
+                            dialogA.show();
                             break;
                         default:
                             View view = LayoutInflater.from(mContext).inflate(R.layout.custom_dialog,null,false);
@@ -119,13 +159,64 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                             buttonSubmit.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    String strDesc = dialogEditText.getText().toString();
-                                    String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
-                                    InfoItem infoItem = new InfoItem(strInfo,strDesc);
-                                    infoItemArrayList.set(getAdapterPosition(),infoItem);
-                                    notifyItemChanged(getAdapterPosition());
-                                    // TODO : 아이템 정보에 따른 DB 수정 c_util method
-                                    dialog.dismiss();
+                                    switch (getAdapterPosition())   {
+//                                        case 4:
+//                                            // 휴대폰 형식 오류 예외처리
+//                                            break;
+                                        case 5:
+                                            if(!Pattern.matches("^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$",dialogEditText.getText().toString())){
+                                                //생일 형식 오류
+                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                                builder1.setMessage("올바른 생일 형식(MM/dd) 이 아닙니다.");
+                                                builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                                AlertDialog alertDialog = builder1.create();
+                                                alertDialog.show();
+                                            }   else    {
+                                                String strDesc = dialogEditText.getText().toString();
+                                                String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
+                                                InfoItem infoItem = new InfoItem(strInfo,strDesc);
+                                                infoItemArrayList.set(getAdapterPosition(),infoItem);
+                                                notifyItemChanged(getAdapterPosition());
+                                                dialog.dismiss();
+                                            }
+                                            break;
+                                        case 7:
+                                            if(!Pattern.matches("^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.+[a-zA-Z0-9]{2,6}+$",dialogEditText.getText().toString()))    {
+                                                // 이메일 형식 오류
+                                                AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                                builder1.setMessage("올바른 이메일 형식이 아닙니다.");
+                                                builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                                AlertDialog alertDialog = builder1.create();
+                                                alertDialog.show();
+                                            }   else    {
+                                                String strDesc = dialogEditText.getText().toString();
+                                                String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
+                                                InfoItem infoItem = new InfoItem(strInfo,strDesc);
+                                                infoItemArrayList.set(getAdapterPosition(),infoItem);
+                                                notifyItemChanged(getAdapterPosition());
+                                                dialog.dismiss();
+                                            }
+                                            break;
+                                        default:
+                                            String strDesc = dialogEditText.getText().toString();
+                                            String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
+                                            InfoItem infoItem = new InfoItem(strInfo,strDesc);
+                                            infoItemArrayList.set(getAdapterPosition(),infoItem);
+                                            notifyItemChanged(getAdapterPosition());
+                                            dialog.dismiss();
+                                            break;
+                                    }
+
                                 }
                             });
                             buttonCancel.setOnClickListener(new View.OnClickListener()  {
@@ -163,7 +254,7 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
         holder.infoView.setText(infoItemArrayList.get(position).infoName);
         switch (position) {
             case 0:     // id
-                holder.setUserId(infoItemArrayList.get(position).desc);
+                setUserId(infoItemArrayList.get(position).desc);
                 holder.descView.setText(infoItemArrayList.get(position).desc);
                 holder.descView.setTextColor(Color.parseColor("#CCCCCC"));
                 break;

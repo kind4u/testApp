@@ -298,7 +298,7 @@ public class JoinActivity extends AppCompatActivity {
 					return;
 				}else{
 					// 생일 형식 체크
-					if(!Pattern.matches("^[0-9]{2}+/[0-9]{2}+$",edit_bd.getText().toString())){
+					if(!Pattern.matches("^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$",edit_bd.getText().toString())){
 						Toast.makeText(JoinActivity.this,"생일 형식이 아닙니다", Toast.LENGTH_SHORT).show();
 						edit_bd.requestFocus();
 						return;
