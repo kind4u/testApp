@@ -42,6 +42,8 @@ public class DustFragment extends Fragment {
         public void signInResult(boolean result, String message, VOUser userinfo) { }
         @Override
         public void modifyResult(boolean result) { }
+        @Override
+        public void modifyUserResult(boolean result) { }
 
         @Override
         public void findStation(boolean result, VOStation station_info) {       // 현재 위치에서 가까운 측정소의 정보

@@ -49,6 +49,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         public void modifyResult(boolean result) { }
 
         @Override
+        public void modifyUserResult(boolean result) { }
+
+        @Override
         public void findStation(boolean result, VOStation station_info) { }
 
         @Override
