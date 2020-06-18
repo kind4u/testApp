@@ -1,5 +1,6 @@
 package com.nids.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -29,7 +30,6 @@ public class InsideFragment extends Fragment {
     private TextView infoTextInDoor;
     private TextView tempTextInDoor;
     private TextView humiTextInDoor;
-    private Button bluetoothButton;
 
     private ConstraintLayout backGround;
 
@@ -69,7 +69,7 @@ public class InsideFragment extends Fragment {
 
         backGround =v.findViewById(R.id.in);
 
-        bluetoothButton = v.findViewById(R.id.button_bt);
+        Button bluetoothButton = v.findViewById(R.id.button_bt);
         bluetoothButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +83,7 @@ public class InsideFragment extends Fragment {
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     private void bindInDoorView(View v) {
         Map<String, Object> map = ((MainActivity) getActivity()).getInDoorData();                  // MainActivity의 getData 메소드 호출
         VOSensorData sensorData = (VOSensorData) map.get("data");

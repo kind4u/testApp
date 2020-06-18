@@ -6,18 +6,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,8 +30,8 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
 
     private static String userId;
 
-    public String getUserId() { return userId; }
-    public void setUserId(String userId)    { this.userId = userId; }
+    private String getUserId() { return userId; }
+    private void setUserId(String userId)    { ModifyAdapter.userId = userId; }
 
     private ArrayList<InfoItem> infoItemArrayList;
     private Context mContext;
@@ -117,8 +114,11 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                             final Button buttonCancelA = viewAge.findViewById(R.id.cancelButton_a);
                             final TextView dialogTextViewA = viewAge.findViewById(R.id.title_a);
                             final Spinner spinner = viewAge.findViewById(R.id.spinner);
-                            int index = Integer.parseInt(infoItemArrayList.get(getAdapterPosition()).desc.substring(0,1));
-                            spinner.setSelection(index);
+                            if(infoItemArrayList.get(getAdapterPosition()).desc != null) {
+                                int index = Integer.parseInt(infoItemArrayList.get(getAdapterPosition()).desc.substring(0, 1));
+                                spinner.setSelection(index);
+                            }
+                            else    { spinner.setSelection(0);}
 
                             dialogTextViewA.setText(infoItemArrayList.get(getAdapterPosition()).infoName + " 정보 수정");
 
@@ -160,9 +160,28 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                                 @Override
                                 public void onClick(View v) {
                                     switch (getAdapterPosition())   {
-//                                        case 4:
-//                                            // 휴대폰 형식 오류 예외처리
-//                                            break;
+                                       case 4:
+                                        if(!Pattern.matches("^01(?:[0-1]|[6-9])-(\\d{3,4})-(\\d{4})$",dialogEditText.getText().toString()))    {
+                                            // 휴대폰 형식 오류 예외처리
+                                            AlertDialog.Builder builder1 = new AlertDialog.Builder(mContext);
+                                            builder1.setMessage("올바른 전화번호 형식이 아닙니다.");
+                                            builder1.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                            AlertDialog alertDialog = builder1.create();
+                                            alertDialog.show();
+                                        }  else    {
+                                            String strDesc = dialogEditText.getText().toString();
+                                            String strInfo = infoItemArrayList.get(getAdapterPosition()).infoName;
+                                            InfoItem infoItem = new InfoItem(strInfo,strDesc);
+                                            infoItemArrayList.set(getAdapterPosition(),infoItem);
+                                            notifyItemChanged(getAdapterPosition());
+                                            dialog.dismiss();
+                                        }
+                                            break;
                                         case 5:
                                             if(!Pattern.matches("^(0[1-9]|1[012])/(0[1-9]|[12][0-9]|3[01])$",dialogEditText.getText().toString())){
                                                 //생일 형식 오류

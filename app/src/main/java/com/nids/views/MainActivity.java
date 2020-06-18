@@ -1,15 +1,11 @@
 package com.nids.views;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.PeriodicWorkRequest;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -33,9 +29,7 @@ import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.BackPressCloseHandler;
-import com.nids.util.PushService;
 import com.nids.util.TabPagerAdapter;
-import com.nids.util.WorkManager;
 import com.nids.util.gps.GpsTracker;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
@@ -49,7 +43,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     InsideFragment insideFragment;
@@ -86,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     public void setPlatform(String platform) { this.platform = platform; }
 
     public BackPressCloseHandler backPressCloseHandler;
-    private TabLayout tabLayout;
     private ViewPager viewPager;
 
     NetworkCallBackInterface callBackInterface = new NetworkCallBackInterface() {        // callback 값을 받기 위한 callback Interface 호출
@@ -163,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(BTIntent, REQUEST_ENABLE_BT);
             }
         }
-        tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("먼지"));
         tabLayout.addTab(tabLayout.newTab().setText("지도"));
         tabLayout.addTab(tabLayout.newTab().setText("설정"));

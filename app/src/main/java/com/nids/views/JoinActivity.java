@@ -277,6 +277,11 @@ public class JoinActivity extends AppCompatActivity {
 					Toast.makeText(JoinActivity.this, "휴대폰 번호를 입력하세요.", Toast.LENGTH_SHORT).show();
 					edit_hp.requestFocus();
 					return;
+				}else{
+					// 휴대폰 번호 형식 체크
+					if(!Pattern.matches("^01(?:[0-1]|[6-9])-(\\d{3,4})-(\\d{4})$", edit_hp.getText().toString())){
+						Toast.makeText(JoinActivity.this, "휴대폰 번호 형식이 아닙니다.",Toast.LENGTH_SHORT).show();
+					}
 				}
 				// 이메일 입력확인
 				if (edit_email.getText().toString().length() == 0) {

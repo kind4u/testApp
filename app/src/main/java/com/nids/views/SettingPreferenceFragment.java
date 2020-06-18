@@ -228,7 +228,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
         });
     }
 
-    SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+    private SharedPreferences.OnSharedPreferenceChangeListener prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -245,7 +245,7 @@ public class SettingPreferenceFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) { }
 
-    public void ConvertTermTime(String notice_term)   {
+    private void ConvertTermTime(String notice_term)   {
         switch (notice_term)    {
             case "1분":
                 this.notice_time = 1;

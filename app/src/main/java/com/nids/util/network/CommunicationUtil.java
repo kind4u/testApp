@@ -38,17 +38,17 @@ import java.util.List;
 
 public class CommunicationUtil {
 
-	public static final String root_url_goorm = "https://nids-spring-psdg.run.goorm.io";
-	public static final String root_url_aws = "http://nidsprojtestapp.372fabauwi.us-east-1.elasticbeanstalk.com";
-	public static final String server_url = root_url_goorm;
+	private static final String root_url_goorm = "https://nids-spring-psdg.run.goorm.io";
+	private static final String root_url_aws = "http://nidsprojtestapp.372fabauwi.us-east-1.elasticbeanstalk.com";
+	private static final String server_url = root_url_goorm;
 
-	boolean stop_flag = false;
+	private boolean stop_flag = false;
 	Thread receiver_t;
-	String str_response = "";
+	private String str_response = "";
 	String auth = "";
 
-	NetworkCallBackInterface callback_Instance;
-	JoinCallBackInterface joincallback_Instance;
+	private NetworkCallBackInterface callback_Instance;
+	private JoinCallBackInterface joincallback_Instance;
 
 	public CommunicationUtil(NetworkCallBackInterface callback_Instance) {
 		this.callback_Instance = callback_Instance;
@@ -141,7 +141,7 @@ public class CommunicationUtil {
 		String id;
 		int model;
 
-		public CarInfo(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
+		CarInfo(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
 
 		@Override
 		public void run(){
@@ -154,7 +154,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "registCar"));
 					nameValuePairs.add(new BasicNameValuePair("num", this.num));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
@@ -175,7 +175,7 @@ public class CommunicationUtil {
 					boolean post_insert = jsonObj.get("insert").getAsBoolean();
 					String result = jsonObj.get("result").getAsString();
 
-					System.out.println("post insert : " + String.valueOf(post_insert));
+					System.out.println("post insert : " + post_insert);
 
 					joincallback_Instance.carResult(post_insert, result,"Success");
 				} catch (ClientProtocolException e) {
@@ -197,7 +197,7 @@ public class CommunicationUtil {
 		String id;
 		int model;
 
-		public DeleteCar(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
+		DeleteCar(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
 
 		@Override
 		public void run(){
@@ -210,7 +210,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "deleteCar"));
 					nameValuePairs.add(new BasicNameValuePair("num", this.num));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
@@ -231,7 +231,7 @@ public class CommunicationUtil {
 					boolean post_delete = jsonObj.get("delete").getAsBoolean();
 					String result = jsonObj.get("result").getAsString();
 
-					System.out.println("post delete : " + String.valueOf(post_delete));
+					System.out.println("post delete : " + post_delete);
 
 					joincallback_Instance.deleteCarResult(post_delete, result,"Success");
 				} catch (ClientProtocolException e) {
@@ -253,7 +253,7 @@ public class CommunicationUtil {
 		String id;
 		int model;
 
-		public EditCar(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
+		EditCar(String num, String id, int model){this.num =num; this.id=id; this.model = model;}
 
 		@Override
 		public void run(){
@@ -266,7 +266,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "editCar"));
 					nameValuePairs.add(new BasicNameValuePair("num", this.num));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
@@ -287,7 +287,7 @@ public class CommunicationUtil {
 					boolean post_edit = jsonObj.get("edit").getAsBoolean();
 					String result = jsonObj.get("result").getAsString();
 
-					System.out.println("post edit : " + String.valueOf(post_edit));
+					System.out.println("post edit : " + post_edit);
 
 					joincallback_Instance.editCarResult(post_edit, result,"Success");
 				} catch (ClientProtocolException e) {
@@ -307,7 +307,7 @@ public class CommunicationUtil {
 	public class CheckCar implements Runnable {
 		String id;
 
-		public CheckCar(String id) {
+		CheckCar(String id) {
 			this.id = id;
 		}
 
@@ -322,7 +322,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/CarUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "checkCar"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 
@@ -359,7 +359,7 @@ public class CommunicationUtil {
 	public class CheckUser implements Runnable {
 		String id;
 
-		public CheckUser(String id) {
+		CheckUser(String id) {
 			this.id = id;
 		}
 
@@ -374,7 +374,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "check_exist"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 
@@ -411,7 +411,7 @@ public class CommunicationUtil {
 	public class LoadData implements Runnable {
 		String id;
 
-		public LoadData(String id) {
+		LoadData(String id) {
 			this.id = id;
 		}
 
@@ -426,7 +426,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/DataLoad");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "withid"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 
@@ -452,7 +452,7 @@ public class CommunicationUtil {
 
 					VOSensorData sensorData = new VOSensorData(resp_data, timeStamp, lat, lon);
 
-					List<VOSensorData> dataList = new ArrayList<VOSensorData>();
+					List<VOSensorData> dataList = new ArrayList<>();
 					dataList.add(sensorData);
 
 					callback_Instance.dataReqResult(post_result, dataList);
@@ -473,7 +473,7 @@ public class CommunicationUtil {
 	public class InDoor implements Runnable	{
 		String id;
 
-		public InDoor(String id) {this.id = id;}
+		InDoor(String id) {this.id = id;}
 
 		@Override
 		public void run() {
@@ -486,7 +486,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/DataLoad");
 				try	{
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "withid"));		// 모바일 전용으로 매핑
 					nameValuePairs.add(new BasicNameValuePair("id", URLEncoder.encode(this.id, "utf-8")));
 
@@ -514,7 +514,7 @@ public class CommunicationUtil {
 					VOSensorData sensorData = new VOSensorData(resp_data, timeStamp, lat_data, lon_data);
 					//VOSensorData sensorData = new VOSensorData(resp_data, lat_data, lon_data);
 
-					List<VOSensorData> dataList = new ArrayList<VOSensorData>();
+					List<VOSensorData> dataList = new ArrayList<>();
 					dataList.add(sensorData);
 
 					callback_Instance.dataReqResult(post_result, dataList);		// MainActivity의 callback 메소드 호출
@@ -541,7 +541,7 @@ public class CommunicationUtil {
 
 		String station;
 
-		public OutDoor(String station) {
+		OutDoor(String station) {
 			this.station = station;
 		}
 
@@ -556,7 +556,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/DataLoad");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "outdoor_mobile"));		// 모바일 전용으로 매핑
 					nameValuePairs.add(new BasicNameValuePair("station", URLEncoder.encode(this.station, "utf-8")));
 
@@ -599,7 +599,7 @@ public class CommunicationUtil {
 		String id;
 		String pw;
 
-		public UserAuth(String id, String pw) {
+		UserAuth(String id, String pw) {
 			this.id = id;
 			this.pw = pw;
 			Log.d("Auth", this.id);
@@ -618,7 +618,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "signin"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 					nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
@@ -648,7 +648,7 @@ public class CommunicationUtil {
 					Log.d("user info", user_info.getName());
 					//System.out.println("user name" + user_info.getName());
 
-					System.out.println("post result : " + String.valueOf(post_result));
+					System.out.println("post result : " + post_result);
 					callback_Instance.signInResult(post_result, message, user_info);
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
@@ -668,7 +668,7 @@ public class CommunicationUtil {
 	public class UserResult implements Runnable {
 		String id;
 
-		public UserResult(String id) {
+		UserResult(String id) {
 			this.id = id;
 			Log.d("Auth", this.id);
 		}
@@ -685,7 +685,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "getUser"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 
@@ -714,7 +714,7 @@ public class CommunicationUtil {
 					Log.d("user info", user_info.getName());
 					//System.out.println("user name" + user_info.getName());
 
-					System.out.println("post result : " + String.valueOf(post_result));
+					System.out.println("post result : " + post_result);
 					joincallback_Instance.getUserResult(post_result, message, user_info);
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
@@ -736,7 +736,7 @@ public class CommunicationUtil {
 		String lat;
 		String lon;
 
-		public StationGPS(String lat, String lon) {
+		StationGPS(String lat, String lon) {
 			this.lat = lat;
 			this.lon = lon;
 		}
@@ -753,7 +753,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "stationgps"));		// goorm 서버 내 stationgps 메소드 매핑
 					nameValuePairs.add(new BasicNameValuePair("lat", this.lon));
 					nameValuePairs.add(new BasicNameValuePair("lon", this.lat));
@@ -796,15 +796,15 @@ public class CommunicationUtil {
 			int delay = 30000;
 			String auth;
 
-			public Receiver(String auth) {
+			Receiver(String auth) {
 				this.auth = auth;
 			}
 
-			public Receiver(int delay) {
+			Receiver(int delay) {
 				this.delay = delay;
 			}
 
-			public void send() throws Exception {
+			void send() throws Exception {
 				//System.out.println("send ready");
 
 				URI uri = new URI(server_url + "/DataLoad");
@@ -829,12 +829,12 @@ public class CommunicationUtil {
 				Gson gson = new Gson();
 
 				String post_result = jsonObj.get("result").getAsString();
-				List<VOSensorData> data_arr = (List<VOSensorData>) gson.fromJson(jsonObj.get("data").toString(), new TypeToken<List<VOSensorData>>() {
+				List<VOSensorData> data_arr = gson.fromJson(jsonObj.get("data").toString(), new TypeToken<List<VOSensorData>>() {
 				}.getType());
 				Log.d("data size", String.valueOf(data_arr.size()));
-				System.out.println("post result : " + String.valueOf(post_result));
+				System.out.println("post result : " + post_result);
 
-				if (post_result == "0") {
+				if (post_result.equals("0")) {
 					callback_Instance.dataReqResult(post_result, data_arr);
 				}
 			}
@@ -891,7 +891,7 @@ public class CommunicationUtil {
 
 					HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 					try {
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(10);
+						List<NameValuePair> nameValuePairs = new ArrayList<>(10);
 						nameValuePairs.add(new BasicNameValuePair("type", "Register"));
 						nameValuePairs.add(new BasicNameValuePair("id", this.id));
 						nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
@@ -916,7 +916,7 @@ public class CommunicationUtil {
 						boolean post_insert = jsonObj.get("insert").getAsBoolean();
 						String result = jsonObj.get("result").getAsString();
 
-						System.out.println("post insert : " + String.valueOf(post_insert));
+						System.out.println("post insert : " + post_insert);
 
 						joincallback_Instance.signUpResult(post_insert, result,null);
 					} catch (ClientProtocolException e) {
@@ -960,7 +960,7 @@ public class CommunicationUtil {
 
 					HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 					try {
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+						List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 						nameValuePairs.add(new BasicNameValuePair("type", "position"));
 						nameValuePairs.add(new BasicNameValuePair("admCd", this.amdCd));
 						nameValuePairs.add(new BasicNameValuePair("rnMgtSn", this.rnMgtSn));
@@ -982,7 +982,7 @@ public class CommunicationUtil {
 						boolean position_result = jsonObj.get("result").getAsBoolean();
 						String position_data = jsonObj.get("data").getAsString();
 
-						System.out.println("post insert : " + String.valueOf(position_result));
+						System.out.println("post insert : " + position_result);
 
 						joincallback_Instance.positionResult(position_result, position_data);
 					} catch (ClientProtocolException e) {
@@ -1021,7 +1021,7 @@ public class CommunicationUtil {
 					HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 					try {
 						// Add your data
-						List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+						List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 						nameValuePairs.add(new BasicNameValuePair("type", "modPw"));
 						nameValuePairs.add(new BasicNameValuePair("id", this.id));
 						nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
@@ -1040,7 +1040,7 @@ public class CommunicationUtil {
 
 						boolean post_result = jsonObj.get("result").getAsBoolean();
 
-						System.out.println("post result : " + String.valueOf(post_result));
+						System.out.println("post result : " + post_result);
 
 						callback_Instance.modifyResult(post_result);
 					} catch (ClientProtocolException e) {
@@ -1091,7 +1091,7 @@ public class CommunicationUtil {
 				HttpPost httppost = new HttpPost(server_url + "/UserUtil");
 				try {
 					// Add your data
-					List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(3);
+					List<NameValuePair> nameValuePairs = new ArrayList<>(3);
 					nameValuePairs.add(new BasicNameValuePair("type", "modUser"));
 					nameValuePairs.add(new BasicNameValuePair("id", this.id));
 //					nameValuePairs.add(new BasicNameValuePair("pw", this.pw));
@@ -1116,7 +1116,7 @@ public class CommunicationUtil {
 
 					boolean post_result = jsonObj.get("result").getAsBoolean();
 
-					System.out.println("post result : " + String.valueOf(post_result));
+					System.out.println("post result : " + post_result);
 
 					callback_Instance.modifyUserResult(post_result);
 				} catch (ClientProtocolException e) {
