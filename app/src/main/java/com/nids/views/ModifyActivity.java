@@ -95,9 +95,6 @@ public class ModifyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify);
-
-
-
         Intent intent = getIntent();
         platform = intent.getExtras().get("platform").toString();
 

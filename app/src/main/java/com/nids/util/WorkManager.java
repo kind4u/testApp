@@ -44,9 +44,7 @@ public class WorkManager extends Worker {
         }
 
         @Override
-        public void modifyUserResult(boolean result) {
-
-        }
+        public void modifyUserResult(boolean result) { }
 
         @Override
         public void findStation(boolean result, VOStation station_info) {

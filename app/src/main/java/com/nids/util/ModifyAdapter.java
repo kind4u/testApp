@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nids.kind4u.testapp.R;
+import com.nids.views.MainActivity;
+import com.nids.views.ModifyActivity;
 import com.nids.views.ModifyPwActivity;
 
 import java.util.ArrayList;
@@ -33,8 +35,8 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
     private String getUserId() { return userId; }
     private void setUserId(String userId)    { ModifyAdapter.userId = userId; }
 
-    private ArrayList<InfoItem> infoItemArrayList;
-    private Context mContext;
+    public ArrayList<InfoItem> infoItemArrayList;
+    public Context mContext;
 
     public class ModifyViewHolder extends RecyclerView.ViewHolder {
         TextView infoView;
@@ -43,6 +45,7 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
         private boolean platform = false;
 
         public void setPlatform(boolean platform) { this.platform = platform; }
+
 
         ModifyViewHolder(View v) {
             super(v);
