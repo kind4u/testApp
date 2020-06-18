@@ -3,7 +3,6 @@ package com.nids.views;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,11 +16,8 @@ import com.nids.data.VOSensorData;
 import com.nids.data.VOStation;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
-import com.nids.util.ModifyAdapter;
 import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -54,17 +50,14 @@ public class ModifyPwActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (modifyPassword.getText().toString().length() == 0) {
                     Toast.makeText(ModifyPwActivity.this, "password를 입력하세요.", Toast.LENGTH_SHORT).show();
-                    return;
                 }
                 // 비밀번호 확인 입력확인
                 else if (modifyPasswordCon.getText().toString().length() == 0) {
                     Toast.makeText(ModifyPwActivity.this, "password 확인을 입력하세요.", Toast.LENGTH_SHORT).show();
-                    return;
                 }
                 // 비밀번호 일치 확인
                 else if (!modifyPassword.getText().toString().equals(modifyPasswordCon.getText().toString())) {
                     Toast.makeText(ModifyPwActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
-                    return;
                 } else {
                     c_util.modifyPassword(userId, modifyPassword.getText().toString());
                 }

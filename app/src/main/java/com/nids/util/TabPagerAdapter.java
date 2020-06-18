@@ -18,6 +18,7 @@ public class TabPagerAdapter extends FragmentStatePagerAdapter {
         this.tabCount = tabCount;
     }
 
+    @NonNull
     @Override
     public Fragment getItem(int position) {
         switch(position)    {

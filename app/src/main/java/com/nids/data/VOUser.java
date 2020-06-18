@@ -16,8 +16,8 @@ public class VOUser implements Serializable {
     private Timestamp signup;
     private String auth;
     private String platform;
-    public String bd;
-    public String email;
+    private String bd;
+    private String email;
 
     public VOUser() {
     }
@@ -28,12 +28,12 @@ public class VOUser implements Serializable {
             MessageDigest digest = java.security.MessageDigest
                     .getInstance("MD5");
             digest.update(txt.getBytes());
-            byte messageDigest[] = digest.digest();
+            byte[] messageDigest = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++) {
-                String h = Integer.toHexString(0xFF & messageDigest[i]);
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : messageDigest) {
+                String h = Integer.toHexString(0xFF & b);
                 while (h.length() < 2)
                     h = "0" + h;
                 hexString.append(h);

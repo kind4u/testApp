@@ -6,10 +6,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class VOOutdoor {
-    String station_name;
-    String measure_date;
-    float pm100;
-    float pm025;
+    private String station_name;
+    private String measure_date;
+    private float pm100;
+    private float pm025;
 
     public VOOutdoor(){
 //        this.station_name="미측정";
@@ -17,10 +17,6 @@ public class VOOutdoor {
     }
 
     public VOOutdoor(String json_str){
-        parseJSON(json_str);
-    }
-
-    public void setDataAsJSONString(String json_str){
         parseJSON(json_str);
     }
 
@@ -45,7 +41,6 @@ public class VOOutdoor {
     public float getPM100() { return this.pm100; }
     public float getPM025() { return this.pm025; }
     public boolean isNull() {
-        if(station_name == null || measure_date == null || pm100 == 0.0 || pm025 == 0.0)  return true;
-        else return false;
+        return station_name == null || measure_date == null || pm100 == 0.0 || pm025 == 0.0;
     }
 }

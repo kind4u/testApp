@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.nids.data.VOOutdoor;
 import com.nids.data.VOSensorData;
@@ -50,6 +52,11 @@ public class ModifyActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                Intent intent = new Intent(ModifyActivity.this, MainActivity.class);
+                                intent.putExtra("id",id);
+                                intent.putExtra("platform",platform);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
                                 finish();
                             }
                         });
@@ -88,7 +95,6 @@ public class ModifyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modify);
-
         Intent intent = getIntent();
         platform = intent.getExtras().get("platform").toString();
 
@@ -98,7 +104,7 @@ public class ModifyActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        ArrayList<InfoItem> infoArrayList = new ArrayList<>();
+        final ArrayList<InfoItem> infoArrayList = new ArrayList<>();
         switch (platform){
             case "DEFAULT" :
                 voUser = (VOUser) intent.getExtras().get("user");
@@ -134,7 +140,15 @@ public class ModifyActivity extends AppCompatActivity {
         submit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                int genderTemp = infoArrayList.get(3).getDesc().equals("남성")?0:infoArrayList.get(3).getDesc().equals("여성")?1:9;
+                c_util.modifyUser(id,
+                        infoArrayList.get(2).getDesc(),
+                        genderTemp,
+                        infoArrayList.get(4).getDesc(),
+                        infoArrayList.get(5).getDesc(),
+                        infoArrayList.get(6).getDesc(),
+                        infoArrayList.get(7).getDesc()
+                );
             }
         });
 
