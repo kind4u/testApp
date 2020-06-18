@@ -2,26 +2,15 @@ package com.nids.views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -38,7 +27,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -64,9 +52,6 @@ import com.nids.util.network.CommunicationUtil;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 import com.nhn.android.naverlogin.ui.view.OAuthLoginButton;
-import com.nids.kind4u.testapp.R;
-import com.nids.util.interfaces.JoinCallBackInterface;
-import com.nids.util.network.CommunicationUtil;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -75,7 +60,6 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.security.MessageDigest;
 
 
 import java.util.List;
@@ -103,7 +87,6 @@ public class LoginActivity extends AppCompatActivity {
     CommunicationUtil c_util_join;
     NetworkCallBackInterface callbackInstance;
     JoinCallBackInterface joinCallBackInstance;
-    private SessionCallback sessionCallBack;
 
     private MeV2Response meV2Response = null;
     private FirebaseUser user = null;
@@ -114,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //---------여기부터---------------
     Map<String, String> resultMap = new HashMap<>();
-    String f_array[] = new String[9];
+    String[] f_array = new String[9];
 
     private static final String TAG = "OAuthSampleActivity";
     public Map<String, String> mUserInfoMap;
@@ -246,12 +229,7 @@ public class LoginActivity extends AppCompatActivity {
                             inText = false;
                         } else if (tag.compareTo("message") == 0) {
                             inText = false;
-                        } else if (tag.compareTo("response") == 0) {
-                            inText = false;
-                        } else {
-                            inText = true;
-
-                        }
+                        } else inText = tag.compareTo("response") != 0;
                         break;
                     case XmlPullParser.TEXT:
                         tag = parser.getName();
@@ -502,14 +480,14 @@ public class LoginActivity extends AppCompatActivity {
         c_util_join = new CommunicationUtil(joinCallBackInstance);
 
 
-        sessionCallBack = new SessionCallback();
+        SessionCallback sessionCallBack = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallBack);
         Session.getCurrentSession().checkAndImplicitOpen();
 
-        btn_signin = (Button) findViewById(R.id.btn_signin);
-        btn_join = (Button) findViewById(R.id.btn_join);
-        edit_id = (EditText) findViewById(R.id.edit_id);
-        edit_pw = (EditText) findViewById(R.id.edit_pw);
+        btn_signin = findViewById(R.id.btn_signin);
+        btn_join = findViewById(R.id.btn_join);
+        edit_id = findViewById(R.id.edit_id);
+        edit_pw = findViewById(R.id.edit_pw);
         btn_google = findViewById(R.id.btn_google);
         mAuth = FirebaseAuth.getInstance();
 
@@ -518,7 +496,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        btn_naver = (OAuthLoginButton) findViewById(R.id.btn_naver);
+        btn_naver = findViewById(R.id.btn_naver);
 
         btn_signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -576,7 +554,6 @@ public class LoginActivity extends AppCompatActivity {
             handleSignInResult(task);
         } else if (Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
-            return;
         }
     }
 

@@ -1,21 +1,17 @@
 package com.nids.views;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nids.data.VOOutdoor;
@@ -25,18 +21,18 @@ import java.util.Map;
 
 
 public class OutsideFragment extends Fragment {
-    MainActivity activity;
-    Map<String, Object> map;
+    private MainActivity activity;
+    private Map<String, Object> map;
 
-    TextView dateText;
-    TextView stationText;
-    TextView dustText;
-    TextView infoText;
+    private TextView dateText;
+    private TextView stationText;
+    private TextView dustText;
+    private TextView infoText;
 
-    TextView lat;
-    TextView lon;
+    private TextView lat;
+    private TextView lon;
 
-    ConstraintLayout backGround;
+    private ConstraintLayout backGround;
 
     public OutsideFragment() {
         // Required empty public constructor
@@ -79,9 +75,10 @@ public class OutsideFragment extends Fragment {
         return v;
     }
 
+    @SuppressLint("SetTextI18n")
     private void bindComponent(View v){                // 데이터 수신 메소드
 
-        map = ((MainActivity)getActivity()).getData();                  // MainActivity의 getData 메소드 호출
+        map = activity.getData();                  // MainActivity의 getData 메소드 호출
 
         VOOutdoor outDoorData = (VOOutdoor) map.get("data");            // onAttach에서 getData 메소드로 얻어낸 데이터 Input
 

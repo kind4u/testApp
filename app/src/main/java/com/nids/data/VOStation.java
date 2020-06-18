@@ -10,7 +10,7 @@ import com.google.gson.JsonParser;
 import java.io.Serializable;
 
 public class VOStation implements Serializable {
-    String station_name;
+    private String station_name;
     public VOStation(){}
     public VOStation(String json_str){
         parseJSON(json_str);

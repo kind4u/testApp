@@ -1,12 +1,10 @@
 package com.nids.views;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 
 
@@ -22,15 +20,11 @@ public class NewCarFragment extends Fragment {
         void onNewCarSet(String newcarNumResult);
     }
 
-    OnNewCarSetListener onNewCarSetLisener;
+    private OnNewCarSetListener onNewCarSetLisener;
 
-    String newcarNum1;
-    String newcarNum2;
-    String newcarNum3;
-
-    EditText edit_newcarNum1;
-    EditText edit_newcarNum2;
-    EditText edit_newcarNum3;
+    private EditText edit_newcarNum1;
+    private EditText edit_newcarNum2;
+    private EditText edit_newcarNum3;
 
     public NewCarFragment() {
         // Required empty public constructor
@@ -59,23 +53,23 @@ public class NewCarFragment extends Fragment {
         return v;
     }
 
-    public void bindComponents(View v) {
+    private void bindComponents(View v) {
         edit_newcarNum1 = v.findViewById(R.id.edit_newcarNum1);
         edit_newcarNum2 = v.findViewById(R.id.edit_newcarNum2);
         edit_newcarNum3 = v.findViewById(R.id.edit_newcarNum3);
     }
 
-    public void getCarInfo1(){
+    void getCarInfo1(){
         // TODO: 사용자가 입력한 차량 정보 받아오는 함수
-        newcarNum1 = edit_newcarNum1.getText().toString();
-        newcarNum2 = edit_newcarNum2.getText().toString();
-        newcarNum3 = edit_newcarNum3.getText().toString();
+        String newcarNum1 = edit_newcarNum1.getText().toString();
+        String newcarNum2 = edit_newcarNum2.getText().toString();
+        String newcarNum3 = edit_newcarNum3.getText().toString();
 
-        String result = newcarNum1+" "+newcarNum2+" "+newcarNum3;
+        String result = newcarNum1 +" "+ newcarNum2 +" "+ newcarNum3;
         passCarInfo(result);
     }
 
-    public void passCarInfo(String newcarNumResult){        // 차량 등록 lisener
+    private void passCarInfo(String newcarNumResult){        // 차량 등록 lisener
         onNewCarSetLisener.onNewCarSet(newcarNumResult);
     }
 
