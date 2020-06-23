@@ -34,8 +34,6 @@ public class InsideFragment extends Fragment {
     private TextView humiTextInDoor;
     private ImageView imageView;
 
-    private ImageView imageView;
-
     private ConstraintLayout backGround;
 
     public InsideFragment() { }
@@ -71,7 +69,7 @@ public class InsideFragment extends Fragment {
         infoTextInDoor = v.findViewById(R.id.infoTextInDoor);
         tempTextInDoor = v.findViewById(R.id.tempTextInDoor);
         humiTextInDoor = v.findViewById(R.id.humiTextInDoor);
-        imageView = v.findViewById(R.id.imageView);
+        imageView = v.findViewById(R.id.imageInside);
 
         backGround =v.findViewById(R.id.in);
 

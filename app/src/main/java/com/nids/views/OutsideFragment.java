@@ -33,8 +33,6 @@ public class OutsideFragment extends Fragment {
     private TextView infoText;
     private ImageView imageView;
 
-    private ImageView imageView;
-
     private ConstraintLayout backGround;
 
     public OutsideFragment() {
@@ -69,7 +67,7 @@ public class OutsideFragment extends Fragment {
         infoText = v.findViewById(R.id.infoTextOutDoor);
 //        lat = v.findViewById(R.id.latitude);
 //        lon = v.findViewById(R.id.longitude);
-        imageView = v.findViewById(R.id.imageView);
+        imageView = v.findViewById(R.id.imageOutside);
 
         backGround =v.findViewById(R.id.out);
 
