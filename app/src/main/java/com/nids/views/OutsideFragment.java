@@ -92,19 +92,19 @@ public class OutsideFragment extends Fragment {
             dustText.setText(pm10 + "㎍/㎥");
             if (pm10 > 150.0) {
                 infoText.setText("매우나쁨");
-                backGround.setBackgroundColor(Color.parseColor("#B9062F"));
+                backGround.setBackgroundColor(Color.parseColor("#F09494"));
                 imageView.setImageResource(R.drawable.verybad);
             } else if (pm10 > 80.0) {
                 infoText.setText("나쁨");
-                backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
+                backGround.setBackgroundColor(Color.parseColor("#FFD9E4"));
                 imageView.setImageResource(R.drawable.bad);
             } else if (pm10 > 30.0) {
                 infoText.setText("보통");
-                backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
+                backGround.setBackgroundColor(Color.parseColor("#BEF5BE"));
                 imageView.setImageResource(R.drawable.good);
             } else {
                 infoText.setText("좋음");
-                backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
+                backGround.setBackgroundColor(Color.parseColor("#A5D8FA"));
                 imageView.setImageResource(R.drawable.verygood);
             }
 //            lat.setText(String.valueOf(map.get("lat")));

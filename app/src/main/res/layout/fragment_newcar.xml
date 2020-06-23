@@ -34,6 +34,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="123"
+                android:fontFamily="@font/maplel"
                 android:inputType="number" />
 
             <EditText
@@ -42,6 +43,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="가"
+                android:fontFamily="@font/maplel"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -50,6 +52,7 @@
                 android:layout_height="50dp"
                 android:ems="10"
                 android:hint="1234"
+                android:fontFamily="@font/maplel"
                 android:inputType="number" />
 
         </LinearLayout>

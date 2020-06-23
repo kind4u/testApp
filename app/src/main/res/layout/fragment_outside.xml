@@ -7,10 +7,10 @@
     tools:context="com.nids.views.OutsideFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/out"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/unload"
-        android:id="@+id/out">
+        android:background="@color/unload">
 
         <TextView
             android:id="@+id/dateTextOutDoor"
@@ -19,8 +19,8 @@
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
-            android:text=""
             android:fontFamily="@font/maple"
+            android:text=""
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stationTextOutDoor" />
 
@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
-            android:layout_marginTop="40dp"
-            android:text="데이터를 불러오고 있습니다."
+            android:layout_marginTop="45dp"
             android:fontFamily="@font/maple"
+            android:text="데이터를 불러오고 있습니다."
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,11 +42,11 @@
             android:id="@+id/infoTextOutDoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="88dp"
-            android:layout_marginRight="88dp"
+            android:layout_marginEnd="73dp"
+            android:layout_marginRight="73dp"
             android:layout_marginBottom="10dp"
-            android:text="측정중"
             android:fontFamily="@font/maple"
+            android:text="측정중"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/dustTextOutDoor"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -55,11 +55,11 @@
             android:id="@+id/dustTextOutDoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="60dp"
-            android:layout_marginRight="60dp"
-            android:layout_marginBottom="60dp"
-            android:text="0.0㎍/m³"
+            android:layout_marginEnd="45dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginBottom="65dp"
             android:fontFamily="@font/maple"
+            android:text="0.0㎍/m³"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -68,31 +68,40 @@
             android:id="@+id/imageOutside"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="60dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="65dp"
             android:src="@drawable/blank"
             app:layout_constrainedHeight="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!--        <TextView-->
-<!--            android:id="@+id/latitude"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="lat:"-->
-<!--            app:layout_constraintBottom_toTopOf="@+id/longitude"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="409dp"
+            android:layout_height="1dp"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/longitude"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="lon:"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+        <!--        <TextView-->
+        <!--            android:id="@+id/latitude"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="lat:"-->
+        <!--            app:layout_constraintBottom_toTopOf="@+id/longitude"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+        <!--        <TextView-->
+        <!--            android:id="@+id/longitude"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:text="lon:"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
