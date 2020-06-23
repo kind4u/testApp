@@ -25,4 +25,19 @@
         android:fontWeight = "400"
         android:font = "@font/nanumsquareeb"/>
 
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/bm"/>
+
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/lo"/>
+
+    <font
+        android:fontStyle = "normal"
+        android:fontWeight = "400"
+        android:font = "@font/seoul"/>
+
 </font-family>

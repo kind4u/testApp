@@ -12,6 +12,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nids.data.VOOutdoor;
@@ -29,8 +31,10 @@ public class OutsideFragment extends Fragment {
     private TextView dustText;
     private TextView infoText;
 
-    private TextView lat;
-    private TextView lon;
+    private ImageView imageView;
+
+//    private TextView lat;
+//    private TextView lon;
 
     private ConstraintLayout backGround;
 
@@ -64,9 +68,9 @@ public class OutsideFragment extends Fragment {
         dateText = v.findViewById(R.id.dateTextOutDoor);
         dustText = v.findViewById(R.id.dustTextOutDoor);
         infoText = v.findViewById(R.id.infoTextOutDoor);
-        lat = v.findViewById(R.id.latitude);
-        lon = v.findViewById(R.id.longitude);
-        backGround =v.findViewById(R.id.out);
+//        lat = v.findViewById(R.id.latitude);
+//        lon = v.findViewById(R.id.longitude);
+        imageView = v.findViewById(R.id.imageView);
 
         backGround =v.findViewById(R.id.out);
 
@@ -92,18 +96,22 @@ public class OutsideFragment extends Fragment {
             if (pm10 > 150.0) {
                 infoText.setText("매우나쁨");
                 backGround.setBackgroundColor(Color.parseColor("#B9062F"));
+                imageView.setImageResource(R.drawable.verybad);
             } else if (pm10 > 80.0) {
                 infoText.setText("나쁨");
                 backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
+                imageView.setImageResource(R.drawable.bad);
             } else if (pm10 > 30.0) {
                 infoText.setText("보통");
                 backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
+                imageView.setImageResource(R.drawable.good);
             } else {
                 infoText.setText("좋음");
                 backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
+                imageView.setImageResource(R.drawable.verygood);
             }
-            lat.setText(String.valueOf(map.get("lat")));
-            lon.setText(String.valueOf(map.get("lon")));
+//            lat.setText(String.valueOf(map.get("lat")));
+//            lon.setText(String.valueOf(map.get("lon")));
         }
     }
 }
