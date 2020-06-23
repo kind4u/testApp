@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.text.style.IconMarginSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +31,9 @@ public class OutsideFragment extends Fragment {
     private TextView stationText;
     private TextView dustText;
     private TextView infoText;
-
     private ImageView imageView;
 
-//    private TextView lat;
-//    private TextView lon;
+    private ImageView imageView;
 
     private ConstraintLayout backGround;
 

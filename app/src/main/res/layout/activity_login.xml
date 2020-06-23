@@ -25,7 +25,7 @@
         android:id="@+id/edit_id"
         android:layout_width="230dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="140dp"
         android:ems="10"
         android:hint="ID"
         android:inputType="textPersonName"
@@ -73,37 +73,102 @@
         app:layout_constraintTop_toBottomOf="@+id/edit_pw"
         app:layout_constraintVertical_bias="0.156" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/btn_google"
-        android:layout_width="171dp"
-        android:layout_height="42dp"
-        android:layout_marginTop="40dp"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="외부 계정으로 로그인"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_join" />
 
 
-    <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
-        android:id="@+id/btn_naver"
-        android:layout_width="174dp"
-        android:layout_height="46dp"
-        android:layout_marginTop="8dp"
+    <FrameLayout
+        android:id="@+id/googleframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_google">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
-    </com.nhn.android.naverlogin.ui.view.OAuthLoginButton>
+        <ImageView
+            android:id="@+id/fake_google"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/google" />
 
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/btn_kakao"
-        android:layout_width="178dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="8dp"
+        <com.google.android.gms.common.SignInButton
+            android:id="@+id/btn_google"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:visibility="gone">
+
+        </com.google.android.gms.common.SignInButton>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/naverframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/googleframe"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+            android:id="@+id/fake_naver"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/naver" />
+
+        <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+            android:id="@+id/btn_naver"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone">
+
+        </com.nhn.android.naverlogin.ui.view.OAuthLoginButton>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/kakoframe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toEndOf="@+id/googleframe"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <ImageView
+            android:id="@+id/fake_kakao"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/kakao" />
+
+        <com.kakao.usermgmt.LoginButton
+            android:id="@+id/btn_kakao"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_naver" />
+        app:srcCompat="@drawable/google" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"

@@ -3,6 +3,7 @@ package com.nids.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -31,6 +32,7 @@ public class InsideFragment extends Fragment {
     private TextView infoTextInDoor;
     private TextView tempTextInDoor;
     private TextView humiTextInDoor;
+    private ImageView imageView;
 
     private ImageView imageView;
 

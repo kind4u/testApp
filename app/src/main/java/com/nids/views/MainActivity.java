@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                                             .setIcon(R.drawable.setting)
         );
         ((ViewGroup)tabLayout.getChildAt(0)).getChildAt(0).getLayoutParams().width=200;
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
 
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);

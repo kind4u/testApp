@@ -44,12 +44,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     NetworkCallBackInterface networkCallBackInterface = new NetworkCallBackInterface() {
         @Override
         public void signInResult(boolean result, String message, VOUser userinfo) { }
-
         @Override
         public void modifyResult(boolean result) { }
         @Override
         public void modifyUserResult(boolean result){ }
-
         @Override
         public void findStation(boolean result, VOStation station_info) { }
 
