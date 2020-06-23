@@ -157,11 +157,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("먼지"));
-        tabLayout.addTab(tabLayout.newTab().setText("지도"));
-        tabLayout.addTab(tabLayout.newTab().setText("설정"));
-        ((ViewGroup)tabLayout.getChildAt(0)).getChildAt(0).getLayoutParams().width=200;
+        tabLayout.addTab(tabLayout.newTab().setText("Home")
+                                            .setIcon(R.drawable.home)
 
+        );
+        tabLayout.addTab(tabLayout.newTab().setText("Map")
+                                            .setIcon(R.drawable.map)
+        );
+        tabLayout.addTab(tabLayout.newTab().setText("Setting")
+                                            .setIcon(R.drawable.setting)
+        );
+        ((ViewGroup)tabLayout.getChildAt(0)).getChildAt(0).getLayoutParams().width=200;
         viewPager = findViewById(R.id.viewPager);
 
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());

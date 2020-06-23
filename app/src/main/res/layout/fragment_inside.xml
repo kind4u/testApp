@@ -22,6 +22,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginTop="12dp"
             android:text=""
+            android:fontFamily="@font/maple"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stationTextInDoor" />
 
@@ -34,6 +35,7 @@
             android:layout_marginLeft="48dp"
             android:layout_marginTop="12dp"
             android:text=""
+            android:fontFamily="@font/maple"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dateTextInDoor" />
@@ -44,6 +46,7 @@
             android:layout_height="39dp"
             android:layout_marginTop="12dp"
             android:text=""
+            android:fontFamily="@font/maple"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/tempTextInDoor"
             app:layout_constraintTop_toBottomOf="@+id/dateTextInDoor" />
@@ -56,6 +59,7 @@
             android:layout_marginLeft="40dp"
             android:layout_marginTop="40dp"
             android:text="실내 미세먼지 현황 (센서)"
+            android:fontFamily="@font/maple"
             android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -68,6 +72,7 @@
             android:layout_marginRight="88dp"
             android:layout_marginBottom="10dp"
             android:text="측정중"
+            android:fontFamily="@font/maple"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/dustTextInDoor"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -80,18 +85,19 @@
             android:layout_marginRight="60dp"
             android:layout_marginBottom="60dp"
             android:text="0.0㎍/m³"
+            android:fontFamily="@font/maple"
             android:textSize="40sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
-            android:id="@+id/imageInside"
+            android:id="@+id/imageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginLeft="32dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginBottom="60dp"
-            android:src="@android:mipmap/sym_def_app_icon"
+            android:src="@drawable/blank"
             app:layout_constrainedHeight="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

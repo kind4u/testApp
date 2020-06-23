@@ -34,6 +34,8 @@ public class InsideFragment extends Fragment {
     private TextView humiTextInDoor;
     private ImageView imageView;
 
+    private ImageView imageView;
+
     private ConstraintLayout backGround;
 
     public InsideFragment() { }
@@ -69,7 +71,7 @@ public class InsideFragment extends Fragment {
         infoTextInDoor = v.findViewById(R.id.infoTextInDoor);
         tempTextInDoor = v.findViewById(R.id.tempTextInDoor);
         humiTextInDoor = v.findViewById(R.id.humiTextInDoor);
-        imageView = v.findViewById(R.id.imageInside);
+        imageView = v.findViewById(R.id.imageView);
 
         backGround =v.findViewById(R.id.in);
 
@@ -104,17 +106,21 @@ public class InsideFragment extends Fragment {
         if(pm10 > 75.0){
             infoTextInDoor.setText("매우나쁨");
             backGround.setBackgroundColor(Color.parseColor("#B9062F"));
+            imageView.setImageResource(R.drawable.verybad);
         }
         else if(pm10 > 35.0){
             infoTextInDoor.setText("나쁨");
             backGround.setBackgroundColor(Color.parseColor("#FF9E9B"));
+            imageView.setImageResource(R.drawable.bad);
         }
         else if(pm10 > 15.0){
             infoTextInDoor.setText("보통");
             backGround.setBackgroundColor(Color.parseColor("#5AD18F"));
+            imageView.setImageResource(R.drawable.good);
             } else {
                 infoTextInDoor.setText("좋음");
                 backGround.setBackgroundColor(Color.parseColor("#5ABEFF"));
+            imageView.setImageResource(R.drawable.verygood);
             }
         }
     }

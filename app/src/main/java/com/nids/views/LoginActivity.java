@@ -175,9 +175,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public class RequestApiTask extends AsyncTask<Void, Void, Void> {
         @Override
-        protected void onPreExecute() {
-
-        }
+        protected void onPreExecute() {  }
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -427,7 +425,9 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                             break;
                         case "NAVER":
+                            System.out.println("아이디 존재함");
                             Intent intent_naver = new Intent(LoginActivity.this, MainActivity.class);
+                            System.out.println(testId);
                             intent_naver.putExtra("id", testId); //네이버 연동 id 받아와서 넣기!
                             intent_naver.putExtra("platform", platform);
                             startActivity(intent_naver);
@@ -454,6 +454,8 @@ public class LoginActivity extends AppCompatActivity {
                             break;
                         case "NAVER":
                             //c_util_join.naverSignUp(testId, testName, testAge);  //네이버 연동 id, name age 받아와서 넣기!
+                            System.out.println("아이디 존재하지 않음");
+                            System.out.println(testId);
                             c_util_join.signUp(testId,
                                     null,
                                     testName,
