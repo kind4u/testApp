@@ -3,6 +3,7 @@ package com.nids.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nids.data.VOSensorData;
@@ -30,6 +32,7 @@ public class InsideFragment extends Fragment {
     private TextView infoTextInDoor;
     private TextView tempTextInDoor;
     private TextView humiTextInDoor;
+    private ImageView imageView;
 
     private ConstraintLayout backGround;
 
@@ -66,6 +69,7 @@ public class InsideFragment extends Fragment {
         infoTextInDoor = v.findViewById(R.id.infoTextInDoor);
         tempTextInDoor = v.findViewById(R.id.tempTextInDoor);
         humiTextInDoor = v.findViewById(R.id.humiTextInDoor);
+        imageView = v.findViewById(R.id.imageInside);
 
         backGround =v.findViewById(R.id.in);
 
