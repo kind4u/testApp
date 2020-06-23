@@ -85,11 +85,11 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginLeft="48dp"
+            android:id="@+id/imageInside"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginBottom="60dp"
             android:src="@android:mipmap/sym_def_app_icon"
             app:layout_constrainedHeight="false"

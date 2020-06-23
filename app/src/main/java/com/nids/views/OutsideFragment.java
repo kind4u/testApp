@@ -9,9 +9,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import android.text.style.IconMarginSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nids.data.VOOutdoor;
@@ -28,6 +30,7 @@ public class OutsideFragment extends Fragment {
     private TextView stationText;
     private TextView dustText;
     private TextView infoText;
+    private ImageView imageView;
 
     private TextView lat;
     private TextView lon;
@@ -64,6 +67,7 @@ public class OutsideFragment extends Fragment {
         dateText = v.findViewById(R.id.dateTextOutDoor);
         dustText = v.findViewById(R.id.dustTextOutDoor);
         infoText = v.findViewById(R.id.infoTextOutDoor);
+        imageView = v.findViewById(R.id.imageOutside);
         lat = v.findViewById(R.id.latitude);
         lon = v.findViewById(R.id.longitude);
         backGround =v.findViewById(R.id.out);

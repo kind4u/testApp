@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import android.location.LocationManager;
@@ -159,8 +160,9 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("먼지"));
         tabLayout.addTab(tabLayout.newTab().setText("지도"));
         tabLayout.addTab(tabLayout.newTab().setText("설정"));
+        ((ViewGroup)tabLayout.getChildAt(0)).getChildAt(0).getLayoutParams().width=200;
 
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager = findViewById(R.id.viewPager);
 
         TabPagerAdapter pagerAdapter = new TabPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);

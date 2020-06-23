@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -33,6 +34,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.kakao.auth.ApiErrorCode;
+import com.kakao.auth.AuthType;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -88,6 +90,10 @@ public class LoginActivity extends AppCompatActivity {
     NetworkCallBackInterface callbackInstance;
     JoinCallBackInterface joinCallBackInstance;
 
+    private ImageView fakeGoogle;
+    private ImageView fakeNaver;
+    private ImageView fakeKakao;
+
     private MeV2Response meV2Response = null;
     private FirebaseUser user = null;
     private FirebaseAuth mAuth = null;
@@ -129,7 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         mOAuthLoginInstance.showDevelopersLog(true);
         mOAuthLoginInstance.init(mContext, OAUTH_CLIENT_ID, OAUTH_CLIENT_SECRET, OAUTH_CLIENT_NAME);
 
-        mOAuthLoginButton = (OAuthLoginButton) findViewById(R.id.btn_naver);
+        mOAuthLoginButton = findViewById(R.id.btn_naver);
         mOAuthLoginButton.setOAuthLoginHandler(mOAuthLoginHandler);
         //  mOAuthLoginInstance.startOauthLoginActivity(LoginActivity, mOAuthLoginHandler);
 
@@ -182,7 +188,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         protected void onPostExecute(Void content) {
-            if (mUserInfoMap.get("email") == null) {
+            if (mUserInfoMap.get("id") == null) {
                 Toast.makeText(mContext, "로그인 실패하였습니다.  잠시후 다시 시도해 주세요!!", Toast.LENGTH_SHORT).show();
             } else {
                 Log.d(TAG, String.valueOf(mUserInfoMap));
@@ -482,21 +488,40 @@ public class LoginActivity extends AppCompatActivity {
 
         SessionCallback sessionCallBack = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallBack);
-        Session.getCurrentSession().checkAndImplicitOpen();
+        //Session.getCurrentSession().checkAndImplicitOpen();
 
         btn_signin = findViewById(R.id.btn_signin);
         btn_join = findViewById(R.id.btn_join);
         edit_id = findViewById(R.id.edit_id);
         edit_pw = findViewById(R.id.edit_pw);
         btn_google = findViewById(R.id.btn_google);
+        btn_naver = findViewById(R.id.btn_naver);
         mAuth = FirebaseAuth.getInstance();
 
+        fakeGoogle = findViewById(R.id.fake_google);
+        fakeNaver = findViewById(R.id.fake_naver);
+        fakeKakao = findViewById(R.id.fake_kakao);
+        fakeGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { signIn(); }
+        });
+        fakeNaver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_naver.performClick();
+            }
+        });
+        fakeKakao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, LoginActivity.this);
+            }
+        });
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-        btn_naver = findViewById(R.id.btn_naver);
 
         btn_signin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
