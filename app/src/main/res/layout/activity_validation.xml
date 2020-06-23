@@ -38,6 +38,7 @@
             android:layout_height="45dp"
             android:layout_marginBottom="20dp"
             android:background="@color/mainblue"
+            android:fontFamily="@font/maplel"
             android:ems="10"
             android:layout_gravity="center"
             android:inputType="textPersonName" />
@@ -49,6 +50,7 @@
             android:layout_marginBottom="20dp"
             android:ems="10"
             android:layout_gravity="center"
+            android:fontFamily="@font/maplel"
             android:hint="PASSWORD"
             android:inputType="textPassword" />
 

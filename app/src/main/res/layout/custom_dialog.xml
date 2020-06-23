@@ -26,6 +26,7 @@
         android:layout_height="60dp"
         android:gravity="center"
         android:hint="내용을 입력하세요."
+        android:fontFamily="@font/maplel"
         android:textColor="#000000"
         android:textSize="16dp" />
 
