@@ -90,16 +90,11 @@ public class LoginActivity extends AppCompatActivity {
     NetworkCallBackInterface callbackInstance;
     JoinCallBackInterface joinCallBackInstance;
 
-    private ImageView fakeGoogle;
-    private ImageView fakeNaver;
-    private ImageView fakeKakao;
-
     private MeV2Response meV2Response = null;
     private FirebaseUser user = null;
     private FirebaseAuth mAuth = null;
     private GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
-    private SignInButton btn_google;
 
     //---------여기부터---------------
     Map<String, String> resultMap = new HashMap<>();
@@ -496,13 +491,13 @@ public class LoginActivity extends AppCompatActivity {
         btn_join = findViewById(R.id.btn_join);
         edit_id = findViewById(R.id.edit_id);
         edit_pw = findViewById(R.id.edit_pw);
-        btn_google = findViewById(R.id.btn_google);
+        SignInButton btn_google = findViewById(R.id.btn_google);
         btn_naver = findViewById(R.id.btn_naver);
         mAuth = FirebaseAuth.getInstance();
 
-        fakeGoogle = findViewById(R.id.fake_google);
-        fakeNaver = findViewById(R.id.fake_naver);
-        fakeKakao = findViewById(R.id.fake_kakao);
+        ImageView fakeGoogle = findViewById(R.id.fake_google);
+        ImageView fakeNaver = findViewById(R.id.fake_naver);
+        ImageView fakeKakao = findViewById(R.id.fake_kakao);
         fakeGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) { signIn(); }

@@ -36,12 +36,10 @@ public class WorkManager extends Worker {
     private static boolean notifyResult = false;
     private NetworkCallBackInterface networkCallBackInterface = new NetworkCallBackInterface() {
         @Override
-        public void signInResult(boolean result, String message, VOUser userinfo) {
-        }
+        public void signInResult(boolean result, String message, VOUser userinfo) { }
 
         @Override
-        public void modifyResult(boolean result) {
-        }
+        public void modifyResult(boolean result) { }
 
         @Override
         public void modifyUserResult(boolean result) { }
@@ -57,8 +55,7 @@ public class WorkManager extends Worker {
         }
 
         @Override
-        public void dataReqResult(String result, List<VOSensorData> dataList) {
-        }
+        public void dataReqResult(String result, List<VOSensorData> dataList) { }
 
         @Override
         public void dataReqResultOutdoor(boolean result, VOOutdoor data) {
@@ -91,12 +88,6 @@ public class WorkManager extends Worker {
         };
         mHandler.postDelayed(loadGPS,1000);
         return Result.success();
-//        GpsTracker gpsTracker = new GpsTracker(getApplicationContext());
-//        String latitude = String.valueOf(gpsTracker.getLatitude());         // 위도 측정
-//        String longitude = String.valueOf(gpsTracker.getLongitude());       // 경도 측정
-//        c_util.findStationWithGPS(latitude, longitude);                         // 받은 위경도 값으로 근처 측정소 검색
-//
-//        return Result.success();
     }
 
     @Override

@@ -15,8 +15,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.nids.views.MainActivity;
-
 public class GpsTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -24,7 +22,7 @@ public class GpsTracker extends Service implements LocationListener {
     double latitude;
     double longitude;
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 100;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
     protected LocationManager locationManager;
 
@@ -35,7 +33,7 @@ public class GpsTracker extends Service implements LocationListener {
         getLocation();
     }
 
-    public Location getLocation()   {
+    public void getLocation()   {
         try {
             boolean isGPSEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
@@ -48,10 +46,10 @@ public class GpsTracker extends Service implements LocationListener {
 
                 if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED && hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
                     //왜인지 비어있음
-                } else return null;
+                } else return;
 
                 if (isNetworkEnabled) {
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 1, this);
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
                             // 위치정보 수신 후 확인
                     if (locationManager != null) {
                         location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);      // 가장 최근 검색된 위치정보 수신
@@ -79,7 +77,6 @@ public class GpsTracker extends Service implements LocationListener {
         catch (Exception e) {
             Log.d("@@@",""+e.toString());
         }
-        return location;
     }
 
     public double getLatitude() {
@@ -100,8 +97,8 @@ public class GpsTracker extends Service implements LocationListener {
     public void onLocationChanged(Location location) {
         // 위치값이 갱신되면 이벤트 발생
         Log.d("test","onLocationChanged, location : " + location);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
     }
 
     // 이 아래는 입력하지 않은 Override 세팅들 (추후 개발 가능성 있음)
