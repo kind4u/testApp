@@ -32,7 +32,6 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
   int m;
   int model;
   String strParamId;
-  int check;
 
   OldCarFragment oldCarFragment;
   NewCarFragment newCarFragment;
@@ -93,7 +92,6 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
                             }
                         });
                     } else {
-                        // TODO : 예외처리 고려
                         EditCarActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -114,7 +112,6 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
                             }
                         });
                     } else {
-                        // TODO : 예외처리 고려
                         EditCarActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -142,12 +139,12 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
                 @Override
                 public void onClick(View v){
                     if(((CheckBox)v).isChecked()){ //구형 번호판 선택한 경우
-                        //TODO: CheckBox is checked.
+                        // CheckBox is checked.
                         m=0;
                         changeView(0);
                     }
                     else{ //신형 번호판 선택한 경우
-                        //TODO: CheckBox is unchecked
+                        // CheckBox is unchecked
                         m=1;
                         changeView(1);
                     }
@@ -156,8 +153,7 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
             editCar.setOnClickListener(new Button.OnClickListener(){ //차량 정보 수정 버튼 눌렀을 때
                 @Override
                 public void onClick(View v){
-                    //TODO: 차량정보 등록
-
+                    // 차량정보 등록
                         if(m == 0){ //차량이 구형 번호판일 경우
                             fragmentTransaction.add(oldCarFragment,"oldCarFragment");
                             OldCarFragment nf0 = (OldCarFragment) getSupportFragmentManager().findFragmentByTag("oldCarFragment");
@@ -204,7 +200,7 @@ public class EditCarActivity extends AppCompatActivity implements NewCarFragment
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: 차량 정보 삭제
+                // 차량 정보 삭제
                 id = strParamId;
                 c_util_car.deleteCar(num, id, model);
 

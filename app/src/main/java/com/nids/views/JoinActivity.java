@@ -3,40 +3,20 @@ package com.nids.views;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 
-import android.provider.ContactsContract;
 import android.util.Log;
-import android.util.Patterns;
-import android.view.MotionEvent;
 import android.view.View;
-import android.webkit.JavascriptInterface;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.text.Editable;
-import android.text.TextWatcher;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.nids.data.VOUser;
 import com.nids.kind4u.testapp.R;
 import com.nids.util.interfaces.JoinCallBackInterface;
-import com.nids.util.interfaces.NetworkCallBackInterface;
 import com.nids.util.network.CommunicationUtil;
-import java.text.ParseException;
 import java.util.regex.Pattern;
 
 public class JoinActivity extends AppCompatActivity {
@@ -228,7 +208,6 @@ public class JoinActivity extends AppCompatActivity {
 				if (id.length() == 0) {
 					Toast.makeText(JoinActivity.this, "ID를 입력하세요.", Toast.LENGTH_SHORT).show();
 					edit_id.requestFocus();
-					return;
 				} else {
 					btn_duplicate.setEnabled(false);
 					c_util_join.checkExist(id);

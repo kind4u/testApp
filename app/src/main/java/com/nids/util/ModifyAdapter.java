@@ -58,6 +58,8 @@ public class ModifyAdapter extends RecyclerView.Adapter<ModifyAdapter.ModifyView
                 public void onClick(View v) {
                     final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
                     switch(getAdapterPosition())    {
+                        case 0:
+                            break;
                         case 1:
                             if(!platform)    {
                                 break;

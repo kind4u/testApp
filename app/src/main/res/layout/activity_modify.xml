@@ -10,11 +10,10 @@
         android:id="@+id/modify_recycler_view"
         android:layout_width="397dp"
         android:layout_height="500dp"
-        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/submit_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintTop_toTopOf="parent">
 
     </androidx.recyclerview.widget.RecyclerView>
 
