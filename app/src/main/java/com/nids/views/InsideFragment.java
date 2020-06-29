@@ -3,7 +3,6 @@ package com.nids.views;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -101,23 +100,23 @@ public class InsideFragment extends Fragment {
         dustTextInDoor.setText(pm10+"㎍/㎥");
         tempTextInDoor.setText("온도: "+temp+"°C");
         humiTextInDoor.setText("습도: "+humi+"%");
-        if(pm10 > 75.0){
+        if(pm10 > 150.0){
             infoTextInDoor.setText("매우나쁨");
             backGround.setBackgroundColor(Color.parseColor("#F09494"));
             imageView.setImageResource(R.drawable.verybad);
         }
-        else if(pm10 > 35.0){
+        else if(pm10 > 80.0){
             infoTextInDoor.setText("나쁨");
             backGround.setBackgroundColor(Color.parseColor("#FFB2AF"));
             imageView.setImageResource(R.drawable.bad);
         }
-        else if(pm10 > 15.0){
+        else if(pm10 > 30.0){
             infoTextInDoor.setText("보통");
             backGround.setBackgroundColor(Color.parseColor("#BEF5BE"));
             imageView.setImageResource(R.drawable.good);
-            } else {
-                infoTextInDoor.setText("좋음");
-                backGround.setBackgroundColor(Color.parseColor("#A5D8FA"));
+        } else {
+            infoTextInDoor.setText("좋음");
+            backGround.setBackgroundColor(Color.parseColor("#A5D8FA"));
             imageView.setImageResource(R.drawable.verygood);
             }
         }

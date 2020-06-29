@@ -646,7 +646,6 @@ public class CommunicationUtil {
 
 
 					Log.d("user info", user_info.getName());
-					//System.out.println("user name" + user_info.getName());
 
 					System.out.println("post result : " + post_result);
 					callback_Instance.signInResult(post_result, message, user_info);
@@ -712,7 +711,6 @@ public class CommunicationUtil {
 
 
 					Log.d("user info", user_info.getName());
-					//System.out.println("user name" + user_info.getName());
 
 					System.out.println("post result : " + post_result);
 					joincallback_Instance.getUserResult(post_result, message, user_info);

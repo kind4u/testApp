@@ -107,8 +107,6 @@ public class OutsideFragment extends Fragment {
                 backGround.setBackgroundColor(Color.parseColor("#A5D8FA"));
                 imageView.setImageResource(R.drawable.verygood);
             }
-//            lat.setText(String.valueOf(map.get("lat")));
-//            lon.setText(String.valueOf(map.get("lon")));
         }
     }
 }

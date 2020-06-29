@@ -158,14 +158,14 @@ public class MainActivity extends AppCompatActivity {
         }
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("Home")
-                                            .setIcon(R.drawable.home)
+                                            .setIcon(R.drawable.hometab)
 
         );
         tabLayout.addTab(tabLayout.newTab().setText("Map")
-                                            .setIcon(R.drawable.map)
+                                            .setIcon(R.drawable.maptab)
         );
         tabLayout.addTab(tabLayout.newTab().setText("Setting")
-                                            .setIcon(R.drawable.setting)
+                                            .setIcon(R.drawable.settingtab)
         );
         ((ViewGroup)tabLayout.getChildAt(0)).getChildAt(0).getLayoutParams().width=200;
         viewPager = findViewById(R.id.viewPager);
