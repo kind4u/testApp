@@ -114,9 +114,9 @@ public class InsideFragment extends Fragment {
             infoTextInDoor.setText("보통");
             backGround.setBackgroundColor(Color.parseColor("#BEF5BE"));
             imageView.setImageResource(R.drawable.good);
-            } else {
-                infoTextInDoor.setText("좋음");
-                backGround.setBackgroundColor(Color.parseColor("#A5D8FA"));
+        } else {
+            infoTextInDoor.setText("좋음");
+            backGround.setBackgroundColor(Color.parseColor("#A5D8FA"));
             imageView.setImageResource(R.drawable.verygood);
             }
         }

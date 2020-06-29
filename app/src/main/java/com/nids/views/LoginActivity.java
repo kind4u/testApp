@@ -267,10 +267,6 @@ public class LoginActivity extends AppCompatActivity {
             resultMap.put("birthday", f_array[5]);
         }
 
-//        resultMap.put("id", f_array[6]);
-//        resultMap.put("name", f_array[7]);
-//        resultMap.put("birthday", f_array[8]);
-
         return resultMap;
 
     }
